@@ -1,5 +1,9 @@
 Ollie:
-	1)	DC:71:2F:B5:B6:31	ITeazer
-	2)	D8:E3:8C:77:D0:5D	Grammarly
+	1)	D8:E3:8C:77:D0:5D	Grammarly	d8e38c77d05d
+	2)	DC:71:2F:B5:B6:31	ITeazer		dc712fb5b631
+	3)	F1:5C:EE:63:62:2D	ITeazer		f15cee63622d
+	4)	C8:49:82:EB:CC:74	ITeazer		c84982ebcc74
+	5)	EE:42:66:49:40:F4	ITeazer		ee42664940f4
+
 BB-8:
-	1)	F1:6F:DB:2B:3B:4F	Lena
+	1)	F1:6F:DB:2B:3B:4F	Lena		f16fdb2b3b4f
