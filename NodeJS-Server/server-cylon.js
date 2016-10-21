@@ -2,13 +2,17 @@
 //this file genareted by Server-Cylon-Generator
 
 var Cylon = require("cylon");
+var ollies = {};
 
 Cylon.robot({
 
    connections: {
-      bluetooth_bb8_f16fdb2b3b4f: { adaptor: "central", uuid: "f16fdb2b3b4f", module: "cylon-ble"},
+      bluetooth_ollie_d8e38c77d05d: { adaptor: "central", uuid: "d8e38c77d05d", module: "cylon-ble"},
       bluetooth_ollie_dc712fb5b631: { adaptor: "central", uuid: "dc712fb5b631", module: "cylon-ble"},
-      bluetooth_ollie_d8e38c77d05d: { adaptor: "central", uuid: "d8e38c77d05d", module: "cylon-ble"}
+      bluetooth_ollie_f15cee63622d: { adaptor: "central", uuid: "f15cee63622d", module: "cylon-ble"},
+      bluetooth_ollie_c84982ebcc74: { adaptor: "central", uuid: "c84982ebcc74", module: "cylon-ble"},
+      bluetooth_ollie_ee42664940f4: { adaptor: "central", uuid: "ee42664940f4", module: "cylon-ble"},
+      bluetooth_bb8_f16fdb2b3b4f: { adaptor: "central", uuid: "f16fdb2b3b4f", module: "cylon-ble"}
    }
 
 ,
@@ -18,10 +22,10 @@ Cylon.robot({
 
 ,
 // connect functions to bb8 & ollie
-   connect_bb8_f16fdb2b3b4f: function() {
-      this.device("bb8_f16fdb2b3b4f", {connection: "bluetooth_bb8_f16fdb2b3b4f", driver: "bb8", module: "cylon-sphero-ble"});
-      this.startDevice(this.devices.bb8_f16fdb2b3b4f, function() {
-         console.log("bb8_f16fdb2b3b4f connected");
+   connect_ollie_d8e38c77d05d: function() {
+      this.device("ollie_d8e38c77d05d", {connection: "bluetooth_ollie_d8e38c77d05d", driver: "ollie", module: "cylon-sphero-ble"});
+      this.startDevice(this.devices.ollie_d8e38c77d05d, function() {
+         console.log("ollie_d8e38c77d05d connected");
       });
    }
 
@@ -36,10 +40,37 @@ Cylon.robot({
 
 ,
 
-   connect_ollie_d8e38c77d05d: function() {
-      this.device("ollie_d8e38c77d05d", {connection: "bluetooth_ollie_d8e38c77d05d", driver: "ollie", module: "cylon-sphero-ble"});
-      this.startDevice(this.devices.ollie_d8e38c77d05d, function() {
-         console.log("ollie_d8e38c77d05d connected");
+   connect_ollie_f15cee63622d: function() {
+      this.device("ollie_f15cee63622d", {connection: "bluetooth_ollie_f15cee63622d", driver: "ollie", module: "cylon-sphero-ble"});
+      this.startDevice(this.devices.ollie_f15cee63622d, function() {
+         console.log("ollie_f15cee63622d connected");
+      });
+   }
+
+,
+
+   connect_ollie_c84982ebcc74: function() {
+      this.device("ollie_c84982ebcc74", {connection: "bluetooth_ollie_c84982ebcc74", driver: "ollie", module: "cylon-sphero-ble"});
+      this.startDevice(this.devices.ollie_c84982ebcc74, function() {
+         console.log("ollie_c84982ebcc74 connected");
+      });
+   }
+
+,
+
+   connect_ollie_ee42664940f4: function() {
+      this.device("ollie_ee42664940f4", {connection: "bluetooth_ollie_ee42664940f4", driver: "ollie", module: "cylon-sphero-ble"});
+      this.startDevice(this.devices.ollie_ee42664940f4, function() {
+         console.log("ollie_ee42664940f4 connected");
+      });
+   }
+
+,
+
+   connect_bb8_f16fdb2b3b4f: function() {
+      this.device("bb8_f16fdb2b3b4f", {connection: "bluetooth_bb8_f16fdb2b3b4f", driver: "bb8", module: "cylon-sphero-ble"});
+      this.startDevice(this.devices.bb8_f16fdb2b3b4f, function() {
+         console.log("bb8_f16fdb2b3b4f connected");
       });
    }
 
@@ -52,6 +83,7 @@ Cylon.robot({
       switch (mac) {
          case "f16fdb2b3b4f":
             my.connect_bb8_f16fdb2b3b4f();
+            ollies["f16fdb2b3b4f"] = true;
             break;
          default:
             existed = 0;
@@ -67,11 +99,25 @@ Cylon.robot({
    connect_ollie(my, mac, callback) {
       existed = 1;
       switch (mac) {
-         case "dc712fb5b631":
-            my.connect_ollie_dc712fb5b631();
-            break;
          case "d8e38c77d05d":
             my.connect_ollie_d8e38c77d05d();
+            ollies["d8e38c77d05d"] = true;
+            break;
+         case "dc712fb5b631":
+            my.connect_ollie_dc712fb5b631();
+            ollies["dc712fb5b631"] = true;
+            break;
+         case "f15cee63622d":
+            my.connect_ollie_f15cee63622d();
+            ollies["f15cee63622d"] = true;
+            break;
+         case "c84982ebcc74":
+            my.connect_ollie_c84982ebcc74();
+            ollies["c84982ebcc74"] = true;
+            break;
+         case "ee42664940f4":
+            my.connect_ollie_ee42664940f4();
+            ollies["ee42664940f4"] = true;
             break;
          default:
             existed = 0;
@@ -87,9 +133,9 @@ Cylon.robot({
 ,
 
 // roll bb8 & ollie
-   roll_bb8_f16fdb2b3b4f: function(speed, direction) {
-      this.devices.bb8_f16fdb2b3b4f.roll(speed, direction, function() {
-         console.log("bb8_f16fdb2b3b4f roll with speed: " + speed + " direction: " + direction);
+   roll_ollie_d8e38c77d05d: function(speed, direction) {
+      this.devices.ollie_d8e38c77d05d.roll(speed, direction, function() {
+         console.log("ollie_d8e38c77d05d roll with speed: " + speed + " direction: " + direction);
       });
    },
 
@@ -101,9 +147,30 @@ Cylon.robot({
    },
 
 
-   roll_ollie_d8e38c77d05d: function(speed, direction) {
-      this.devices.ollie_d8e38c77d05d.roll(speed, direction, function() {
-         console.log("ollie_d8e38c77d05d roll with speed: " + speed + " direction: " + direction);
+   roll_ollie_f15cee63622d: function(speed, direction) {
+      this.devices.ollie_f15cee63622d.roll(speed, direction, function() {
+         console.log("ollie_f15cee63622d roll with speed: " + speed + " direction: " + direction);
+      });
+   },
+
+
+   roll_ollie_c84982ebcc74: function(speed, direction) {
+      this.devices.ollie_c84982ebcc74.roll(speed, direction, function() {
+         console.log("ollie_c84982ebcc74 roll with speed: " + speed + " direction: " + direction);
+      });
+   },
+
+
+   roll_ollie_ee42664940f4: function(speed, direction) {
+      this.devices.ollie_ee42664940f4.roll(speed, direction, function() {
+         console.log("ollie_ee42664940f4 roll with speed: " + speed + " direction: " + direction);
+      });
+   },
+
+
+   roll_bb8_f16fdb2b3b4f: function(speed, direction) {
+      this.devices.bb8_f16fdb2b3b4f.roll(speed, direction, function() {
+         console.log("bb8_f16fdb2b3b4f roll with speed: " + speed + " direction: " + direction);
       });
    },
 
@@ -131,11 +198,20 @@ Cylon.robot({
    roll_ollie(my, mac, speed, direction, callback) {
       existed = 1;
       switch (mac) {
+         case "d8e38c77d05d":
+            my.roll_ollie_d8e38c77d05d(speed, direction);
+            break;
          case "dc712fb5b631":
             my.roll_ollie_dc712fb5b631(speed, direction);
             break;
-         case "d8e38c77d05d":
-            my.roll_ollie_d8e38c77d05d(speed, direction);
+         case "f15cee63622d":
+            my.roll_ollie_f15cee63622d(speed, direction);
+            break;
+         case "c84982ebcc74":
+            my.roll_ollie_c84982ebcc74(speed, direction);
+            break;
+         case "ee42664940f4":
+            my.roll_ollie_ee42664940f4(speed, direction);
             break;
          default:
             existed=0;
@@ -153,9 +229,9 @@ Cylon.robot({
 
 ,
 // set new color bb8
-   setColor_bb8_f16fdb2b3b4f: function(newColor) {
-      this.devices.bb8_f16fdb2b3b4f.color(newColor, function() {
-         console.log("bb8_f16fdb2b3b4f set new color: " + newColor);
+   setColor_ollie_d8e38c77d05d: function(newColor) {
+      this.devices.ollie_d8e38c77d05d.color(newColor, function() {
+         console.log("ollie_d8e38c77d05d set new color: " + newColor);
       });
 },
    setColor_ollie_dc712fb5b631: function(newColor) {
@@ -163,9 +239,24 @@ Cylon.robot({
          console.log("ollie_dc712fb5b631 set new color: " + newColor);
       });
 },
-   setColor_ollie_d8e38c77d05d: function(newColor) {
-      this.devices.ollie_d8e38c77d05d.color(newColor, function() {
-         console.log("ollie_d8e38c77d05d set new color: " + newColor);
+   setColor_ollie_f15cee63622d: function(newColor) {
+      this.devices.ollie_f15cee63622d.color(newColor, function() {
+         console.log("ollie_f15cee63622d set new color: " + newColor);
+      });
+},
+   setColor_ollie_c84982ebcc74: function(newColor) {
+      this.devices.ollie_c84982ebcc74.color(newColor, function() {
+         console.log("ollie_c84982ebcc74 set new color: " + newColor);
+      });
+},
+   setColor_ollie_ee42664940f4: function(newColor) {
+      this.devices.ollie_ee42664940f4.color(newColor, function() {
+         console.log("ollie_ee42664940f4 set new color: " + newColor);
+      });
+},
+   setColor_bb8_f16fdb2b3b4f: function(newColor) {
+      this.devices.bb8_f16fdb2b3b4f.color(newColor, function() {
+         console.log("bb8_f16fdb2b3b4f set new color: " + newColor);
       });
 },
 
@@ -192,11 +283,20 @@ Cylon.robot({
    setColor_ollie(my, mac, newColor, callback) {
       existed = 1;
       switch (mac) {
+         case "d8e38c77d05d":
+            my.setColor_ollie_d8e38c77d05d(newColor);
+            break;
          case "dc712fb5b631":
             my.setColor_ollie_dc712fb5b631(newColor);
             break;
-         case "d8e38c77d05d":
-            my.setColor_ollie_d8e38c77d05d(newColor);
+         case "f15cee63622d":
+            my.setColor_ollie_f15cee63622d(newColor);
+            break;
+         case "c84982ebcc74":
+            my.setColor_ollie_c84982ebcc74(newColor);
+            break;
+         case "ee42664940f4":
+            my.setColor_ollie_ee42664940f4(newColor);
             break;
          default:
             existed=0;
@@ -211,6 +311,10 @@ Cylon.robot({
 
 
 ,
+   isConnected(my, mac) {
+	   return ollies[mac] != null;
+   },
+	
    work: function(my) {
 
       var http = require('http');
@@ -261,6 +365,18 @@ Cylon.robot({
          }
 
          if (urlParsed.pathname.startsWith("/ollie/")) {
+            if (urlParsed.pathname == "/ollie/isConnected" && urlParsed.query.MAC) {
+               actionPerformed = 1;
+               mac = urlParsed.query.MAC;
+               console.log("ollie to connect: " + mac);
+               console.log("isConnected to ollie, mac : " + mac);
+               if (my.isConnected(my, mac)) {
+                  res.end("connected");
+               } else {
+			   	  res.end("not");
+			   }
+            }
+
 
             if (urlParsed.pathname == "/ollie/connect" && urlParsed.query.MAC) {
                mac = urlParsed.query.MAC;
