@@ -15,7 +15,7 @@
     double scoreRound2 = results.getCurrentResult(team, 1);
     int attemptsLeft1 = results.AttemptLeft(team, 0);
     int attemptsLeft2 = results.AttemptLeft(team, 1);
-    String webRes = " ";//OllieManager.sendHTTPRequest("http://127.0.0.1:1337/ollie/isConnected?MAC=dc712fb5b631");
+    //String webRes = OllieManager.sendHTTPRequest("http://127.0.0.1:1337/ollie/isConnected?MAC=dc712fb5b631");
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -27,7 +27,9 @@
     </head>
     <body>
         <h1><%= teamName%> profile</h1>
-        <h5>Webres: <%=webRes%> </h5>
+        <h3><a href="https://docs.google.com/document/d/10C-auIyuGlNLr78_k3pfYUG2wl_GueQHOzbGm7HS4lU/edit">Rules</a></h3>
+        <h3><a href="https://github.com/ITeazer/Ollie_contest">GitHub</a></h3>
+        <%--        <h5>Webres: <%=webRes%> </h5> ---%>
         <h2> Your results: </h2>
         <table border="5">
             <thead>
@@ -54,15 +56,24 @@
             </tbody>
         </table>
 
+        <br>
+        <br>
         <form name="doCommands" action="performCommands.jsp" method="POST">
             <input type="submit" value="PerformCommands" name="pCmd" />
         </form>
-                
+
+        <br>
+        <br>
         <form name="doCommandsFinal" action="performCommandsFinal.jsp" method="POST">
             <% if (Contest.finalSubmit() >= 0) {%>
             <input type="submit" value="Final submition" name="pCmd" />
             <%}%>
         </form>
 
+        <br>
+        <br>
+        <form name="calibrateB" action="calibrate.jsp" method="POST" target="_blank">
+            <input type="submit" value="Calibrate" name="startCalibr" />
+        </form>
     </body>
 </html>

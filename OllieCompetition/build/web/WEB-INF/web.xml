@@ -16,6 +16,10 @@
         <servlet-name>calibrateServlet</servlet-name>
         <servlet-class>com.iteazer.servlets.calibrateServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>deserializedResults</servlet-name>
+        <servlet-class>com.iteazer.servlets.deserializedResults</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>setSbmStatusServlet</servlet-name>
         <url-pattern>/setSbmStatusServlet</url-pattern>
@@ -27,6 +31,10 @@
     <servlet-mapping>
         <servlet-name>calibrateServlet</servlet-name>
         <url-pattern>/calibrateServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deserializedResults</servlet-name>
+        <url-pattern>/deserializedResults</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

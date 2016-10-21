@@ -9,12 +9,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import static com.iteazer.logic.Constants.*;
+import java.io.Serializable;
 
 /**
  *
  * @author Wsl_F@ITeazer
  */
-public class Team {
+public class Team implements Serializable{
 
     static Map<String, Team> allTeams;
 

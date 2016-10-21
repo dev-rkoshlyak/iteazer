@@ -19,8 +19,8 @@ public class OllieManager {
 
     public static void setHeading(String serverAddress, String macAddress, int heading) {
         if (isConnected(serverAddress, macAddress)) {
-            String url = serverAddress + "/ollie/setHeading?MAC=" + macAddress + "&heading=" + heading;
-            sendHTTPRequestWithoutResponse(url);
+//            String url = serverAddress + "/ollie/setHeading?MAC=" + macAddress + "&heading=" + heading;
+  //          sendHTTPRequestWithoutResponse(url);
         }
     }
 
@@ -36,6 +36,7 @@ public class OllieManager {
             String url = serverAddres + "/ollie/connect?MAC=" + macAddress;
             sendHTTPRequestWithoutResponse(url);
             setHeading(serverAddres, macAddress, 0);
+            wait(5000);
         }
     }
 

@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class Constants {
 
-    public static final int MAX_NUMBER_OF_ATTEMPTS = 3;
+    public static final int MAX_NUMBER_OF_ATTEMPTS = 2;
     public static final int NUMBER_OF_ROUNDS = 2;
     static final int MAX_TIME_VALUE = 1000_000_000;
 

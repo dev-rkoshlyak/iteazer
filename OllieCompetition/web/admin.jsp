@@ -62,6 +62,16 @@
             <%}%>
             <%}%>
             <input type="submit" value="Update statues" name="updStBtn" />
+            
+            <br>
+            <br>
+            <br>
+            
         </form>
+            
+            <form name="restoreResults" action="${pageContext.request.contextPath}/deserializedResults" method="POST">
+                <input type="text" name="path" value="" size="100" />
+                <input type="submit" value="Load" name="bLoad" />
+            </form>    
     </body>
 </html>

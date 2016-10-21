@@ -10,6 +10,7 @@
     Team team = Team.getTeam((String) session.getAttribute("login"));
     int roundN = Contest.finalSubmit();
     int executionTime = team.doFinalSubmition(request.getParameter("textCommands"), roundN);
+    Contest.serializeResults();
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

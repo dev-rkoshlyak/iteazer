@@ -3,13 +3,14 @@ package com.iteazer.logic;
 import java.util.ArrayList;
 
 import static com.iteazer.logic.Constants.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Wsl_F@ITeazer
  */
-public class Results {
+public class Results implements Serializable {
 
     final ArrayList<RoundResult> rounds;
 
@@ -80,7 +81,7 @@ public class Results {
         if (roundN < 0 || roundN >= NUMBER_OF_ROUNDS) {
             return;
         }
-        
+
         rounds.get(roundN).setStatus(team, attemptN, status);
     }
 }

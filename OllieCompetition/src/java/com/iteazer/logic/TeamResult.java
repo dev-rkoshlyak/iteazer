@@ -1,10 +1,12 @@
 package com.iteazer.logic;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Wsl_F2ITeazer
  */
-public class TeamResult {
+public class TeamResult implements Serializable{
 
     Team team;
     /**

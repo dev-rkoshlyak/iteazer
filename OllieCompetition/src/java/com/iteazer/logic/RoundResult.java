@@ -2,13 +2,14 @@ package com.iteazer.logic;
 
 import java.util.ArrayList;
 import static com.iteazer.logic.Constants.*;
+import java.io.Serializable;
 import static java.lang.Integer.min;
 
 /**
  *
  * @author Wsl_F@ITeazer
  */
-public class RoundResult {
+public class RoundResult  implements Serializable {
 
     final ArrayList<ArrayList<TeamResult>> attempts;
 
