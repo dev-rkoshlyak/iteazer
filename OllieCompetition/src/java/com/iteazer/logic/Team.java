@@ -15,13 +15,13 @@ import java.io.Serializable;
  *
  * @author Wsl_F@ITeazer
  */
-public class Team implements Serializable{
+public class Team implements Serializable {
 
     static Map<String, Team> allTeams;
 
     static {
         allTeams = new TreeMap<>();
-        readTeams("/home/wslf/teams.txt");
+        readTeams("teams.txt");
         System.out.println("loaded information about " + allTeams.size() + " teams");
     }
 
@@ -33,9 +33,9 @@ public class Team implements Serializable{
 
     static void readTeams(String inputFileName) {
         try {
-            Path filePath = Paths.get(inputFileName);
+            String projectFolder = PathHelper.getProjectHomeFolder();
+            Path filePath = Paths.get(projectFolder + '/' + inputFileName);
             if (Files.exists(filePath)) {
-                //String content = new String(Files.readAllBytes(filePath));
                 Files.lines(filePath).forEach(s -> new Team(s));
             }
         } catch (IOException ex) {

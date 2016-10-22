@@ -49,7 +49,7 @@ public class Contest {
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
             System.out.println();
-            fos = new FileOutputStream("/home/wslf/logs/results_" + sdf.format(cal.getTime()) + ".txt");
+            fos = new FileOutputStream(PathHelper.getProjectHomeFolder() + "/logs/results_" + sdf.format(cal.getTime()) + ".txt");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(results);
             oos.flush();

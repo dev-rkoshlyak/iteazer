@@ -20,9 +20,9 @@ public class Constants {
     public static final int OLLIE_MAX_SPEED = 255;
     public static final int OLLIE_MIN_HEADING = 0;
     public static final int OLLIE_MAX_HEADING = 359;
-    
+
     public static final int OLLIE_COLOR_ON_CALIBRATION = 0;
-    
+
     /**
      *
      * all possible directions for the commands:
@@ -41,4 +41,6 @@ public class Constants {
     public static final int WAIT_ON_CALIBRATION = 500;
     public static final int ROLL_ON_CALIBRATION = 5_000;
     public static final int SPEED_ON_CALIBRATION = 30;
+
+    public static final String PROJECT_CAPTION = "OllieCompetition";
 }
