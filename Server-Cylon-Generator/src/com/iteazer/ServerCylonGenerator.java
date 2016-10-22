@@ -35,7 +35,7 @@ public class ServerCylonGenerator {
     public static void main(String[] args) {
         ArrayList<Droid> droids = getDroids("droids.txt");
         //System.out.println(String.format("%1$s first           %2$d", "a", 2));
-        generateFile("server.js", droids);
+        generateFile("server-cylon.js", droids);
     }
 
     public static ArrayList<Droid> getDroids(String inputFileName) {
@@ -64,7 +64,8 @@ public class ServerCylonGenerator {
     public static String generateHeader() {
         return "//Wsl_F@ITeazer" + ENDL
                 + "//this file genareted by Server-Cylon-Generator" + ENDL
-                + ENDL + "var Cylon = require(\"cylon\");" + ENDL + ENDL
+                + ENDL + "var Cylon = require(\"cylon\");" + ENDL
+                + "var ollies = {};" + ENDL + ENDL
                 + "Cylon.robot({" + ENDL;
     }
 
@@ -122,6 +123,8 @@ public class ServerCylonGenerator {
             if (droid.type.equals(type)) {
                 connection.add(String.format(TAB[3] + "case \"%1$s\":", droid.mac));
                 connection.add(String.format(TAB[4] + "my.connect_%1$s();", droid.name));
+                //ollies["d8e38c77d05d"] = true;
+                connection.add(String.format(TAB[4] + "ollies[\"%1$s\"] = true;", droid.mac));
                 connection.add(TAB[4] + "break;");
             }
         }
@@ -257,16 +260,28 @@ public class ServerCylonGenerator {
         functions.addAll(generateSetColor("bb8", droids));
         functions.add(",");
         functions.add(ENDL);
-        
+
         functions.addAll(generateSetColor("ollie", droids));
         functions.add(ENDL);
-        
+
         return functions;
     }
 
     public static String generateForHttpServer(String type) {
         return String.format(""
                 + TAB[3] + "if (urlParsed.pathname.startsWith(\"/%1$s/\")) {\n"
+                + "\n"
+                + TAB[4] + "if (urlParsed.pathname == \"/%1$s/isConnected\" && urlParsed.query.MAC) {\n"
+                + TAB[5] + "actionPerformed = 1;\n"
+                + TAB[5] + "mac = urlParsed.query.MAC;\n"
+                + TAB[5] + "console.log(\"ollie to connect: \" + mac);\n"
+                + TAB[5] + "console.log(\"isConnected to ollie, mac : \" + mac);\n"
+                + TAB[5] + "if (my.isConnected(my, mac)) {\n"
+                + TAB[6] + "res.end(\"connected\");\n"
+                + TAB[5] + "} else {\n"
+                + TAB[6] + "res.end(\"not\");\n"
+                + TAB[5] + "}\n"
+                + TAB[4] + "}"
                 + "\n"
                 + TAB[4] + "if (urlParsed.pathname == \"/%1$s/connect\" && urlParsed.query.MAC) {\n"
                 + TAB[5] + "mac = urlParsed.query.MAC;\n"
@@ -304,6 +319,12 @@ public class ServerCylonGenerator {
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n"
                 + TAB[3] + "}", type);
+    }
+
+    public static String generateIsConnected() {
+        return TAB[1] + "isConnected(my, mac) {\n"
+                + TAB[2] + "return ollies[mac] != null;\n"
+                + TAB[1] + "}";
     }
 
     public static ArrayList<String> generateWork() {
@@ -353,7 +374,8 @@ public class ServerCylonGenerator {
         result.add(",");
         result.addAll(generateSetColor(droids));
         result.add(",");
-
+        result.add(generateIsConnected());
+        result.add(",");
         result.addAll(generateWork());
 
         result.add(generateEnd());
