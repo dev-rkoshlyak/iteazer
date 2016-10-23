@@ -1,2 +1,8 @@
 /Java-client/nbproject/private/
 /Java-client/build/
+/OllieCompetition/nbproject/private/
+/OllieCompetition/build/
+
+*.class
+*.jar
+
