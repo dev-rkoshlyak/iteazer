@@ -19,8 +19,9 @@ public class OllieManager {
 
     public static void setHeading(String serverAddress, String macAddress, int heading) {
         if (isConnected(serverAddress, macAddress)) {
-//            String url = serverAddress + "/ollie/setHeading?MAC=" + macAddress + "&heading=" + heading;
-  //          sendHTTPRequestWithoutResponse(url);
+            //TODO: implement this on Node.js server
+            //String url = serverAddress + "/ollie/setHeading?MAC=" + macAddress + "&heading=" + heading;
+            //sendHTTPRequestWithoutResponse(url);
         }
     }
 

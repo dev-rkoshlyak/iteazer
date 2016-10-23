@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 /**
  *
- * @author Wsl_F2ITeazer
+ * @author Wsl_F@ITeazer
  */
-public class TeamResult implements Serializable{
+public class TeamResult implements Serializable {
 
     Team team;
     /**

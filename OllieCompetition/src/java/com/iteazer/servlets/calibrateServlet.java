@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author wslf
+ * @author Wsl_F@ITeazer
  */
 public class calibrateServlet extends HttpServlet {
 

@@ -9,7 +9,7 @@ import static java.lang.Integer.min;
  *
  * @author Wsl_F@ITeazer
  */
-public class RoundResult  implements Serializable {
+public class RoundResult implements Serializable {
 
     final ArrayList<ArrayList<TeamResult>> attempts;
 

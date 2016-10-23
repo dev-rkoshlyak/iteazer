@@ -2,7 +2,6 @@ package com.iteazer.servlets;
 
 import com.iteazer.logic.Contest;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Wsl_F
+ * @author Wsl_F@ITeazer
  */
 public class deserializedResults extends HttpServlet {
 

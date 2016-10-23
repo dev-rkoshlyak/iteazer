@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import static com.iteazer.logic.Constants.*;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  *
