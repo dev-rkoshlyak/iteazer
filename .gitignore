@@ -2,6 +2,7 @@
 /Java-client/build/
 /OllieCompetition/nbproject/private/
 /OllieCompetition/build/
+/OllieCompetition/dist/
 
 *.class
 *.jar
