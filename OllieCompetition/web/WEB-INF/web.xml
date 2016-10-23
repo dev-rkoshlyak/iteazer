@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>com.iteazer.servlets.LoginServlet</servlet-class>
-    </servlet>
+    <filter>
+        <filter-name>LoggedInFilter</filter-name>
+        <filter-class>com.iteazer.servlets.LoggedInFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoggedInFilter</filter-name>
+        <servlet-name>com.iteazer.servlets.calibrateServlet</servlet-name>
+        <url-pattern>/doCommands.jsp</url-pattern>
+        <url-pattern>/doCommandsFinal.jsp</url-pattern>
+        <url-pattern>/performCommands.jsp</url-pattern>
+        <url-pattern>/performCommandsFinal.jsp</url-pattern>
+        <url-pattern>/profile.jsp</url-pattern>
+        <url-pattern>/calibrate.jsp</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>setSbmStatusServlet</servlet-name>
         <servlet-class>com.iteazer.servlets.setSbmStatusServlet</servlet-class>
@@ -20,6 +30,10 @@
         <servlet-name>deserializedResults</servlet-name>
         <servlet-class>com.iteazer.servlets.deserializedResults</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.iteazer.servlets.LoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>setSbmStatusServlet</servlet-name>
         <url-pattern>/setSbmStatusServlet</url-pattern>
@@ -35,6 +49,10 @@
     <servlet-mapping>
         <servlet-name>deserializedResults</servlet-name>
         <url-pattern>/deserializedResults</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
