@@ -13,16 +13,20 @@
     </head>
     <body>
         <h1>Please login</h1>
-        <form name="loginForm" action="login.jsp" method="POST">
+        <form name="loginForm" action="LoginServlet" method="POST">
             <table border="1">
                 <tbody>
                     <tr>
                         <td>Team: </td>
                         <td><input type="text" name="login" value="" size="20" /></td>
                     </tr>
+                    <tr>
+                        <td>Password: </td>
+                        <td><input type="password" name="password" value="" size="20" /></td>
+                    </tr>
                 </tbody>
             </table>
-            
+
             <input type="submit" value="Login" name="login" />
         </form>
     </body>

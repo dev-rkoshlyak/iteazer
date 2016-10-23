@@ -128,4 +128,12 @@ public class Team implements Serializable {
     public int getCurrentShift() {
         return OllieManager.getShift(droidMAC);
     }
+
+    public boolean matchesPassword(String s) {
+        return s.equals(password);
+    }
+
+    public static boolean exists(String name) {
+        return allTeams.get(name) != null;
+    }
 }
