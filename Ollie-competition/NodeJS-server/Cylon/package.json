@@ -1,0 +1,33 @@
+{
+  "name": "Cylon-server",
+  "version": "1.0.1",
+  "main": "cylon-server.js",
+  "description": "Http server to control sphero droids (using Cylon.js)",
+  "homepage": "http://www.iteazer.com/",
+  "author": "Wsl_F@ITeazer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dev-rkoshlyak/iteazer.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "robot",
+    "robots",
+    "robotics",
+    "hardware",
+    "sphero",
+    "spherojs",
+    "sphero-js",
+    "orbotix",
+    "ollie",
+    "bb8",
+    "bb-8"
+  ],
+  "devDependencies": {
+  },
+  "dependencies": {
+    "cylon": "1.3.0",
+    "cylon-ble": "0.10.1",
+    "cylon-sphero-ble": "0.11.0"
+  }
+}
