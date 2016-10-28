@@ -1,9 +1,13 @@
-/Java-client/nbproject/private/
-/Java-client/build/
-/OllieCompetition/nbproject/private/
-/OllieCompetition/build/
-/OllieCompetition/dist/
+/Unused/Java-client/nbproject/private/
+/Unused/Java-client/build/
+/Ollie-competition/OllieCompetition/nbproject/private/
+/Ollie-competition/OllieCompetition/build/
+/Ollie-competition/OllieCompetition/dist/
+/Ollie-competition/Server-Cylon-Generator/build/
+/Ollie-competition/Server-Cylon-Generator/nbproject/private/
 
 *.class
 *.jar
-
+.mtj.tmp/
+*.war
+*.ear
