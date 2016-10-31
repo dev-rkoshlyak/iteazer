@@ -264,7 +264,7 @@ public class ServerCylonGenerator {
             functions.add(TAB[2] + String.format("this.devices.%1$s.color(newColor, function() {", droid.name));
             functions.add(TAB[3] + String.format("console.log(\"%1$s set new color: \" + newColor);", droid.name));
             functions.add(TAB[2] + "});");
-            functions.add("},");
+            functions.add(TAB[1] +"},");
         }
 
         functions.add(ENDL);
