@@ -35,9 +35,14 @@ public class OllieManager {
         if (!isConnected(serverAddres, macAddress)) {
             //http://127.0.0.1:1337/ollie/disconnect?MAC=XX:XX:XX:XX:XX:XX
             String url = serverAddres + "/ollie/connect?MAC=" + macAddress;
-            sendHTTPRequestWithoutResponse(url);
-            setHeading(serverAddres, macAddress, 0);
-            wait(5000);
+            String status = sendHTTPRequest(url);
+            if (status.equals(CONNECTED_RESPOND)) {
+                setHeading(serverAddres, macAddress, 0);
+                wait(WAIT_ON_CALIBRATION);
+                System.out.println("Successfully connected to Ollie " + macAddress);
+            } else {
+                System.err.println("Couldn't connect to Ollie " + macAddress);
+            }
         }
     }
 
@@ -85,6 +90,9 @@ public class OllieManager {
             System.out.println("performing command: " + command);
             int command_time;
             try {
+                if (!isConnected(serverAddress, macAddress)) {
+                    return -1;
+                }
                 command_time = performCommandOllie(serverAddress, macAddress, command);
             } catch (Exception ex) {
                 command_time = FINE_WRONG_COMMAND;
