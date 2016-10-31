@@ -16,10 +16,10 @@
     </head>
     <body>
         <h1><%=session.getAttribute("login")%>: perform commands</h1>
+        <h2><a href="profile.jsp"> Your profile </a></h2>
         
         <form name="commands" action="doCommandsFinal.jsp" method="POST" target="_blank">
-            <textarea name="textCommands" rows="25" cols="20">
-            </textarea>
+            <textarea name="textCommands" rows="25" cols="20"></textarea>
             <br>
             <input type="submit" value="Official submit" name="perform"/>
             <br>
