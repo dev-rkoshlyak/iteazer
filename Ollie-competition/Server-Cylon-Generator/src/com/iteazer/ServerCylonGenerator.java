@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 /**
  *
@@ -20,7 +19,7 @@ import java.util.stream.Stream;
 public class ServerCylonGenerator {
 
     static final String ENDL = "\r\n";
-    static final String SPACE = "   ";
+    static final String SPACE = "    ";
     static final int MAX_TAB = 10;
     static final String[] TAB;
 
@@ -99,7 +98,7 @@ public class ServerCylonGenerator {
         StringBuilder connection = new StringBuilder();
         String s;
 
-        s = TAB[1] + String.format("connect_%1$s_%2$s: function() {", droid.type, droid.mac);
+        s = TAB[1] + String.format("connect_%1$s_%2$s: function(callback) {", droid.type, droid.mac);
         connection.append(s).append(ENDL);
 
         s = TAB[2] + String.format("this.device(\"%1$s\", {connection: \"bluetooth_%1$s\", driver: \"%2$s\", module: \"cylon-sphero-ble\"});", droid.name, droid.type);
@@ -109,6 +108,12 @@ public class ServerCylonGenerator {
         connection.append(s).append(ENDL);
 
         s = TAB[3] + String.format("console.log(\"%1$s connected\");", droid.name);
+        connection.append(s).append(ENDL);
+        
+        s = String.format(TAB[3] + "ollies[\"%1$s\"] = true;", droid.mac);
+        connection.append(s).append(ENDL);
+        
+        s = TAB[3] + "callback();";
         connection.append(s).append(ENDL);
 
         connection.append(TAB[2] + "});").append(ENDL);
@@ -130,9 +135,7 @@ public class ServerCylonGenerator {
         for (Droid droid : droids) {
             if (droid.type.equals(type)) {
                 connection.add(String.format(TAB[3] + "case \"%1$s\":", droid.mac));
-                connection.add(String.format(TAB[4] + "my.connect_%1$s();", droid.name));
-                //ollies["d8e38c77d05d"] = true;
-                connection.add(String.format(TAB[4] + "ollies[\"%1$s\"] = true;", droid.mac));
+                connection.add(String.format(TAB[4] + "my.connect_%1$s(callback);", droid.name));
                 connection.add(TAB[4] + "break;");
             }
         }
@@ -142,7 +145,7 @@ public class ServerCylonGenerator {
         connection.add(TAB[2] + "}");
 
         connection.add(TAB[2] + "if (existed) {");
-        connection.add(TAB[2] + "callback();");
+        connection.add(TAB[2] + "console.log(\"Start connecting to droid\");");
         connection.add(TAB[2] + "} else {");
         connection.add(TAB[3] + String.format("console.log(\"We couldn't find %1$s with mac : \" + mac);", type));
         connection.add(TAB[2] + "}");
@@ -292,12 +295,12 @@ public class ServerCylonGenerator {
                 + TAB[4] + "}"
                 + "\n"
                 + TAB[4] + "if (urlParsed.pathname == \"/%1$s/connect\" && urlParsed.query.MAC) {\n"
+                + TAB[5] + "actionPerformed = 1;\n"
                 + TAB[5] + "mac = urlParsed.query.MAC;\n"
                 + TAB[5] + "console.log(\"%1$s to connect: \" + mac);\n"
                 + TAB[5] + "my.connect_%1$s(my, mac, function() {\n"
                 + TAB[6] + "console.log(\"connected to %1$s, mac : \" + mac);\n"
                 + TAB[6] + "res.end(\"connected\");\n"
-                + TAB[6] + "actionPerformed = 1;\n"
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n"
                 + "\n"
