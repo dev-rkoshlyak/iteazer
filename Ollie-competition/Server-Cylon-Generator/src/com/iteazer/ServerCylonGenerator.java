@@ -285,8 +285,7 @@ public class ServerCylonGenerator {
                 + TAB[4] + "if (urlParsed.pathname == \"/%1$s/isConnected\" && urlParsed.query.MAC) {\n"
                 + TAB[5] + "actionPerformed = 1;\n"
                 + TAB[5] + "mac = urlParsed.query.MAC;\n"
-                + TAB[5] + "console.log(\"ollie to connect: \" + mac);\n"
-                + TAB[5] + "console.log(\"isConnected to ollie, mac : \" + mac);\n"
+                + TAB[5] + "console.log(\"isConnected to %1$s, mac : \" + mac);\n"
                 + TAB[5] + "if (my.isConnected(my, mac)) {\n"
                 + TAB[6] + "res.end(\"connected\");\n"
                 + TAB[5] + "} else {\n"
@@ -329,6 +328,19 @@ public class ServerCylonGenerator {
                 + TAB[6] + "actionPerformed = 1;\n"
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n"
+                
+                + "\n"
+                + TAB[4] + "if (urlParsed.pathname == \"/%1$s/getVelocity\" && urlParsed.query.MAC) {\n"
+                + TAB[5] + "actionPerformed = 1;\n"
+                + TAB[5] + "mac = urlParsed.query.MAC;\n"
+                + TAB[5] + "console.log(\"%1$s: \" + mac + \" get velocity \");\n"
+                + TAB[5] + "\n"
+                + TAB[5] + "my.getVelocity_%1$s(my, mac, 5, function streamV(data) {\n"
+                + TAB[6] + "res.end(\"xVelocity: \" + data.xVelocity.value[0] + \"\\n\" + \"yVelocity: \" + data.yVelocity.value[0] + \"\\n\");\n"
+                + TAB[6] + "my.getVelocity_ollie(my, mac, 0, streamV);\n"
+                + TAB[5] + "});	\n"
+                + TAB[4] + "}\n"
+                
                 + TAB[3] + "}", type);
     }
 
@@ -385,6 +397,8 @@ public class ServerCylonGenerator {
         result.add(",");
         result.addAll(generateSetColor(droids));
         result.add(",");
+        result.addAll(generateGetVelocity(droids));
+        result.add(",");
         result.add(generateIsConnected());
         result.add(",");
         result.addAll(generateWork());
@@ -392,6 +406,86 @@ public class ServerCylonGenerator {
         result.add(generateEnd());
 
         return result;
+    }
+
+    
+    public static ArrayList<String> generateGetVelocity(String type, ArrayList<Droid> droids) {
+        ArrayList<String> connection = new ArrayList<>();
+        String s;
+
+        s = TAB[1] + String.format("getVelocity_%1$s(my, mac, sps, callback) {", type);
+        connection.add(s);
+
+        connection.add(TAB[2] + "existed = true;");
+        connection.add(TAB[2] + "switch (mac) {");
+
+        for (Droid droid : droids) {
+            if (droid.type.equals(type)) {
+                connection.add(String.format(TAB[3] + "case \"%1$s\":", droid.mac));
+                connection.add(String.format(TAB[4] + "my.getVelocity_%1$s(sps, callback);", droid.name));
+                connection.add(TAB[4] + "break;");
+            }
+        }
+
+        connection.add(TAB[3] + "default:");
+        connection.add(TAB[4] + "existed = false;");
+        connection.add(TAB[2] + "}");
+
+        connection.add(TAB[2] + "if (!existed) {");
+        connection.add(TAB[3] + String.format("console.log(\"We couldn't find %1$s with mac : \" + mac);", type));
+        connection.add(TAB[2] + "}");
+        connection.add(TAB[1] + "}");
+        return connection;
+    }
+
+    public static ArrayList<String> generateGetVelocity(ArrayList<Droid> droids) {
+        ArrayList<String> functions = new ArrayList<>();
+        functions.add("// get Velocity of bb8 & ollie");
+
+        for (Droid droid : droids) {
+            functions.add(generateGetVelocity(droid));
+            functions.add("," + ENDL);
+        }
+
+        functions.add(ENDL);
+
+        functions.addAll(generateGetVelocity("bb8", droids));
+        functions.add("," + ENDL);
+
+        functions.addAll(generateGetVelocity("ollie", droids));
+        functions.add(ENDL);
+
+        return functions;
+    }
+
+    public static String generateGetVelocity(Droid droid) {
+        StringBuilder connection = new StringBuilder();
+        String s;
+
+        s = TAB[1] + String.format("getVelocity_%1$s_%2$s: function(sps, callback) {", droid.type, droid.mac);
+        connection.append(s).append(ENDL);
+
+        s = TAB[2] + "if (sps == 0) {";
+        connection.append(s).append(ENDL);
+        
+        s = TAB[3] + String.format("this.devices.%1$s.streamVelocity(0, true);", droid.name);
+        connection.append(s).append(ENDL);
+        s = TAB[3] + String.format("this.devices.%1$s.removeListener(\"velocity\", callback);", droid.name);
+        connection.append(s).append(ENDL);
+        
+        s = TAB[2] + "} else {";
+        connection.append(s).append(ENDL);
+        
+        s = TAB[3] + String.format("this.devices.%1$s.streamVelocity(sps, false);", droid.name);
+        connection.append(s).append(ENDL);
+        
+        s = TAB[3] + String.format("this.devices.%1$s.on(\"velocity\", callback);", droid.name);
+        connection.append(s).append(ENDL);
+
+        connection.append(TAB[2] + "}").append(ENDL);
+        connection.append(TAB[1] + "}").append(ENDL);
+
+        return connection.toString();
     }
 
 }
