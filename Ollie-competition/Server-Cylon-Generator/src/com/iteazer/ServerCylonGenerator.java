@@ -8,8 +8,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 /**
  *
@@ -41,7 +43,14 @@ public class ServerCylonGenerator {
         ArrayList<Droid> droids = new ArrayList<>();
         try {
             Path filePath = Paths.get(inputFileName);
-            Files.lines(filePath).forEach(s -> droids.add(new Droid(s)));
+            List<String> lines = Files.readAllLines(filePath);
+            for (String s : lines) {
+                try {
+                    droids.add(new Droid(s));
+                } catch (Exception ex) {
+                    System.err.println("Couldn't create droid: \"" + s + "\"");
+                }
+            }
         } catch (IOException ex) {
             Logger.getLogger(ServerCylonGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -322,7 +331,7 @@ public class ServerCylonGenerator {
 
     public static String generateIsConnected() {
         return TAB[1] + "isConnected(my, mac) {\n"
-                + TAB[2] + "return ollies[mac] != null;\n"
+                + TAB[2] + "return ollies[mac] == true;\n"
                 + TAB[1] + "}";
     }
 
