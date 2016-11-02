@@ -440,6 +440,84 @@ Cylon.robot({
 
 
 ,
+// get ImuAngles of bb8 & ollie
+    getImuAngles_ollie_d8e38c77d05d: function(sps, callback) {
+        this.devices.ollie_d8e38c77d05d.streamImuAngles(sps, false);
+        this.devices.ollie_d8e38c77d05d.once("ImuAngles", callback);
+    }
+
+,
+
+    getImuAngles_ollie_dc712fb5b631: function(sps, callback) {
+        this.devices.ollie_dc712fb5b631.streamImuAngles(sps, false);
+        this.devices.ollie_dc712fb5b631.once("ImuAngles", callback);
+    }
+
+,
+
+    getImuAngles_ollie_f15cee63622d: function(sps, callback) {
+        this.devices.ollie_f15cee63622d.streamImuAngles(sps, false);
+        this.devices.ollie_f15cee63622d.once("ImuAngles", callback);
+    }
+
+,
+
+    getImuAngles_ollie_c84982ebcc74: function(sps, callback) {
+        this.devices.ollie_c84982ebcc74.streamImuAngles(sps, false);
+        this.devices.ollie_c84982ebcc74.once("ImuAngles", callback);
+    }
+
+,
+
+    getImuAngles_ollie_ee42664940f4: function(sps, callback) {
+        this.devices.ollie_ee42664940f4.streamImuAngles(sps, false);
+        this.devices.ollie_ee42664940f4.once("ImuAngles", callback);
+    }
+
+,
+
+
+
+    getImuAngles_bb8(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find bb8 with mac : " + mac);
+        }
+    }
+,
+
+    getImuAngles_ollie(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            case "d8e38c77d05d":
+                my.getImuAngles_ollie_d8e38c77d05d(sps, callback);
+                break;
+            case "dc712fb5b631":
+                my.getImuAngles_ollie_dc712fb5b631(sps, callback);
+                break;
+            case "f15cee63622d":
+                my.getImuAngles_ollie_f15cee63622d(sps, callback);
+                break;
+            case "c84982ebcc74":
+                my.getImuAngles_ollie_c84982ebcc74(sps, callback);
+                break;
+            case "ee42664940f4":
+                my.getImuAngles_ollie_ee42664940f4(sps, callback);
+                break;
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find ollie with mac : " + mac);
+        }
+    }
+
+
+,
     isConnected(my, mac) {
         return ollies[mac] == true;
     }
@@ -508,7 +586,8 @@ Cylon.robot({
                     console.log("bb8: " + mac + " get velocity ");
                     
                     my.getVelocity_bb8(my, mac, 5, function streamV(data) {
-                        console.log("vlocity: " + JSON.stringify(data) + "\n");                        res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
+                        console.log("vlocity: " + JSON.stringify(data) + "\n");
+                        res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
                     });	
                 }
 
@@ -518,7 +597,19 @@ Cylon.robot({
                     console.log("bb8: " + mac + " get accelOne ");
                     
                     my.getAccelOne_bb8(my, mac, 5, function streamAO(data) {
-                        console.log("accelOne: " + JSON.stringify(data) + "\n");                        res.end("accelOne: " + data.accelOne.value + "\n");
+                        console.log("accelOne: " + JSON.stringify(data) + "\n");
+                        res.end("accelOne: " + data.accelOne.value[0] + "\n");
+                    });	
+                }
+
+                if (urlParsed.pathname == "/bb8/getImuAngels" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("bb8: " + mac + " get imuAngels ");
+                    
+                    my.getImuAngles_bb8(my, mac, 5, function streamIA(data) {
+                        console.log("imuAngels: " + JSON.stringify(data) + "\n");
+                        res.end("pitchAngle: " + data.pitchAngle.value[0] + "\n"+ "rollAngle: " + data.rollAngle.value[0] + "\n"+ "yawAngle: " + data.yawAngle.value[0] + "\n");
                     });	
                 }
             }
@@ -577,7 +668,8 @@ Cylon.robot({
                     console.log("ollie: " + mac + " get velocity ");
                     
                     my.getVelocity_ollie(my, mac, 5, function streamV(data) {
-                        console.log("vlocity: " + JSON.stringify(data) + "\n");                        res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
+                        console.log("vlocity: " + JSON.stringify(data) + "\n");
+                        res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
                     });	
                 }
 
@@ -587,7 +679,19 @@ Cylon.robot({
                     console.log("ollie: " + mac + " get accelOne ");
                     
                     my.getAccelOne_ollie(my, mac, 5, function streamAO(data) {
-                        console.log("accelOne: " + JSON.stringify(data) + "\n");                        res.end("accelOne: " + data.accelOne.value + "\n");
+                        console.log("accelOne: " + JSON.stringify(data) + "\n");
+                        res.end("accelOne: " + data.accelOne.value[0] + "\n");
+                    });	
+                }
+
+                if (urlParsed.pathname == "/ollie/getImuAngels" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("ollie: " + mac + " get imuAngels ");
+                    
+                    my.getImuAngles_ollie(my, mac, 5, function streamIA(data) {
+                        console.log("imuAngels: " + JSON.stringify(data) + "\n");
+                        res.end("pitchAngle: " + data.pitchAngle.value[0] + "\n"+ "rollAngle: " + data.rollAngle.value[0] + "\n"+ "yawAngle: " + data.yawAngle.value[0] + "\n");
                     });	
                 }
             }

@@ -336,7 +336,7 @@ public class ServerCylonGenerator {
                 + TAB[5] + "console.log(\"%1$s: \" + mac + \" get velocity \");\n"
                 + TAB[5] + "\n"
                 + TAB[5] + "my.getVelocity_%1$s(my, mac, 5, function streamV(data) {\n"
-                + TAB[6] + "console.log(\"vlocity: \" + JSON.stringify(data) + \"\\n\");"
+                + TAB[6] + "console.log(\"vlocity: \" + JSON.stringify(data) + \"\\n\");\n"
                 + TAB[6] + "res.end(\"xVelocity: \" + data.xVelocity.value[0] + \"\\n\" + \"yVelocity: \" + data.yVelocity.value[0] + \"\\n\");\n"
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n"
@@ -349,8 +349,23 @@ public class ServerCylonGenerator {
                 + TAB[5] + "console.log(\"%1$s: \" + mac + \" get accelOne \");\n"
                 + TAB[5] + "\n"
                 + TAB[5] + "my.getAccelOne_%1$s(my, mac, 5, function streamAO(data) {\n"
-                + TAB[6] + "console.log(\"accelOne: \" + JSON.stringify(data) + \"\\n\");"
-                + TAB[6] + "res.end(\"accelOne: \" + data.accelOne.value + \"\\n\");\n"
+                + TAB[6] + "console.log(\"accelOne: \" + JSON.stringify(data) + \"\\n\");\n"
+                + TAB[6] + "res.end(\"accelOne: \" + data.accelOne.value[0] + \"\\n\");\n"
+                + TAB[5] + "});	\n"
+                + TAB[4] + "}\n"
+                
+                
+                + "\n"
+                + TAB[4] + "if (urlParsed.pathname == \"/%1$s/getImuAngels\" && urlParsed.query.MAC) {\n"
+                + TAB[5] + "actionPerformed = 1;\n"
+                + TAB[5] + "mac = urlParsed.query.MAC;\n"
+                + TAB[5] + "console.log(\"%1$s: \" + mac + \" get imuAngels \");\n"
+                + TAB[5] + "\n"
+                + TAB[5] + "my.getImuAngles_%1$s(my, mac, 5, function streamIA(data) {\n"
+                + TAB[6] + "console.log(\"imuAngels: \" + JSON.stringify(data) + \"\\n\");\n"
+                + TAB[6] + "res.end(\"pitchAngle: \" + data.pitchAngle.value[0] + \"\\n\""
+                        + "+ \"rollAngle: \" + data.rollAngle.value[0] + \"\\n\""
+                        + "+ \"yawAngle: \" + data.yawAngle.value[0] + \"\\n\");\n"
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n"
                 
@@ -413,6 +428,8 @@ public class ServerCylonGenerator {
         result.addAll(generateGetSmth(droids, "Velocity"));
         result.add(",");
         result.addAll(generateGetSmth(droids, "AccelOne"));
+        result.add(",");
+        result.addAll(generateGetSmth(droids, "ImuAngles"));
         result.add(",");
         result.add(generateIsConnected());
         result.add(",");
