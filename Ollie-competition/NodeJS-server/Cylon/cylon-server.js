@@ -11,7 +11,7 @@ Cylon.robot({
         bluetooth_ollie_dc712fb5b631: { adaptor: "central", uuid: "dc712fb5b631", module: "cylon-ble"},
         bluetooth_ollie_f15cee63622d: { adaptor: "central", uuid: "f15cee63622d", module: "cylon-ble"},
         bluetooth_ollie_c84982ebcc74: { adaptor: "central", uuid: "c84982ebcc74", module: "cylon-ble"},
-        bluetooth_ollie_ee42664940f4: { adaptor: "central", uuid: "ee42664940f4", module: "cylon-ble"}
+        //bluetooth_ollie_ee42664940f4: { adaptor: "central", uuid: "ee42664940f4", module: "cylon-ble"}
     }
 
 ,
@@ -287,35 +287,35 @@ Cylon.robot({
 // get Velocity of bb8 & ollie
     getVelocity_ollie_d8e38c77d05d: function(sps, callback) {
         this.devices.ollie_d8e38c77d05d.streamVelocity(sps, false);
-        this.devices.ollie_d8e38c77d05d.once("velocity", callback);
+        this.devices.ollie_d8e38c77d05d.once("Velocity", callback);
     }
 
 ,
 
     getVelocity_ollie_dc712fb5b631: function(sps, callback) {
         this.devices.ollie_dc712fb5b631.streamVelocity(sps, false);
-        this.devices.ollie_dc712fb5b631.once("velocity", callback);
+        this.devices.ollie_dc712fb5b631.once("Velocity", callback);
     }
 
 ,
 
     getVelocity_ollie_f15cee63622d: function(sps, callback) {
         this.devices.ollie_f15cee63622d.streamVelocity(sps, false);
-        this.devices.ollie_f15cee63622d.once("velocity", callback);
+        this.devices.ollie_f15cee63622d.once("Velocity", callback);
     }
 
 ,
 
     getVelocity_ollie_c84982ebcc74: function(sps, callback) {
         this.devices.ollie_c84982ebcc74.streamVelocity(sps, false);
-        this.devices.ollie_c84982ebcc74.once("velocity", callback);
+        this.devices.ollie_c84982ebcc74.once("Velocity", callback);
     }
 
 ,
 
     getVelocity_ollie_ee42664940f4: function(sps, callback) {
         this.devices.ollie_ee42664940f4.streamVelocity(sps, false);
-        this.devices.ollie_ee42664940f4.once("velocity", callback);
+        this.devices.ollie_ee42664940f4.once("Velocity", callback);
     }
 
 ,
@@ -351,6 +351,84 @@ Cylon.robot({
                 break;
             case "ee42664940f4":
                 my.getVelocity_ollie_ee42664940f4(sps, callback);
+                break;
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find ollie with mac : " + mac);
+        }
+    }
+
+
+,
+// get AccelOne of bb8 & ollie
+    getAccelOne_ollie_d8e38c77d05d: function(sps, callback) {
+        this.devices.ollie_d8e38c77d05d.streamAccelOne(sps, false);
+        this.devices.ollie_d8e38c77d05d.once("AccelOne", callback);
+    }
+
+,
+
+    getAccelOne_ollie_dc712fb5b631: function(sps, callback) {
+        this.devices.ollie_dc712fb5b631.streamAccelOne(sps, false);
+        this.devices.ollie_dc712fb5b631.once("AccelOne", callback);
+    }
+
+,
+
+    getAccelOne_ollie_f15cee63622d: function(sps, callback) {
+        this.devices.ollie_f15cee63622d.streamAccelOne(sps, false);
+        this.devices.ollie_f15cee63622d.once("AccelOne", callback);
+    }
+
+,
+
+    getAccelOne_ollie_c84982ebcc74: function(sps, callback) {
+        this.devices.ollie_c84982ebcc74.streamAccelOne(sps, false);
+        this.devices.ollie_c84982ebcc74.once("AccelOne", callback);
+    }
+
+,
+
+    getAccelOne_ollie_ee42664940f4: function(sps, callback) {
+        this.devices.ollie_ee42664940f4.streamAccelOne(sps, false);
+        this.devices.ollie_ee42664940f4.once("AccelOne", callback);
+    }
+
+,
+
+
+
+    getAccelOne_bb8(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find bb8 with mac : " + mac);
+        }
+    }
+,
+
+    getAccelOne_ollie(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            case "d8e38c77d05d":
+                my.getAccelOne_ollie_d8e38c77d05d(sps, callback);
+                break;
+            case "dc712fb5b631":
+                my.getAccelOne_ollie_dc712fb5b631(sps, callback);
+                break;
+            case "f15cee63622d":
+                my.getAccelOne_ollie_f15cee63622d(sps, callback);
+                break;
+            case "c84982ebcc74":
+                my.getAccelOne_ollie_c84982ebcc74(sps, callback);
+                break;
+            case "ee42664940f4":
+                my.getAccelOne_ollie_ee42664940f4(sps, callback);
                 break;
             default:
                 existed = false;
@@ -430,7 +508,17 @@ Cylon.robot({
                     console.log("bb8: " + mac + " get velocity ");
                     
                     my.getVelocity_bb8(my, mac, 5, function streamV(data) {
-                        res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
+                        console.log("vlocity: " + JSON.stringify(data) + "\n");                        res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
+                    });	
+                }
+
+                if (urlParsed.pathname == "/bb8/getAccelOne" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("bb8: " + mac + " get accelOne ");
+                    
+                    my.getAccelOne_bb8(my, mac, 5, function streamAO(data) {
+                        console.log("accelOne: " + JSON.stringify(data) + "\n");                        res.end("accelOne: " + data.accelOne.value + "\n");
                     });	
                 }
             }
@@ -489,7 +577,17 @@ Cylon.robot({
                     console.log("ollie: " + mac + " get velocity ");
                     
                     my.getVelocity_ollie(my, mac, 5, function streamV(data) {
-                        res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
+                        console.log("vlocity: " + JSON.stringify(data) + "\n");                        res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
+                    });	
+                }
+
+                if (urlParsed.pathname == "/ollie/getAccelOne" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("ollie: " + mac + " get accelOne ");
+                    
+                    my.getAccelOne_ollie(my, mac, 5, function streamAO(data) {
+                        console.log("accelOne: " + JSON.stringify(data) + "\n");                        res.end("accelOne: " + data.accelOne.value + "\n");
                     });	
                 }
             }
