@@ -337,7 +337,6 @@ public class ServerCylonGenerator {
                 + TAB[5] + "\n"
                 + TAB[5] + "my.getVelocity_%1$s(my, mac, 5, function streamV(data) {\n"
                 + TAB[6] + "res.end(\"xVelocity: \" + data.xVelocity.value[0] + \"\\n\" + \"yVelocity: \" + data.yVelocity.value[0] + \"\\n\");\n"
-                + TAB[6] + "my.getVelocity_ollie(my, mac, 0, streamV);\n"
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n"
                 
@@ -465,24 +464,13 @@ public class ServerCylonGenerator {
         s = TAB[1] + String.format("getVelocity_%1$s_%2$s: function(sps, callback) {", droid.type, droid.mac);
         connection.append(s).append(ENDL);
 
-        s = TAB[2] + "if (sps == 0) {";
+        
+        s = TAB[2] + String.format("this.devices.%1$s.streamVelocity(sps, false);", droid.name);
         connection.append(s).append(ENDL);
         
-        s = TAB[3] + String.format("this.devices.%1$s.streamVelocity(0, true);", droid.name);
-        connection.append(s).append(ENDL);
-        s = TAB[3] + String.format("this.devices.%1$s.removeListener(\"velocity\", callback);", droid.name);
-        connection.append(s).append(ENDL);
-        
-        s = TAB[2] + "} else {";
-        connection.append(s).append(ENDL);
-        
-        s = TAB[3] + String.format("this.devices.%1$s.streamVelocity(sps, false);", droid.name);
-        connection.append(s).append(ENDL);
-        
-        s = TAB[3] + String.format("this.devices.%1$s.on(\"velocity\", callback);", droid.name);
+        s = TAB[2] + String.format("this.devices.%1$s.once(\"velocity\", callback);", droid.name);
         connection.append(s).append(ENDL);
 
-        connection.append(TAB[2] + "}").append(ENDL);
         connection.append(TAB[1] + "}").append(ENDL);
 
         return connection.toString();

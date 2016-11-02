@@ -24,7 +24,7 @@ Cylon.robot({
     connect_ollie_d8e38c77d05d: function(callback) {
         this.device("ollie_d8e38c77d05d", {connection: "bluetooth_ollie_d8e38c77d05d", driver: "ollie", module: "cylon-sphero-ble"});
         this.startDevice(this.devices.ollie_d8e38c77d05d, function() {
-            //console.log("ollie_d8e38c77d05d connected");
+            console.log("ollie_d8e38c77d05d connected");
             ollies["d8e38c77d05d"] = true;
             callback();
         });
@@ -35,7 +35,7 @@ Cylon.robot({
     connect_ollie_dc712fb5b631: function(callback) {
         this.device("ollie_dc712fb5b631", {connection: "bluetooth_ollie_dc712fb5b631", driver: "ollie", module: "cylon-sphero-ble"});
         this.startDevice(this.devices.ollie_dc712fb5b631, function() {
-            //console.log("ollie_dc712fb5b631 connected");
+            console.log("ollie_dc712fb5b631 connected");
             ollies["dc712fb5b631"] = true;
             callback();
         });
@@ -46,7 +46,7 @@ Cylon.robot({
     connect_ollie_f15cee63622d: function(callback) {
         this.device("ollie_f15cee63622d", {connection: "bluetooth_ollie_f15cee63622d", driver: "ollie", module: "cylon-sphero-ble"});
         this.startDevice(this.devices.ollie_f15cee63622d, function() {
-            //console.log("ollie_f15cee63622d connected");
+            console.log("ollie_f15cee63622d connected");
             ollies["f15cee63622d"] = true;
             callback();
         });
@@ -57,7 +57,7 @@ Cylon.robot({
     connect_ollie_c84982ebcc74: function(callback) {
         this.device("ollie_c84982ebcc74", {connection: "bluetooth_ollie_c84982ebcc74", driver: "ollie", module: "cylon-sphero-ble"});
         this.startDevice(this.devices.ollie_c84982ebcc74, function() {
-            //console.log("ollie_c84982ebcc74 connected");
+            console.log("ollie_c84982ebcc74 connected");
             ollies["c84982ebcc74"] = true;
             callback();
         });
@@ -68,7 +68,7 @@ Cylon.robot({
     connect_ollie_ee42664940f4: function(callback) {
         this.device("ollie_ee42664940f4", {connection: "bluetooth_ollie_ee42664940f4", driver: "ollie", module: "cylon-sphero-ble"});
         this.startDevice(this.devices.ollie_ee42664940f4, function() {
-            //console.log("ollie_ee42664940f4 connected");
+            console.log("ollie_ee42664940f4 connected");
             ollies["ee42664940f4"] = true;
             callback();
         });
@@ -85,9 +85,9 @@ Cylon.robot({
                 existed = 0;
         }
         if (existed) {
-        //console.log("Start connecting to droid");
+        console.log("Start connecting to droid");
         } else {
-            //console.log("We couldn't find bb8 with mac : " + mac);
+            console.log("We couldn't find bb8 with mac : " + mac);
         }
     }
 ,
@@ -114,9 +114,9 @@ Cylon.robot({
                 existed = 0;
         }
         if (existed) {
-        //console.log("Start connecting to droid");
+        console.log("Start connecting to droid");
         } else {
-            //console.log("We couldn't find ollie with mac : " + mac);
+            console.log("We couldn't find ollie with mac : " + mac);
         }
     }
 
@@ -126,35 +126,35 @@ Cylon.robot({
 // roll bb8 & ollie
     roll_ollie_d8e38c77d05d: function(speed, direction) {
         this.devices.ollie_d8e38c77d05d.roll(speed, direction, function() {
-            //console.log("ollie_d8e38c77d05d roll with speed: " + speed + " direction: " + direction);
+            console.log("ollie_d8e38c77d05d roll with speed: " + speed + " direction: " + direction);
         });
     },
 
 
     roll_ollie_dc712fb5b631: function(speed, direction) {
         this.devices.ollie_dc712fb5b631.roll(speed, direction, function() {
-            //console.log("ollie_dc712fb5b631 roll with speed: " + speed + " direction: " + direction);
+            console.log("ollie_dc712fb5b631 roll with speed: " + speed + " direction: " + direction);
         });
     },
 
 
     roll_ollie_f15cee63622d: function(speed, direction) {
         this.devices.ollie_f15cee63622d.roll(speed, direction, function() {
-            //console.log("ollie_f15cee63622d roll with speed: " + speed + " direction: " + direction);
+            console.log("ollie_f15cee63622d roll with speed: " + speed + " direction: " + direction);
         });
     },
 
 
     roll_ollie_c84982ebcc74: function(speed, direction) {
         this.devices.ollie_c84982ebcc74.roll(speed, direction, function() {
-            //console.log("ollie_c84982ebcc74 roll with speed: " + speed + " direction: " + direction);
+            console.log("ollie_c84982ebcc74 roll with speed: " + speed + " direction: " + direction);
         });
     },
 
 
     roll_ollie_ee42664940f4: function(speed, direction) {
         this.devices.ollie_ee42664940f4.roll(speed, direction, function() {
-            //console.log("ollie_ee42664940f4 roll with speed: " + speed + " direction: " + direction);
+            console.log("ollie_ee42664940f4 roll with speed: " + speed + " direction: " + direction);
         });
     },
 
@@ -171,7 +171,7 @@ Cylon.robot({
         if (existed) {
             callback();
         } else {
-            //console.log("We couldn't find bb8 with mac : " + mac);
+            console.log("We couldn't find bb8 with mac : " + mac);
         }
     }
 ,
@@ -201,7 +201,7 @@ Cylon.robot({
         if (existed) {
             callback();
         } else {
-            //console.log("We couldn't find ollie with mac : " + mac);
+            console.log("We couldn't find ollie with mac : " + mac);
         }
     }
 
@@ -212,27 +212,27 @@ Cylon.robot({
 // set new color bb8
     setColor_ollie_d8e38c77d05d: function(newColor) {
         this.devices.ollie_d8e38c77d05d.color(newColor, function() {
-            //console.log("ollie_d8e38c77d05d set new color: " + newColor);
+            console.log("ollie_d8e38c77d05d set new color: " + newColor);
         });
     },
     setColor_ollie_dc712fb5b631: function(newColor) {
         this.devices.ollie_dc712fb5b631.color(newColor, function() {
-            //console.log("ollie_dc712fb5b631 set new color: " + newColor);
+            console.log("ollie_dc712fb5b631 set new color: " + newColor);
         });
     },
     setColor_ollie_f15cee63622d: function(newColor) {
         this.devices.ollie_f15cee63622d.color(newColor, function() {
-            //console.log("ollie_f15cee63622d set new color: " + newColor);
+            console.log("ollie_f15cee63622d set new color: " + newColor);
         });
     },
     setColor_ollie_c84982ebcc74: function(newColor) {
         this.devices.ollie_c84982ebcc74.color(newColor, function() {
-            //console.log("ollie_c84982ebcc74 set new color: " + newColor);
+            console.log("ollie_c84982ebcc74 set new color: " + newColor);
         });
     },
     setColor_ollie_ee42664940f4: function(newColor) {
         this.devices.ollie_ee42664940f4.color(newColor, function() {
-            //console.log("ollie_ee42664940f4 set new color: " + newColor);
+            console.log("ollie_ee42664940f4 set new color: " + newColor);
         });
     },
 
@@ -247,7 +247,7 @@ Cylon.robot({
         if (existed) {
             callback();
         } else {
-            //console.log("We couldn't find bb8 with mac : " + mac);
+            console.log("We couldn't find bb8 with mac : " + mac);
         }
     }
 ,
@@ -278,7 +278,7 @@ Cylon.robot({
         if (existed) {
             callback();
         } else {
-            //console.log("We couldn't find ollie with mac : " + mac);
+            console.log("We couldn't find ollie with mac : " + mac);
         }
     }
 
@@ -286,61 +286,36 @@ Cylon.robot({
 ,
 // get Velocity of bb8 & ollie
     getVelocity_ollie_d8e38c77d05d: function(sps, callback) {
-        if (sps == 0) {
-            this.devices.ollie_d8e38c77d05d.streamVelocity(0, true);
-            this.devices.ollie_d8e38c77d05d.removeListener("velocity", callback);
-        } else {
-            this.devices.ollie_d8e38c77d05d.streamVelocity(sps, false);
-            this.devices.ollie_d8e38c77d05d.on("velocity", callback);
-        }
+        this.devices.ollie_d8e38c77d05d.streamVelocity(sps, false);
+        this.devices.ollie_d8e38c77d05d.once("velocity", callback);
     }
 
 ,
 
     getVelocity_ollie_dc712fb5b631: function(sps, callback) {
-        if (sps == 0) {
-            this.devices.ollie_dc712fb5b631.streamVelocity(0, true);
-            this.devices.ollie_dc712fb5b631.removeListener("velocity", callback);
-        } else {
-            this.devices.ollie_dc712fb5b631.streamVelocity(sps, false);
-            this.devices.ollie_dc712fb5b631.on("velocity", callback);
-        }
+        this.devices.ollie_dc712fb5b631.streamVelocity(sps, false);
+        this.devices.ollie_dc712fb5b631.once("velocity", callback);
     }
 
 ,
 
     getVelocity_ollie_f15cee63622d: function(sps, callback) {
-        if (sps == 0) {
-            this.devices.ollie_f15cee63622d.streamVelocity(0, true);
-            this.devices.ollie_f15cee63622d.removeListener("velocity", callback);
-        } else {
-            this.devices.ollie_f15cee63622d.streamVelocity(sps, false);
-            this.devices.ollie_f15cee63622d.on("velocity", callback);
-        }
+        this.devices.ollie_f15cee63622d.streamVelocity(sps, false);
+        this.devices.ollie_f15cee63622d.once("velocity", callback);
     }
 
 ,
 
     getVelocity_ollie_c84982ebcc74: function(sps, callback) {
-        if (sps == 0) {
-            this.devices.ollie_c84982ebcc74.streamVelocity(0, true);
-            this.devices.ollie_c84982ebcc74.removeListener("velocity", callback);
-        } else {
-            this.devices.ollie_c84982ebcc74.streamVelocity(sps, false);
-            this.devices.ollie_c84982ebcc74.on("velocity", callback);
-        }
+        this.devices.ollie_c84982ebcc74.streamVelocity(sps, false);
+        this.devices.ollie_c84982ebcc74.once("velocity", callback);
     }
 
 ,
 
     getVelocity_ollie_ee42664940f4: function(sps, callback) {
-        if (sps == 0) {
-            this.devices.ollie_ee42664940f4.streamVelocity(0, true);
-            this.devices.ollie_ee42664940f4.removeListener("velocity", callback);
-        } else {
-            this.devices.ollie_ee42664940f4.streamVelocity(sps, false);
-            this.devices.ollie_ee42664940f4.on("velocity", callback);
-        }
+        this.devices.ollie_ee42664940f4.streamVelocity(sps, false);
+        this.devices.ollie_ee42664940f4.once("velocity", callback);
     }
 
 ,
@@ -354,7 +329,7 @@ Cylon.robot({
                 existed = false;
         }
         if (!existed) {
-            //console.log("We couldn't find bb8 with mac : " + mac);
+            console.log("We couldn't find bb8 with mac : " + mac);
         }
     }
 ,
@@ -381,7 +356,7 @@ Cylon.robot({
                 existed = false;
         }
         if (!existed) {
-            //console.log("We couldn't find ollie with mac : " + mac);
+            console.log("We couldn't find ollie with mac : " + mac);
         }
     }
 
@@ -398,7 +373,7 @@ Cylon.robot({
 
         var server = new http.Server(function(req, res) {
             var urlParsed = url.parse(req.url, true);
-            //console.log("Received url: " + urlParsed.pathname + " q: " + urlParsed.query);
+            console.log("Received url: " + urlParsed.pathname + " q: " + urlParsed.query);
             actionPerformed = 0;
 
             if (urlParsed.pathname.startsWith("/bb8/")) {
@@ -406,7 +381,7 @@ Cylon.robot({
                 if (urlParsed.pathname == "/bb8/isConnected" && urlParsed.query.MAC) {
                     actionPerformed = 1;
                     mac = urlParsed.query.MAC;
-                    //console.log("isConnected to bb8, mac : " + mac);
+                    console.log("isConnected to bb8, mac : " + mac);
                     if (my.isConnected(my, mac)) {
                         res.end("connected");
                     } else {
@@ -416,9 +391,9 @@ Cylon.robot({
                 if (urlParsed.pathname == "/bb8/connect" && urlParsed.query.MAC) {
                     actionPerformed = 1;
                     mac = urlParsed.query.MAC;
-                    //console.log("bb8 to connect: " + mac);
+                    console.log("bb8 to connect: " + mac);
                     my.connect_bb8(my, mac, function() {
-                        //console.log("connected to bb8, mac : " + mac);
+                        console.log("connected to bb8, mac : " + mac);
                         res.end("connected");
                     });	
                 }
@@ -428,9 +403,9 @@ Cylon.robot({
                     mac = urlParsed.query.MAC;
                     newSpeed = parseInt(urlParsed.query.speed);
                     newDirection = parseInt(urlParsed.query.direction);
-                    //console.log("bb8: " + mac + " roll with speed: " + newSpeed + " & direction: " + newDirection);
+                    console.log("bb8: " + mac + " roll with speed: " + newSpeed + " & direction: " + newDirection);
                     my.roll_bb8(my, mac, newSpeed, newDirection, function() {
-                        //console.log("rolled bb8, mac : " + mac);
+                        console.log("rolled bb8, mac : " + mac);
                         res.end("rolled");
                         actionPerformed = 1;
                     });	
@@ -440,10 +415,10 @@ Cylon.robot({
                         && urlParsed.query.color) {
                     mac = urlParsed.query.MAC;
                     newColor = parseInt(urlParsed.query.color);
-                    //console.log("bb8: " + mac + " set new color: " + newColor);
+                    console.log("bb8: " + mac + " set new color: " + newColor);
                     
                     my.setColor_bb8(my, mac, newColor, function() {
-                        //console.log("set color of bb8, mac : " + mac);
+                        console.log("set color of bb8, mac : " + mac);
                         res.end("set color");
                         actionPerformed = 1;
                     });	
@@ -452,11 +427,10 @@ Cylon.robot({
                 if (urlParsed.pathname == "/bb8/getVelocity" && urlParsed.query.MAC) {
                     actionPerformed = 1;
                     mac = urlParsed.query.MAC;
-                    //console.log("bb8: " + mac + " get velocity ");
+                    console.log("bb8: " + mac + " get velocity ");
                     
                     my.getVelocity_bb8(my, mac, 5, function streamV(data) {
                         res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
-                        my.getVelocity_ollie(my, mac, 0, streamV);
                     });	
                 }
             }
@@ -466,7 +440,7 @@ Cylon.robot({
                 if (urlParsed.pathname == "/ollie/isConnected" && urlParsed.query.MAC) {
                     actionPerformed = 1;
                     mac = urlParsed.query.MAC;
-                    //console.log("isConnected to ollie, mac : " + mac);
+                    console.log("isConnected to ollie, mac : " + mac);
                     if (my.isConnected(my, mac)) {
                         res.end("connected");
                     } else {
@@ -476,9 +450,9 @@ Cylon.robot({
                 if (urlParsed.pathname == "/ollie/connect" && urlParsed.query.MAC) {
                     actionPerformed = 1;
                     mac = urlParsed.query.MAC;
-                    //console.log("ollie to connect: " + mac);
+                    console.log("ollie to connect: " + mac);
                     my.connect_ollie(my, mac, function() {
-                        //console.log("connected to ollie, mac : " + mac);
+                        console.log("connected to ollie, mac : " + mac);
                         res.end("connected");
                     });	
                 }
@@ -488,9 +462,9 @@ Cylon.robot({
                     mac = urlParsed.query.MAC;
                     newSpeed = parseInt(urlParsed.query.speed);
                     newDirection = parseInt(urlParsed.query.direction);
-                    //console.log("ollie: " + mac + " roll with speed: " + newSpeed + " & direction: " + newDirection);
+                    console.log("ollie: " + mac + " roll with speed: " + newSpeed + " & direction: " + newDirection);
                     my.roll_ollie(my, mac, newSpeed, newDirection, function() {
-                        //console.log("rolled ollie, mac : " + mac);
+                        console.log("rolled ollie, mac : " + mac);
                         res.end("rolled");
                         actionPerformed = 1;
                     });	
@@ -500,10 +474,10 @@ Cylon.robot({
                         && urlParsed.query.color) {
                     mac = urlParsed.query.MAC;
                     newColor = parseInt(urlParsed.query.color);
-                    //console.log("ollie: " + mac + " set new color: " + newColor);
+                    console.log("ollie: " + mac + " set new color: " + newColor);
                     
                     my.setColor_ollie(my, mac, newColor, function() {
-                        //console.log("set color of ollie, mac : " + mac);
+                        console.log("set color of ollie, mac : " + mac);
                         res.end("set color");
                         actionPerformed = 1;
                     });	
@@ -512,11 +486,10 @@ Cylon.robot({
                 if (urlParsed.pathname == "/ollie/getVelocity" && urlParsed.query.MAC) {
                     actionPerformed = 1;
                     mac = urlParsed.query.MAC;
-                    //console.log("ollie: " + mac + " get velocity ");
+                    console.log("ollie: " + mac + " get velocity ");
                     
                     my.getVelocity_ollie(my, mac, 5, function streamV(data) {
                         res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
-                        my.getVelocity_ollie(my, mac, 0, streamV);
                     });	
                 }
             }
