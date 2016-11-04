@@ -674,6 +674,84 @@ Cylon.robot({
 
 
 ,
+// get MotorsBackEmf of bb8 & ollie
+    getMotorsBackEmf_ollie_d8e38c77d05d: function(sps, callback) {
+        this.devices.ollie_d8e38c77d05d.streamMotorsBackEmf(sps, false);
+        this.devices.ollie_d8e38c77d05d.once("MotorsBackEmf", callback);
+    }
+
+,
+
+    getMotorsBackEmf_ollie_dc712fb5b631: function(sps, callback) {
+        this.devices.ollie_dc712fb5b631.streamMotorsBackEmf(sps, false);
+        this.devices.ollie_dc712fb5b631.once("MotorsBackEmf", callback);
+    }
+
+,
+
+    getMotorsBackEmf_ollie_f15cee63622d: function(sps, callback) {
+        this.devices.ollie_f15cee63622d.streamMotorsBackEmf(sps, false);
+        this.devices.ollie_f15cee63622d.once("MotorsBackEmf", callback);
+    }
+
+,
+
+    getMotorsBackEmf_ollie_c84982ebcc74: function(sps, callback) {
+        this.devices.ollie_c84982ebcc74.streamMotorsBackEmf(sps, false);
+        this.devices.ollie_c84982ebcc74.once("MotorsBackEmf", callback);
+    }
+
+,
+
+    getMotorsBackEmf_ollie_ee42664940f4: function(sps, callback) {
+        this.devices.ollie_ee42664940f4.streamMotorsBackEmf(sps, false);
+        this.devices.ollie_ee42664940f4.once("MotorsBackEmf", callback);
+    }
+
+,
+
+
+
+    getMotorsBackEmf_bb8(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find bb8 with mac : " + mac);
+        }
+    }
+,
+
+    getMotorsBackEmf_ollie(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            case "d8e38c77d05d":
+                my.getMotorsBackEmf_ollie_d8e38c77d05d(sps, callback);
+                break;
+            case "dc712fb5b631":
+                my.getMotorsBackEmf_ollie_dc712fb5b631(sps, callback);
+                break;
+            case "f15cee63622d":
+                my.getMotorsBackEmf_ollie_f15cee63622d(sps, callback);
+                break;
+            case "c84982ebcc74":
+                my.getMotorsBackEmf_ollie_c84982ebcc74(sps, callback);
+                break;
+            case "ee42664940f4":
+                my.getMotorsBackEmf_ollie_ee42664940f4(sps, callback);
+                break;
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find ollie with mac : " + mac);
+        }
+    }
+
+
+,
     isConnected(my, mac) {
         return ollies[mac] == true;
     }
@@ -790,6 +868,17 @@ Cylon.robot({
                         res.end("xGyro: " + data.xGyro.value[0] + "\n"+ "yGyro: " + data.yGyro.value[0] + "\n"+ "zGyro: " + data.zGyro.value[0] + "\n");
                     });	
                 }
+
+                if (urlParsed.pathname == "/bb8/getMotorsBackEmf" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("bb8: " + mac + " get motorsbackemf ");
+                    
+                    my.getMotorsBackEmf_bb8(my, mac, 5, function(data) {
+                        console.log("motorsbackemf: " + JSON.stringify(data) + "\n");
+                        res.end("rMotorBackEmf: " + data.rMotorBackEmf.value[0] + "\n"+ "lMotorBackEmf: " + data.lMotorBackEmf.value[0] + "\n");
+                    });	
+                }
             }
 
             if (urlParsed.pathname.startsWith("/ollie/")) {
@@ -892,6 +981,17 @@ Cylon.robot({
                     my.getGyroscope_ollie(my, mac, 5, function(data) {
                         console.log("gyroscope: " + JSON.stringify(data) + "\n");
                         res.end("xGyro: " + data.xGyro.value[0] + "\n"+ "yGyro: " + data.yGyro.value[0] + "\n"+ "zGyro: " + data.zGyro.value[0] + "\n");
+                    });	
+                }
+
+                if (urlParsed.pathname == "/ollie/getMotorsBackEmf" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("ollie: " + mac + " get motorsbackemf ");
+                    
+                    my.getMotorsBackEmf_ollie(my, mac, 5, function(data) {
+                        console.log("motorsbackemf: " + JSON.stringify(data) + "\n");
+                        res.end("rMotorBackEmf: " + data.rMotorBackEmf.value[0] + "\n"+ "lMotorBackEmf: " + data.lMotorBackEmf.value[0] + "\n");
                     });	
                 }
             }
