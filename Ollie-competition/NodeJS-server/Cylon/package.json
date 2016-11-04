@@ -1,6 +1,6 @@
 {
   "name": "Cylon-server",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "main": "cylon-server.js",
   "description": "Http server to control sphero droids (using Cylon.js)",
   "homepage": "http://www.iteazer.com/",

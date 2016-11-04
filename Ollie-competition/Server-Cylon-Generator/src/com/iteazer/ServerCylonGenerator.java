@@ -351,6 +351,9 @@ public class ServerCylonGenerator {
                 + generateGetIfForHttpServer(type, "Accelerometer", "\"xAccel: \" + data.xAccel.value[0] + \"\\n\""
                         + "+ \"yAccel: \" + data.yAccel.value[0] + \"\\n\""
                         + "+ \"zAccel: \" + data.zAccel.value[0] + \"\\n\"")
+                + generateGetIfForHttpServer(type, "Gyroscope", "\"xGyro: \" + data.xGyro.value[0] + \"\\n\""
+                        + "+ \"yGyro: \" + data.yGyro.value[0] + \"\\n\""
+                        + "+ \"zGyro: \" + data.zGyro.value[0] + \"\\n\"")
                 + TAB[3] + "}", type);
     }
 
@@ -414,6 +417,8 @@ public class ServerCylonGenerator {
         result.addAll(generateGetSmth(droids, "ImuAngles"));
         result.add(",");
         result.addAll(generateGetSmth(droids, "Accelerometer"));
+        result.add(",");
+        result.addAll(generateGetSmth(droids, "Gyroscope"));
         result.add(",");
         result.add(generateIsConnected());
         result.add(",");

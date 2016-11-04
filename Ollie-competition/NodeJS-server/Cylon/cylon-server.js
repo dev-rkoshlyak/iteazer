@@ -596,6 +596,84 @@ Cylon.robot({
 
 
 ,
+// get Gyroscope of bb8 & ollie
+    getGyroscope_ollie_d8e38c77d05d: function(sps, callback) {
+        this.devices.ollie_d8e38c77d05d.streamGyroscope(sps, false);
+        this.devices.ollie_d8e38c77d05d.once("Gyroscope", callback);
+    }
+
+,
+
+    getGyroscope_ollie_dc712fb5b631: function(sps, callback) {
+        this.devices.ollie_dc712fb5b631.streamGyroscope(sps, false);
+        this.devices.ollie_dc712fb5b631.once("Gyroscope", callback);
+    }
+
+,
+
+    getGyroscope_ollie_f15cee63622d: function(sps, callback) {
+        this.devices.ollie_f15cee63622d.streamGyroscope(sps, false);
+        this.devices.ollie_f15cee63622d.once("Gyroscope", callback);
+    }
+
+,
+
+    getGyroscope_ollie_c84982ebcc74: function(sps, callback) {
+        this.devices.ollie_c84982ebcc74.streamGyroscope(sps, false);
+        this.devices.ollie_c84982ebcc74.once("Gyroscope", callback);
+    }
+
+,
+
+    getGyroscope_ollie_ee42664940f4: function(sps, callback) {
+        this.devices.ollie_ee42664940f4.streamGyroscope(sps, false);
+        this.devices.ollie_ee42664940f4.once("Gyroscope", callback);
+    }
+
+,
+
+
+
+    getGyroscope_bb8(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find bb8 with mac : " + mac);
+        }
+    }
+,
+
+    getGyroscope_ollie(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            case "d8e38c77d05d":
+                my.getGyroscope_ollie_d8e38c77d05d(sps, callback);
+                break;
+            case "dc712fb5b631":
+                my.getGyroscope_ollie_dc712fb5b631(sps, callback);
+                break;
+            case "f15cee63622d":
+                my.getGyroscope_ollie_f15cee63622d(sps, callback);
+                break;
+            case "c84982ebcc74":
+                my.getGyroscope_ollie_c84982ebcc74(sps, callback);
+                break;
+            case "ee42664940f4":
+                my.getGyroscope_ollie_ee42664940f4(sps, callback);
+                break;
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find ollie with mac : " + mac);
+        }
+    }
+
+
+,
     isConnected(my, mac) {
         return ollies[mac] == true;
     }
@@ -701,6 +779,17 @@ Cylon.robot({
                         res.end("xAccel: " + data.xAccel.value[0] + "\n"+ "yAccel: " + data.yAccel.value[0] + "\n"+ "zAccel: " + data.zAccel.value[0] + "\n");
                     });	
                 }
+
+                if (urlParsed.pathname == "/bb8/getGyroscope" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("bb8: " + mac + " get gyroscope ");
+                    
+                    my.getGyroscope_bb8(my, mac, 5, function(data) {
+                        console.log("gyroscope: " + JSON.stringify(data) + "\n");
+                        res.end("xGyro: " + data.xGyro.value[0] + "\n"+ "yGyro: " + data.yGyro.value[0] + "\n"+ "zGyro: " + data.zGyro.value[0] + "\n");
+                    });	
+                }
             }
 
             if (urlParsed.pathname.startsWith("/ollie/")) {
@@ -792,6 +881,17 @@ Cylon.robot({
                     my.getAccelerometer_ollie(my, mac, 5, function(data) {
                         console.log("accelerometer: " + JSON.stringify(data) + "\n");
                         res.end("xAccel: " + data.xAccel.value[0] + "\n"+ "yAccel: " + data.yAccel.value[0] + "\n"+ "zAccel: " + data.zAccel.value[0] + "\n");
+                    });	
+                }
+
+                if (urlParsed.pathname == "/ollie/getGyroscope" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("ollie: " + mac + " get gyroscope ");
+                    
+                    my.getGyroscope_ollie(my, mac, 5, function(data) {
+                        console.log("gyroscope: " + JSON.stringify(data) + "\n");
+                        res.end("xGyro: " + data.xGyro.value[0] + "\n"+ "yGyro: " + data.yGyro.value[0] + "\n"+ "zGyro: " + data.zGyro.value[0] + "\n");
                     });	
                 }
             }
