@@ -109,10 +109,10 @@ public class ServerCylonGenerator {
 
         s = TAB[3] + String.format("console.log(\"%1$s connected\");", droid.name);
         connection.append(s).append(ENDL);
-        
+
         s = String.format(TAB[3] + "ollies[\"%1$s\"] = true;", droid.mac);
         connection.append(s).append(ENDL);
-        
+
         s = TAB[3] + "callback();";
         connection.append(s).append(ENDL);
 
@@ -264,7 +264,7 @@ public class ServerCylonGenerator {
             functions.add(TAB[2] + String.format("this.devices.%1$s.color(newColor, function() {", droid.name));
             functions.add(TAB[3] + String.format("console.log(\"%1$s set new color: \" + newColor);", droid.name));
             functions.add(TAB[2] + "});");
-            functions.add(TAB[1] +"},");
+            functions.add(TAB[1] + "},");
         }
 
         functions.add(ENDL);
@@ -276,6 +276,21 @@ public class ServerCylonGenerator {
         functions.add(ENDL);
 
         return functions;
+    }
+
+    private static String generateGetIfForHttpServer(String type, String smth, String printToWeb) {
+        return String.format("\n"
+                + TAB[4] + "if (urlParsed.pathname == \"/%1$s/get%2$s\" && urlParsed.query.MAC) {\n"
+                + TAB[5] + "actionPerformed = 1;\n"
+                + TAB[5] + "mac = urlParsed.query.MAC;\n"
+                + TAB[5] + "console.log(\"%1$s: \" + mac + \" get %4$s \");\n"
+                + TAB[5] + "\n"
+                + TAB[5] + "my.get%2$s_%1$s(my, mac, 5, function(data) {\n"
+                + TAB[6] + "console.log(\"%4$s: \" + JSON.stringify(data) + \"\\n\");\n"
+                + TAB[6] + "res.end(%3$s);\n"
+                + TAB[5] + "});	\n"
+                + TAB[4] + "}\n",
+                 type, smth, printToWeb, smth.toLowerCase());
     }
 
     private static String generateForHttpServer(String type) {
@@ -328,47 +343,11 @@ public class ServerCylonGenerator {
                 + TAB[6] + "actionPerformed = 1;\n"
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n"
-                
-                + "\n"
-                + TAB[4] + "if (urlParsed.pathname == \"/%1$s/getVelocity\" && urlParsed.query.MAC) {\n"
-                + TAB[5] + "actionPerformed = 1;\n"
-                + TAB[5] + "mac = urlParsed.query.MAC;\n"
-                + TAB[5] + "console.log(\"%1$s: \" + mac + \" get velocity \");\n"
-                + TAB[5] + "\n"
-                + TAB[5] + "my.getVelocity_%1$s(my, mac, 5, function streamV(data) {\n"
-                + TAB[6] + "console.log(\"vlocity: \" + JSON.stringify(data) + \"\\n\");\n"
-                + TAB[6] + "res.end(\"xVelocity: \" + data.xVelocity.value[0] + \"\\n\" + \"yVelocity: \" + data.yVelocity.value[0] + \"\\n\");\n"
-                + TAB[5] + "});	\n"
-                + TAB[4] + "}\n"
-                
-                
-                + "\n"
-                + TAB[4] + "if (urlParsed.pathname == \"/%1$s/getAccelOne\" && urlParsed.query.MAC) {\n"
-                + TAB[5] + "actionPerformed = 1;\n"
-                + TAB[5] + "mac = urlParsed.query.MAC;\n"
-                + TAB[5] + "console.log(\"%1$s: \" + mac + \" get accelOne \");\n"
-                + TAB[5] + "\n"
-                + TAB[5] + "my.getAccelOne_%1$s(my, mac, 5, function streamAO(data) {\n"
-                + TAB[6] + "console.log(\"accelOne: \" + JSON.stringify(data) + \"\\n\");\n"
-                + TAB[6] + "res.end(\"accelOne: \" + data.accelOne.value[0] + \"\\n\");\n"
-                + TAB[5] + "});	\n"
-                + TAB[4] + "}\n"
-                
-                
-                + "\n"
-                + TAB[4] + "if (urlParsed.pathname == \"/%1$s/getImuAngels\" && urlParsed.query.MAC) {\n"
-                + TAB[5] + "actionPerformed = 1;\n"
-                + TAB[5] + "mac = urlParsed.query.MAC;\n"
-                + TAB[5] + "console.log(\"%1$s: \" + mac + \" get imuAngels \");\n"
-                + TAB[5] + "\n"
-                + TAB[5] + "my.getImuAngles_%1$s(my, mac, 5, function streamIA(data) {\n"
-                + TAB[6] + "console.log(\"imuAngels: \" + JSON.stringify(data) + \"\\n\");\n"
-                + TAB[6] + "res.end(\"pitchAngle: \" + data.pitchAngle.value[0] + \"\\n\""
+                + generateGetIfForHttpServer(type, "Velocity", "\"xVelocity: \" + data.xVelocity.value[0] + \"\\n\" + \"yVelocity: \" + data.yVelocity.value[0] + \"\\n\"")
+                + generateGetIfForHttpServer(type, "AccelOne", "\"accelOne: \" + data.accelOne.value[0] + \"\\n\"")
+                + generateGetIfForHttpServer(type, "ImuAngles", "\"pitchAngle: \" + data.pitchAngle.value[0] + \"\\n\""
                         + "+ \"rollAngle: \" + data.rollAngle.value[0] + \"\\n\""
-                        + "+ \"yawAngle: \" + data.yawAngle.value[0] + \"\\n\");\n"
-                + TAB[5] + "});	\n"
-                + TAB[4] + "}\n"
-                
+                        + "+ \"yawAngle: \" + data.yawAngle.value[0] + \"\\n\"")
                 + TAB[3] + "}", type);
     }
 
@@ -440,7 +419,6 @@ public class ServerCylonGenerator {
         return result;
     }
 
-        
     private static ArrayList<String> generateGetSmth(String type, ArrayList<Droid> droids, String smth) {
         ArrayList<String> connection = new ArrayList<>();
         String s;
@@ -472,7 +450,7 @@ public class ServerCylonGenerator {
 
     private static ArrayList<String> generateGetSmth(ArrayList<Droid> droids, String smth) {
         ArrayList<String> functions = new ArrayList<>();
-        functions.add("// get " + smth +" of bb8 & ollie");
+        functions.add("// get " + smth + " of bb8 & ollie");
 
         for (Droid droid : droids) {
             functions.add(generateGetSmth(droid, smth));
@@ -497,10 +475,9 @@ public class ServerCylonGenerator {
         s = TAB[1] + String.format("get%1$s_%2$s: function(sps, callback) {", smth, droid.name);
         connection.append(s).append(ENDL);
 
-        
         s = TAB[2] + String.format("this.devices.%1$s.stream%2$s(sps, false);", droid.name, smth);
         connection.append(s).append(ENDL);
-        
+
         s = TAB[2] + String.format("this.devices.%1$s.once(\"%2$s\", callback);", droid.name, smth);
         connection.append(s).append(ENDL);
 
