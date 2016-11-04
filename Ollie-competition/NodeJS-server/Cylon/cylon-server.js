@@ -752,6 +752,84 @@ Cylon.robot({
 
 
 ,
+// get Odometer of bb8 & ollie
+    getOdometer_ollie_d8e38c77d05d: function(sps, callback) {
+        this.devices.ollie_d8e38c77d05d.streamOdometer(sps, false);
+        this.devices.ollie_d8e38c77d05d.once("Odometer", callback);
+    }
+
+,
+
+    getOdometer_ollie_dc712fb5b631: function(sps, callback) {
+        this.devices.ollie_dc712fb5b631.streamOdometer(sps, false);
+        this.devices.ollie_dc712fb5b631.once("Odometer", callback);
+    }
+
+,
+
+    getOdometer_ollie_f15cee63622d: function(sps, callback) {
+        this.devices.ollie_f15cee63622d.streamOdometer(sps, false);
+        this.devices.ollie_f15cee63622d.once("Odometer", callback);
+    }
+
+,
+
+    getOdometer_ollie_c84982ebcc74: function(sps, callback) {
+        this.devices.ollie_c84982ebcc74.streamOdometer(sps, false);
+        this.devices.ollie_c84982ebcc74.once("Odometer", callback);
+    }
+
+,
+
+    getOdometer_ollie_ee42664940f4: function(sps, callback) {
+        this.devices.ollie_ee42664940f4.streamOdometer(sps, false);
+        this.devices.ollie_ee42664940f4.once("Odometer", callback);
+    }
+
+,
+
+
+
+    getOdometer_bb8(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find bb8 with mac : " + mac);
+        }
+    }
+,
+
+    getOdometer_ollie(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            case "d8e38c77d05d":
+                my.getOdometer_ollie_d8e38c77d05d(sps, callback);
+                break;
+            case "dc712fb5b631":
+                my.getOdometer_ollie_dc712fb5b631(sps, callback);
+                break;
+            case "f15cee63622d":
+                my.getOdometer_ollie_f15cee63622d(sps, callback);
+                break;
+            case "c84982ebcc74":
+                my.getOdometer_ollie_c84982ebcc74(sps, callback);
+                break;
+            case "ee42664940f4":
+                my.getOdometer_ollie_ee42664940f4(sps, callback);
+                break;
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find ollie with mac : " + mac);
+        }
+    }
+
+
+,
     isConnected(my, mac) {
         return ollies[mac] == true;
     }
@@ -879,6 +957,17 @@ Cylon.robot({
                         res.end("rMotorBackEmf: " + data.rMotorBackEmf.value[0] + "\n"+ "lMotorBackEmf: " + data.lMotorBackEmf.value[0] + "\n");
                     });	
                 }
+
+                if (urlParsed.pathname == "/bb8/getOdometer" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("bb8: " + mac + " get odometer ");
+                    
+                    my.getOdometer_bb8(my, mac, 5, function(data) {
+                        console.log("odometer: " + JSON.stringify(data) + "\n");
+                        res.end("xOdometer: " + data.xOdometer.value[0] + "\n"+ "yOdometer: " + data.yOdometer.value[0] + "\n");
+                    });	
+                }
             }
 
             if (urlParsed.pathname.startsWith("/ollie/")) {
@@ -992,6 +1081,17 @@ Cylon.robot({
                     my.getMotorsBackEmf_ollie(my, mac, 5, function(data) {
                         console.log("motorsbackemf: " + JSON.stringify(data) + "\n");
                         res.end("rMotorBackEmf: " + data.rMotorBackEmf.value[0] + "\n"+ "lMotorBackEmf: " + data.lMotorBackEmf.value[0] + "\n");
+                    });	
+                }
+
+                if (urlParsed.pathname == "/ollie/getOdometer" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("ollie: " + mac + " get odometer ");
+                    
+                    my.getOdometer_ollie(my, mac, 5, function(data) {
+                        console.log("odometer: " + JSON.stringify(data) + "\n");
+                        res.end("xOdometer: " + data.xOdometer.value[0] + "\n"+ "yOdometer: " + data.yOdometer.value[0] + "\n");
                     });	
                 }
             }
