@@ -1,0 +1,10 @@
+accelone: 
+{
+	"accelOne":
+	{
+		"sensor":"acceleration one",
+		"range":{"bottom":0,"top":8000},
+		"units":"1mG",
+		"value":[100]
+	}
+}

@@ -1,0 +1,24 @@
+accelerometer: 
+{
+	"xAccel":
+	{
+		"sensor": "accelerometer axis X, filtered",
+		"range":{"bottom":-32768,"top":32767},
+		"units":"1/4096 G",
+		"value":[0]
+	},
+	"yAccel":
+	{
+		"sensor":"accelerometer axis Y, filtered",
+		"range":{"bottom":-32768,"top":32767},
+		"units":"1/4096 G",
+		"value":[0]
+	},
+	"zAccel":
+	{
+		"sensor":"accelerometer axis Z, filtered",
+		"range":{"bottom":-32768,"top":32767},
+		"units":"1/4096 G",
+		"value":[null]
+	}
+}

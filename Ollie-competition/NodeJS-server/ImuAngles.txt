@@ -1,0 +1,24 @@
+imuAngels: 
+{
+	"pitchAngle":
+	{
+		"sensor":"IMU pitch angle, filtered",
+		"range": {"bottom":-179,"top":180},
+		"units":"degrees",
+		"value":[88]
+	},
+	"rollAngle":
+ 	{
+		"sensor":"IMU roll angle, filtered",
+		"range":{"bottom":-179,"top":180},
+		"units":"degrees",
+		"value":[-65236]
+	},
+	"yawAngle":
+ 	{
+		"sensor":"IMU yaw angle, filtered",
+		"range":{"bottom":-179,"top":180},
+		"units":"degrees",
+		"value":[-424]
+	}
+}
