@@ -1,0 +1,17 @@
+odometer: 
+{
+	"xOdometer":
+	{
+		"sensor":"odomoter X",
+		"range":{"bottom":-32768,"top":32767},
+		"units":"cm","value":[0]
+	},
+	"yOdometer":
+	{
+		"sensor":"odomoter Y",
+		"range":{"bottom":-32768,"top":32767},
+		"units":"cm",
+		"value":[0]
+	}
+}
+
