@@ -11,7 +11,7 @@ Cylon.robot({
         bluetooth_ollie_dc712fb5b631: { adaptor: "central", uuid: "dc712fb5b631", module: "cylon-ble"},
         bluetooth_ollie_f15cee63622d: { adaptor: "central", uuid: "f15cee63622d", module: "cylon-ble"},
         bluetooth_ollie_c84982ebcc74: { adaptor: "central", uuid: "c84982ebcc74", module: "cylon-ble"},
-        //bluetooth_ollie_ee42664940f4: { adaptor: "central", uuid: "ee42664940f4", module: "cylon-ble"}
+        bluetooth_ollie_ee42664940f4: { adaptor: "central", uuid: "ee42664940f4", module: "cylon-ble"}
     }
 
 ,
@@ -518,6 +518,84 @@ Cylon.robot({
 
 
 ,
+// get Accelerometer of bb8 & ollie
+    getAccelerometer_ollie_d8e38c77d05d: function(sps, callback) {
+        this.devices.ollie_d8e38c77d05d.streamAccelerometer(sps, false);
+        this.devices.ollie_d8e38c77d05d.once("Accelerometer", callback);
+    }
+
+,
+
+    getAccelerometer_ollie_dc712fb5b631: function(sps, callback) {
+        this.devices.ollie_dc712fb5b631.streamAccelerometer(sps, false);
+        this.devices.ollie_dc712fb5b631.once("Accelerometer", callback);
+    }
+
+,
+
+    getAccelerometer_ollie_f15cee63622d: function(sps, callback) {
+        this.devices.ollie_f15cee63622d.streamAccelerometer(sps, false);
+        this.devices.ollie_f15cee63622d.once("Accelerometer", callback);
+    }
+
+,
+
+    getAccelerometer_ollie_c84982ebcc74: function(sps, callback) {
+        this.devices.ollie_c84982ebcc74.streamAccelerometer(sps, false);
+        this.devices.ollie_c84982ebcc74.once("Accelerometer", callback);
+    }
+
+,
+
+    getAccelerometer_ollie_ee42664940f4: function(sps, callback) {
+        this.devices.ollie_ee42664940f4.streamAccelerometer(sps, false);
+        this.devices.ollie_ee42664940f4.once("Accelerometer", callback);
+    }
+
+,
+
+
+
+    getAccelerometer_bb8(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find bb8 with mac : " + mac);
+        }
+    }
+,
+
+    getAccelerometer_ollie(my, mac, sps, callback) {
+        existed = true;
+        switch (mac) {
+            case "d8e38c77d05d":
+                my.getAccelerometer_ollie_d8e38c77d05d(sps, callback);
+                break;
+            case "dc712fb5b631":
+                my.getAccelerometer_ollie_dc712fb5b631(sps, callback);
+                break;
+            case "f15cee63622d":
+                my.getAccelerometer_ollie_f15cee63622d(sps, callback);
+                break;
+            case "c84982ebcc74":
+                my.getAccelerometer_ollie_c84982ebcc74(sps, callback);
+                break;
+            case "ee42664940f4":
+                my.getAccelerometer_ollie_ee42664940f4(sps, callback);
+                break;
+            default:
+                existed = false;
+        }
+        if (!existed) {
+            console.log("We couldn't find ollie with mac : " + mac);
+        }
+    }
+
+
+,
     isConnected(my, mac) {
         return ollies[mac] == true;
     }
@@ -585,8 +663,8 @@ Cylon.robot({
                     mac = urlParsed.query.MAC;
                     console.log("bb8: " + mac + " get velocity ");
                     
-                    my.getVelocity_bb8(my, mac, 5, function streamV(data) {
-                        console.log("vlocity: " + JSON.stringify(data) + "\n");
+                    my.getVelocity_bb8(my, mac, 5, function(data) {
+                        console.log("velocity: " + JSON.stringify(data) + "\n");
                         res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
                     });	
                 }
@@ -594,22 +672,33 @@ Cylon.robot({
                 if (urlParsed.pathname == "/bb8/getAccelOne" && urlParsed.query.MAC) {
                     actionPerformed = 1;
                     mac = urlParsed.query.MAC;
-                    console.log("bb8: " + mac + " get accelOne ");
+                    console.log("bb8: " + mac + " get accelone ");
                     
-                    my.getAccelOne_bb8(my, mac, 5, function streamAO(data) {
-                        console.log("accelOne: " + JSON.stringify(data) + "\n");
+                    my.getAccelOne_bb8(my, mac, 5, function(data) {
+                        console.log("accelone: " + JSON.stringify(data) + "\n");
                         res.end("accelOne: " + data.accelOne.value[0] + "\n");
                     });	
                 }
 
-                if (urlParsed.pathname == "/bb8/getImuAngels" && urlParsed.query.MAC) {
+                if (urlParsed.pathname == "/bb8/getImuAngles" && urlParsed.query.MAC) {
                     actionPerformed = 1;
                     mac = urlParsed.query.MAC;
-                    console.log("bb8: " + mac + " get imuAngels ");
+                    console.log("bb8: " + mac + " get imuangles ");
                     
-                    my.getImuAngles_bb8(my, mac, 5, function streamIA(data) {
-                        console.log("imuAngels: " + JSON.stringify(data) + "\n");
+                    my.getImuAngles_bb8(my, mac, 5, function(data) {
+                        console.log("imuangles: " + JSON.stringify(data) + "\n");
                         res.end("pitchAngle: " + data.pitchAngle.value[0] + "\n"+ "rollAngle: " + data.rollAngle.value[0] + "\n"+ "yawAngle: " + data.yawAngle.value[0] + "\n");
+                    });	
+                }
+
+                if (urlParsed.pathname == "/bb8/getAccelerometer" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("bb8: " + mac + " get accelerometer ");
+                    
+                    my.getAccelerometer_bb8(my, mac, 5, function(data) {
+                        console.log("accelerometer: " + JSON.stringify(data) + "\n");
+                        res.end("xAccel: " + data.xAccel.value[0] + "\n"+ "yAccel: " + data.yAccel.value[0] + "\n"+ "zAccel: " + data.zAccel.value[0] + "\n");
                     });	
                 }
             }
@@ -667,8 +756,8 @@ Cylon.robot({
                     mac = urlParsed.query.MAC;
                     console.log("ollie: " + mac + " get velocity ");
                     
-                    my.getVelocity_ollie(my, mac, 5, function streamV(data) {
-                        console.log("vlocity: " + JSON.stringify(data) + "\n");
+                    my.getVelocity_ollie(my, mac, 5, function(data) {
+                        console.log("velocity: " + JSON.stringify(data) + "\n");
                         res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
                     });	
                 }
@@ -676,22 +765,33 @@ Cylon.robot({
                 if (urlParsed.pathname == "/ollie/getAccelOne" && urlParsed.query.MAC) {
                     actionPerformed = 1;
                     mac = urlParsed.query.MAC;
-                    console.log("ollie: " + mac + " get accelOne ");
+                    console.log("ollie: " + mac + " get accelone ");
                     
-                    my.getAccelOne_ollie(my, mac, 5, function streamAO(data) {
-                        console.log("accelOne: " + JSON.stringify(data) + "\n");
+                    my.getAccelOne_ollie(my, mac, 5, function(data) {
+                        console.log("accelone: " + JSON.stringify(data) + "\n");
                         res.end("accelOne: " + data.accelOne.value[0] + "\n");
                     });	
                 }
 
-                if (urlParsed.pathname == "/ollie/getImuAngels" && urlParsed.query.MAC) {
+                if (urlParsed.pathname == "/ollie/getImuAngles" && urlParsed.query.MAC) {
                     actionPerformed = 1;
                     mac = urlParsed.query.MAC;
-                    console.log("ollie: " + mac + " get imuAngels ");
+                    console.log("ollie: " + mac + " get imuangles ");
                     
-                    my.getImuAngles_ollie(my, mac, 5, function streamIA(data) {
-                        console.log("imuAngels: " + JSON.stringify(data) + "\n");
+                    my.getImuAngles_ollie(my, mac, 5, function(data) {
+                        console.log("imuangles: " + JSON.stringify(data) + "\n");
                         res.end("pitchAngle: " + data.pitchAngle.value[0] + "\n"+ "rollAngle: " + data.rollAngle.value[0] + "\n"+ "yawAngle: " + data.yawAngle.value[0] + "\n");
+                    });	
+                }
+
+                if (urlParsed.pathname == "/ollie/getAccelerometer" && urlParsed.query.MAC) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    console.log("ollie: " + mac + " get accelerometer ");
+                    
+                    my.getAccelerometer_ollie(my, mac, 5, function(data) {
+                        console.log("accelerometer: " + JSON.stringify(data) + "\n");
+                        res.end("xAccel: " + data.xAccel.value[0] + "\n"+ "yAccel: " + data.yAccel.value[0] + "\n"+ "zAccel: " + data.zAccel.value[0] + "\n");
                     });	
                 }
             }
