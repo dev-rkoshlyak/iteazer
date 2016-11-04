@@ -9,45 +9,34 @@ function sleep(time, callback) {
 }
 
 var path = "http://127.0.0.1:1337/ollie/"
+var duration = 200;
+var speed = 40;
+var shift = 80;
 
 var connect = function(MAC, callback) {
 	console.log("connect");
 	request(path+"connect?MAC="+MAC, function(error, response, body) {
 		if (body == "connected") {
-            sleep(3000,	function() {
+            sleep(duration*10,	function() {
                 callback();
             });
         }
 	});
 }
 
-var rotate = function(MAC, callback) {
+var rotate = function(MAC, angle) {
 	console.log("rotate" + MAC);
-		request(path+"roll?MAC="+MAC+"&direction=0&speed=30", function(error, response, body) {
-			sleep(250, function() {
-				request(path+"roll?MAC="+MAC+"&direction=90&speed=30", function(error, response, body) {
-					sleep(250, function() {
-						request(path+"roll?MAC="+MAC+"&direction=180&speed=30", function(error, response, body) {
-							sleep(250, function() {
-								request(path+"roll?MAC="+MAC+"&direction=270&speed=30", function(error, response, body) {
-									sleep(250, function() {
-										callback(MAC, callback);
-									});
-								});
-							});
-						});
-					});
-				});
-			});
+    angle %= 360;
+	request(path+"roll?MAC="+MAC+"&direction="+angle+"&speed="+speed, function(error, response, body) {
+	    sleep(duration, function() {
+            rotate(MAC, angle+shift);
 		});
+	});
 }
 
 exports.test = function(MAC) {
 	console.log("test " + MAC);
 	connect(MAC, function() {
-		rotate(MAC, rotate);
+		rotate(MAC, 0);
 	});
 }
-
-//console.log("HI");
-//test("f15cee63622d");

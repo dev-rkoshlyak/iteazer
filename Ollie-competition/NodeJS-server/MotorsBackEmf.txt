@@ -1,0 +1,17 @@
+motorsbackemf: 
+{
+	"rMotorBackEmf":
+	{
+		"sensor":"right motor back EMF, filtered",
+		"range":{"bottom":-32768,"top":32767},
+		"units":"22.5 cm",
+		"value":[0]
+	},
+	"lMotorBackEmf":
+	{
+		"sensor":"left motor back EMF, filtered",
+		"range":{"bottom":-32768,"top":32767},
+		"units":"22.5 cm",
+		"value":[0]
+	}
+}

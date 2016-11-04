@@ -1,0 +1,25 @@
+gyroscope: 
+{
+	"xGyro":
+	{
+		"sensor":"gyro axis X, filtered",
+		"range":{"bottom":-20000,"top":20000},
+		"units":"0.1 dps",
+		"value":[3]
+	},
+	"yGyro":
+	{
+		"sensor":"gyro axis Y, filtered",
+		"range":{"bottom":-20000,"top":20000},
+		"units":"0.1 dps",
+		"value":[2]
+	},
+	"zGyro":
+	{
+		"sensor":"gyro axis Z, filtered",
+		"range":{"bottom":-20000,"top":20000},
+		"units":"0.1 dps",
+		"value":[0]
+	}
+}
+

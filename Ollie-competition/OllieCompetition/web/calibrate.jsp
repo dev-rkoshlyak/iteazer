@@ -21,7 +21,7 @@
         <h1><%= team.getName() %> calibrating Ollie</h1>
         <h2><a href="profile.jsp"> Your profile </a></h2>
         
-        <form name="calibrateForm" action="${pageContext.request.contextPath}/CalibrateServlet" method="POST">
+        <form name="calibrateForm" action="${pageContext.request.contextPath}/CalibrateOllieServlet" method="POST">
             <input type="text" name="textShift" value=<%=team.getCurrentShift()%> size="3" />
             <input type="submit" value="update" name="Update" />
         </form>
