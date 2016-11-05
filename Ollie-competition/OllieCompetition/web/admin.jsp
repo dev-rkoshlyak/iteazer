@@ -17,6 +17,8 @@
     </head>
     <body>
         <h1>Admin mode</h1>
+        <h2><a href="adminDoFinalSubmissions.jsp"> Do final submission </a></h2>
+        
         <form name="submitionStatus" action="${pageContext.request.contextPath}/SetSbmStatusServlet" method="POST">
             <h2>
                 Current status: 

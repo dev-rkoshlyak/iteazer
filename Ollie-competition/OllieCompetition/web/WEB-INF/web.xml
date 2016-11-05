@@ -34,6 +34,10 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.iteazer.servlets.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FinalSubmissionServlet</servlet-name>
+        <servlet-class>com.iteazer.servlets.FinalSubmissionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SetSbmStatusServlet</servlet-name>
         <url-pattern>/SetSbmStatusServlet</url-pattern>
@@ -53,6 +57,10 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FinalSubmissionServlet</servlet-name>
+        <url-pattern>/FinalSubmissionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
