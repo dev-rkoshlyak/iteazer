@@ -13,6 +13,15 @@
         <url-pattern>/performCommandsFinal.jsp</url-pattern>
         <url-pattern>/profile.jsp</url-pattern>
         <url-pattern>/calibrate.jsp</url-pattern>
+    </filter-mapping>    
+    <filter>
+        <filter-name>FinalSubmissionFilter</filter-name>
+        <filter-class>com.iteazer.servlets.FinalSubmissionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FinalSubmissionFilter</filter-name>
+        <url-pattern>/doCommandsFinal.jsp</url-pattern>
+        <url-pattern>/performCommandsFinal.jsp</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>SetSbmStatusServlet</servlet-name>
