@@ -23,6 +23,15 @@
         <url-pattern>/doCommandsFinal.jsp</url-pattern>
         <url-pattern>/performCommandsFinal.jsp</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>com.iteazer.servlets.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/admin.jsp</url-pattern>
+        <url-pattern>/adminDoFinalSubmissions.jsp</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>SetSbmStatusServlet</servlet-name>
         <servlet-class>com.iteazer.servlets.SetSbmStatusServlet</servlet-class>
