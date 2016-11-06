@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 import static com.iteazer.logic.Constants.*;
 import java.io.Serializable;
-import java.nio.file.StandardOpenOption;
+import java.util.LinkedList;
 
 /**
  *
@@ -71,8 +71,10 @@ public class Team implements Serializable {
         return name.equals(team2.name);
     }
 
-    static List<Team> getAllTeams() {
-        return (List<Team>) allTeams.values();
+    public static List<Team> getAllTeams() {
+        List<Team> teams = new LinkedList<>(allTeams.values());
+        teams.remove(getTeam(ADMIN_NAME));
+        return teams;
     }
 
     public int doSubmition(String commands) {
