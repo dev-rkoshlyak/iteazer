@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import static com.iteazer.logic.Constants.*;
 import java.io.Serializable;
+import java.util.LinkedList;
 
 /**
  *
@@ -70,8 +71,10 @@ public class Team implements Serializable {
         return name.equals(team2.name);
     }
 
-    static List<Team> getAllTeams() {
-        return (List<Team>) allTeams.values();
+    public static List<Team> getAllTeams() {
+        List<Team> teams = new LinkedList<>(allTeams.values());
+        teams.remove(getTeam(ADMIN_NAME));
+        return teams;
     }
 
     public int doSubmition(String commands) {
@@ -79,7 +82,9 @@ public class Team implements Serializable {
     }
 
     public int doFinalSubmition(String commands, int roundN) {
-        return doSubmition(commands.split("\\r?\\n"), true, roundN);
+        int time = doSubmition(commands.split("\\r?\\n"), true, roundN);
+        Contest.serializeResults();
+        return time;
     }
 
     private int doSubmition(String[] commands, boolean isFinal, int roundN) {
@@ -136,4 +141,14 @@ public class Team implements Serializable {
     public static boolean exists(String name) {
         return allTeams.get(name) != null;
     }
+
+    public void saveFinalSubmition(String commands, int roundN) {
+        String fileName = PathHelper.getSubmissionName(this, roundN);
+        String directory = PathHelper.getSubmissionDirectory(roundN);
+
+        PathHelper.writeToFile(directory, fileName, commands);
+
+        Contest.addCurrentSubmission(this, Paths.get(directory + fileName));
+    }
+
 }

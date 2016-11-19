@@ -1,7 +1,6 @@
 package com.iteazer.servlets;
 
 import static com.iteazer.logic.Constants.ADMIN_NAME;
-import com.iteazer.logic.Team;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -17,7 +16,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Wsl_F@ITeazer
  */
-public class LoggedInFilter implements Filter {
+public class AdminFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp,
@@ -28,15 +27,12 @@ public class LoggedInFilter implements Filter {
 
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("login") == null) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("profile.jsp");
         } else {
             String login = (String) session.getAttribute("login");
-            if (!Team.exists(login)) {
-                response.sendRedirect("index.jsp");
+            if (!login.equals(ADMIN_NAME)) {
+                response.sendRedirect("profile.jsp");
             } else {
-                if (login.equals(ADMIN_NAME)) {
-                    response.sendRedirect("admin.jsp");
-                }
                 chain.doFilter(request, response);
             }
         }

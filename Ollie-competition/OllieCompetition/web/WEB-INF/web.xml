@@ -13,6 +13,24 @@
         <url-pattern>/performCommandsFinal.jsp</url-pattern>
         <url-pattern>/profile.jsp</url-pattern>
         <url-pattern>/calibrate.jsp</url-pattern>
+    </filter-mapping>    
+    <filter>
+        <filter-name>FinalSubmissionFilter</filter-name>
+        <filter-class>com.iteazer.servlets.FinalSubmissionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FinalSubmissionFilter</filter-name>
+        <url-pattern>/doCommandsFinal.jsp</url-pattern>
+        <url-pattern>/performCommandsFinal.jsp</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>com.iteazer.servlets.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/admin.jsp</url-pattern>
+        <url-pattern>/adminDoFinalSubmissions.jsp</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>SetSbmStatusServlet</servlet-name>
@@ -34,6 +52,10 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.iteazer.servlets.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FinalSubmissionServlet</servlet-name>
+        <servlet-class>com.iteazer.servlets.FinalSubmissionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SetSbmStatusServlet</servlet-name>
         <url-pattern>/SetSbmStatusServlet</url-pattern>
@@ -53,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FinalSubmissionServlet</servlet-name>
+        <url-pattern>/FinalSubmissionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -52,8 +52,8 @@ public class Results implements Serializable {
         }
 
         int bTime = rounds.get(roundN).getBestTime();
-        double score = time * 100;
-        score /= bTime;
+        double score = bTime * 100;
+        score /= time;
         return score;
     }
 

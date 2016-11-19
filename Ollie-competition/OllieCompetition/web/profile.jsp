@@ -29,6 +29,8 @@
         <h1><%= teamName%> profile</h1>
         <h3><a href="https://docs.google.com/document/d/10C-auIyuGlNLr78_k3pfYUG2wl_GueQHOzbGm7HS4lU/edit">Rules</a></h3>
         <h3><a href="https://github.com/ITeazer/Ollie_contest">GitHub</a></h3>
+        <h2><a href="results.jsp"> Current results </a></h2>
+
         <%--        <h5>Webres: <%=webRes%> </h5> ---%>
         <h2> Your results: </h2>
         <table border="5">

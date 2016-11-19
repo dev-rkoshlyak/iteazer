@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Wsl_F@ITeazer
  */
 public class SetSbmStatusServlet extends HttpServlet {
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -23,10 +23,13 @@ public class SetSbmStatusServlet extends HttpServlet {
             } catch (NumberFormatException ex) {
                 status = -1;
             }
-
+            
             Contest.setFinalSubmitStatus(status);
+            if (status != -1) {
+                Contest.setCurrentRound(status);
+            }
         }
         response.sendRedirect("admin.jsp");
     }
-
+    
 }

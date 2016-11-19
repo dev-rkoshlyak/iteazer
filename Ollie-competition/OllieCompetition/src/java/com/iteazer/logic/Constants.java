@@ -48,4 +48,6 @@ public class Constants {
      * fine for wrong command (additional time in milliseconds)
      */
     public static final int FINE_WRONG_COMMAND = 2_000;
+    
+    public static final String ADMIN_NAME = "Wsl_F";
 }
