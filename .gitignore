@@ -5,6 +5,8 @@
 /Ollie-competition/OllieCompetition/dist/
 /Ollie-competition/Server-Cylon-Generator/build/
 /Ollie-competition/Server-Cylon-Generator/nbproject/private/
+catchmouse/.*
+catchmouse/target/*
 
 *.class
 *.jar
