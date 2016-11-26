@@ -17,21 +17,46 @@ public class ExampleClient {
     BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     OutputStreamWriter output = new OutputStreamWriter(clientSocket.getOutputStream());
 
-    String ans = doCommand(input, output, "TeamA parol1");
+    String ans = doCommand(input, output, "TeamB parol2");
     System.out.println("Login: " + ans);
     ans = doCommand(input, output, "connect");
     System.out.println("Connect: " + ans);
     
+    rollLap(input, output);
+    //checkVelocity(input, output);
+    checkAccelOne(input, output);
+    
+    clientSocket.close();
+  }
+
+  private static void rollLap(BufferedReader input, OutputStreamWriter output) throws IOException {
+    System.out.println(doCommand(input, output, "setColor 0xFF0000"));
+
     doCommand(input, output, "roll 0 50 1000");
     doCommand(input, output, "roll 90 50 1000");
     doCommand(input, output, "roll 180 50 1000");
     doCommand(input, output, "roll 270 50 1000");
     doCommand(input, output, "roll 0 0 1000");
-    
-    System.out.println(doCommand(input, output, "setColor 0xFF0000"));
-    clientSocket.close();
-  }
 
+  }
+  
+  private static void checkAccelOne(BufferedReader input, OutputStreamWriter output) throws IOException {
+    int i = 0;
+    while (i >= 0) {
+      i++;
+      String r = doCommand(input, output, "getAccelOne");
+      int accelOne = extractInt(r);
+      System.out.println("accelOne: " + accelOne);
+        if (Math.abs(accelOne - 100) <= 5) {
+          doCommand(input, output, "setColor 0x0000FF");
+          System.out.println("On the floar");
+        } else {
+          doCommand(input, output, "setColor 0x00FF00");
+          System.out.println("In the air");
+        }
+    }
+  }
+  
   private static void checkVelocity(BufferedReader input, OutputStreamWriter output) throws IOException {
     // Я пока не совсем понимаю, что такое Velocity, вроде должна быть скорость, но значения какие-то странные
     int direction = 0;
@@ -42,11 +67,14 @@ public class ExampleClient {
       speed += 5;
       if (speed > 50) speed = 50;
       String r = doCommand(input, output, "roll " + direction + " " + speed + " 750");
+      
       System.out.println("cmd res: " + r + "\nset speed: " + speed);
       String velocity = doCommand(input, output, "getVelocity");
+      System.out.println(velocity);
       String[] parts = velocity.split("\t");
-      int velocityX = extractInt(parts[0]);
-      int velocityY = extractInt(parts[1]);
+      int velocityX = extractInt(parts[1]);
+      int velocityY = extractInt(parts[2]);
+      System.out.println("velocityX: " + velocityX + " velocityY: " + velocityY);
       double speedV = Math.sqrt(velocityX*velocityX + velocityY*velocityY);
       System.out.println("curSpeed: " + speedV);
       if (speedV > 1200) {

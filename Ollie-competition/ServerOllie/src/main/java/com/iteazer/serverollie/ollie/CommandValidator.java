@@ -23,6 +23,7 @@ public class CommandValidator {
                 break;
             case COMMAND_CONNECT:
             case COMMAND_GET_VELOCITY:
+            case COMMAND_GET_ACCEL_ONE:
                 valid = checkNoParametersCommand(command);
                 break;
             default:
@@ -64,6 +65,7 @@ public class CommandValidator {
         switch (command.name) {
             case COMMAND_CONNECT:
             case COMMAND_GET_VELOCITY:
+            case COMMAND_GET_ACCEL_ONE:
                 valid = true;
                 break;
             default:
