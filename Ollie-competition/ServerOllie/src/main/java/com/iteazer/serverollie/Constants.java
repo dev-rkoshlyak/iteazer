@@ -54,6 +54,7 @@ public class Constants {
 
     public static final String COMMAND_GET_ACCEL_ONE = "getAccelOne";
 
+    public static final String COMMAND_GET_ACCELEROMETER = "getAccelerometer";
     /**
      *
      * all possible commands for Ollie:
@@ -67,7 +68,7 @@ public class Constants {
     public static final Set<String> OLLIE_COMMANDS
             = new HashSet<>(Arrays.asList(COMMAND_CONNECT, COMMAND_MOVE,
                     COMMAND_GET_VELOCITY, COMMAND_SET_COLOR,
-                    COMMAND_GET_ACCEL_ONE));
+                    COMMAND_GET_ACCEL_ONE, COMMAND_GET_ACCELEROMETER));
 
     public static final String SUCCESSFUL_AUTH_MSG = "Loged in!";
 }

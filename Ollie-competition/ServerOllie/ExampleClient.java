@@ -22,13 +22,40 @@ public class ExampleClient {
     ans = doCommand(input, output, "connect");
     System.out.println("Connect: " + ans);
     
-    rollLap(input, output);
+    //rollLap(input, output);
     //checkVelocity(input, output);
-    checkAccelOne(input, output);
+    //checkAccelOne(input, output);
+    checkAccelerometer(input, output);
     
     clientSocket.close();
   }
 
+  private static void checkAccelerometer(BufferedReader input, OutputStreamWriter output) throws IOException {
+    int i = 0;
+    while (i >= 0) {
+      i++;
+      String r = doCommand(input, output, "getAccelerometer");
+      String[] parts = r.split("\t");
+      int x = extractInt(parts[1]);
+      int y = extractInt(parts[2]);
+      int z = extractInt(parts[3]);
+      System.out.println("accelX: " + x + "\naccelY: " + y + "\naccelZ: " + z + "\n");
+      x = Math.abs(x);
+      y = Math.abs(y);
+      z = Math.abs(z);
+      
+      if (x >= y && x >= z) {
+          doCommand(input, output, "setColor 0x0000FF");
+      } else {
+        if (y >= z) {
+          doCommand(input, output, "setColor 0x00FF00");
+        } else {
+          doCommand(input, output, "setColor 0xFF0000");
+        }
+      }
+    }
+  }
+  
   private static void rollLap(BufferedReader input, OutputStreamWriter output) throws IOException {
     System.out.println(doCommand(input, output, "setColor 0xFF0000"));
 
