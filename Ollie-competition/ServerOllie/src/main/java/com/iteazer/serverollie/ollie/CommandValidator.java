@@ -18,6 +18,9 @@ public class CommandValidator {
             case COMMAND_MOVE:
                 valid = checkMove(command);
                 break;
+            case COMMAND_SET_COLOR:
+                valid = checkSetColor(command);
+                break;
             case COMMAND_CONNECT:
             case COMMAND_GET_VELOCITY:
                 valid = checkNoParametersCommand(command);
@@ -68,5 +71,18 @@ public class CommandValidator {
         }
 
         return valid;
+    }
+
+    private boolean checkSetColor(Command command) {
+        if (command == null || !command.name.equals(COMMAND_SET_COLOR)) {
+            return false;
+        }
+
+        Integer color = command.getParameter(COMMAND_PARAMTER_COLOR);
+        if (color == null || color < 0x00_00_00 || color > 0xFF_FF_FF) {
+            return false;
+        }
+
+        return command.getParametersCount() == 1;
     }
 }

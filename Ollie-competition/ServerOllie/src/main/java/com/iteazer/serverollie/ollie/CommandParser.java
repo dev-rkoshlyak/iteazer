@@ -14,6 +14,13 @@ class CommandParser {
             result = Integer.parseInt(number);
         } catch (Exception ex) {
             result = null;
+            if (number.startsWith("0x")) {
+                try {
+                    result = Integer.parseInt(number.substring(2), 16);
+                } catch (Exception exc) {
+
+                }
+            }
         }
 
         return result;
@@ -33,6 +40,9 @@ class CommandParser {
         switch (name) {
             case COMMAND_MOVE:
                 cmd = parseMoveCommand(cmd, command);
+                break;
+            case COMMAND_SET_COLOR:
+                cmd = parseSetColorCommand(cmd, command);
                 break;
             case COMMAND_CONNECT:
             case COMMAND_GET_VELOCITY:
@@ -63,4 +73,14 @@ class CommandParser {
         return cmd;
     }
 
+    private Command parseSetColorCommand(Command cmd, String[] command) {
+        if (command.length != 2) {
+            return null;
+        }
+
+        Integer color = parseInt(command[1]);
+        cmd.addParamter(COMMAND_PARAMTER_COLOR, color);
+
+        return cmd;
+    }
 }

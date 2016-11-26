@@ -28,10 +28,11 @@ public class ExampleClient {
     doCommand(input, output, "roll 270 50 1000");
     doCommand(input, output, "roll 0 0 1000");
     
+    System.out.println(doCommand(input, output, "setColor 0xFF0000"));
     clientSocket.close();
   }
 
-  private static void checkVelocity(BufferedReader input, OutputStreamWriter output) {
+  private static void checkVelocity(BufferedReader input, OutputStreamWriter output) throws IOException {
     // Я пока не совсем понимаю, что такое Velocity, вроде должна быть скорость, но значения какие-то странные
     int direction = 0;
     int speed = 20;

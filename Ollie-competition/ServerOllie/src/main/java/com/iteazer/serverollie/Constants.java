@@ -49,6 +49,9 @@ public class Constants {
 
     public static final String COMMAND_GET_VELOCITY = "getVelocity";
 
+    public static final String COMMAND_SET_COLOR = "setColor";
+    public static final String COMMAND_PARAMTER_COLOR = "color";
+    
     /**
      *
      * all possible commands for Ollie:
@@ -60,7 +63,8 @@ public class Constants {
      * </ul>
      */
     public static final Set<String> OLLIE_COMMANDS
-            = new HashSet<>(Arrays.asList(COMMAND_CONNECT, COMMAND_MOVE, COMMAND_GET_VELOCITY));
+            = new HashSet<>(Arrays.asList(COMMAND_CONNECT, COMMAND_MOVE,
+                    COMMAND_GET_VELOCITY, COMMAND_SET_COLOR));
 
     public static final String SUCCESSFUL_AUTH_MSG = "Loged in!";
 }
