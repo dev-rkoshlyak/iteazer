@@ -19,6 +19,7 @@ public class CommandValidator {
                 valid = checkMove(command);
                 break;
             case COMMAND_CONNECT:
+            case COMMAND_GET_VELOCITY:
                 valid = checkNoParametersCommand(command);
                 break;
             default:
@@ -59,6 +60,7 @@ public class CommandValidator {
         boolean valid;
         switch (command.name) {
             case COMMAND_CONNECT:
+            case COMMAND_GET_VELOCITY:
                 valid = true;
                 break;
             default:

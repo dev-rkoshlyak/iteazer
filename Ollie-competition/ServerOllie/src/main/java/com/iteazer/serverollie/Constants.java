@@ -12,14 +12,12 @@ public class Constants {
 
     public static final int SERVER_PORT_ID = 32_321;
 
-
     public static final int OLLIE_MIN_TIME = 50;
     public static final int OLLIE_MAX_TIME = 10000;
     public static final int OLLIE_MIN_SPEED = 0;
     public static final int OLLIE_MAX_SPEED = 255;
     public static final int OLLIE_MIN_HEADING = 0;
     public static final int OLLIE_MAX_HEADING = 359;
-
 
     public static final String PROJECT_CAPTION = "ServerOllie";
 
@@ -49,17 +47,20 @@ public class Constants {
     public static final String COMMAND_PARAMETER_DIRECTION = "direction";
     public static final String COMMAND_PARAMETER_SPEED = "speed";
 
+    public static final String COMMAND_GET_VELOCITY = "getVelocity";
 
     /**
      *
-     * all possible commands for ollie:
+     * all possible commands for Ollie:
      * <ul>
-     * <li> connect - "move direction speed time" </li>
-     * <li> roll - "roll direction speed time". For example, "roll 359 255 50" </li>
+     * <li> connect to Ollie - "connect"; </li>
+     * <li> move Ollie - "roll direction speed time", for example, "roll 359 255
+     * 50"; </li>
+     * <li> get Ollie's Velocity - "getVelocity"; </li>
      * </ul>
      */
     public static final Set<String> OLLIE_COMMANDS
-            = new HashSet<>(Arrays.asList(COMMAND_CONNECT, COMMAND_MOVE));
+            = new HashSet<>(Arrays.asList(COMMAND_CONNECT, COMMAND_MOVE, COMMAND_GET_VELOCITY));
 
     public static final String SUCCESSFUL_AUTH_MSG = "Loged in!";
 }

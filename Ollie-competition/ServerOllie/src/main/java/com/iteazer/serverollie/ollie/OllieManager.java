@@ -11,6 +11,7 @@ public class OllieManager {
 
     private final CommandExecutor executor = new CommandExecutor();
     private final CommandParser parser = new CommandParser();
+    private final ResultProcessor resultProcessor = new ResultProcessor();
 
     private static final OllieManager instance = new OllieManager();
 
@@ -29,13 +30,25 @@ public class OllieManager {
      * @return STATUS + command result
      */
     public String processCommand(Team team, String[] command) {
-        return proccesCommand(team.getServerAddress(), team.getDroidMAC(), command);
+        return processCommand(team.getServerAddress(), team.getDroidMAC(), command);
     }
 
-    private String proccesCommand(String serverAddress, String macAddress, String[] command) {
+    private String processCommand(String serverAddress, String macAddress, String[] command) {
         Command cmd = parser.parse(command);
         String result = executor.execute(cmd, serverAddress, macAddress);
-        return result == null ? UNSUCCESSFUL_STATUS : SUCCESSFUL_STATUS + RESULT_SEPARATOR + result;
+        return processResult(cmd, result);
+    }
+
+    private String processResult(Command command, String result) {
+        if (result == null) {
+            return UNSUCCESSFUL_STATUS;
+        }
+
+        if (result.equals(UNKNOWN_COMMAND)) {
+            return UNKNOWN_COMMAND;
+        }
+
+        return resultProcessor.processResult(command, result);
     }
 
 }
