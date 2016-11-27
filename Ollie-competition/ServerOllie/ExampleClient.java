@@ -27,11 +27,41 @@ public class ExampleClient {
     //checkAccelOne(input, output);
     //checkAccelerometer(input, output);
     //checkGyroscope(input, output);
-    checkImuAngles(input, output);
+    //checkImuAngles(input, output);
+    checkMotors(input, output);
     
     clientSocket.close();
   }
 
+  private static void checkMotors(BufferedReader input, OutputStreamWriter output) throws IOException { 
+    int i = 0;
+    while (i >= 0) {
+      i++;
+      String r = doCommand(input, output, "getMotorsBackEmf");
+      System.out.println(r);
+      String[] parts = r.split("\t");
+      int rMotor = extractInt(parts[1]);
+      int lMotor = extractInt(parts[2]);
+      if (Math.abs(rMotor) + Math.abs(lMotor) < 5) {
+        doCommand(input, output, "setColor 0x00FFFF");
+        System.out.println("No moves detected");
+      } else {
+        if (lMotor > 0 && rMotor > 0) {
+          doCommand(input, output, "setColor 0x0000FF");
+          System.out.println("Go forward");          
+        } else {
+          if (lMotor < 0 && rMotor < 0) {
+            doCommand(input, output, "setColor 0x00FF00");
+            System.out.println("Go backward");          
+          } else {
+            doCommand(input, output, "setColor 0xFF0000");
+            System.out.println("Rotate");          
+          }
+        }
+      }
+    }  
+  }
+  
   private static void checkImuAngles(BufferedReader input, OutputStreamWriter output) throws IOException { 
     int i = 0;
     while (i >= 0) {
