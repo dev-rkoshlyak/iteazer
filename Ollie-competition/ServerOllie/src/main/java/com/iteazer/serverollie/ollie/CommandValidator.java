@@ -28,6 +28,7 @@ public class CommandValidator {
             case COMMAND_GET_GYROSCOPE:
             case COMMAND_GET_IMU_ANGLES:
             case COMMAND_GET_MOTORS:
+            case COMMAND_GET_ODOMETER:
                 valid = checkNoParametersCommand(command);
                 break;
             default:
@@ -74,6 +75,7 @@ public class CommandValidator {
             case COMMAND_GET_GYROSCOPE:
             case COMMAND_GET_IMU_ANGLES:
             case COMMAND_GET_MOTORS:
+            case COMMAND_GET_ODOMETER:
                 valid = true;
                 break;
             default:

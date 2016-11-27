@@ -62,6 +62,8 @@ public class Constants {
 
     public static final String COMMAND_GET_MOTORS = "getMotorsBackEmf";
 
+    public static final String COMMAND_GET_ODOMETER = "getOdometer";
+    
     /**
      *
      * all possible commands for Ollie:
@@ -77,6 +79,7 @@ public class Constants {
      * <li> get Ollie's Gyroscope - "getGyroscope"; </li>
      * <li> get Ollie's ImuAngles - "getImuAngles"; </li>
      * <li> get Ollie's Motors - "getMotorsBackEmf"; </li>
+     * <li> get Ollie's odometer - "getOdometer"; </li>
      * </ul>
      */
     public static final Set<String> OLLIE_COMMANDS
@@ -84,7 +87,8 @@ public class Constants {
                     COMMAND_MOVE, COMMAND_SET_COLOR,
                     COMMAND_GET_VELOCITY, COMMAND_GET_ACCEL_ONE,
                     COMMAND_GET_ACCELEROMETER, COMMAND_GET_GYROSCOPE,
-                    COMMAND_GET_IMU_ANGLES, COMMAND_GET_MOTORS
+                    COMMAND_GET_IMU_ANGLES, COMMAND_GET_MOTORS,
+                    COMMAND_GET_ODOMETER
             ));
 
     public static final String SUCCESSFUL_AUTH_MSG = "Loged in!";

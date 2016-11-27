@@ -28,11 +28,46 @@ public class ExampleClient {
     //checkAccelerometer(input, output);
     //checkGyroscope(input, output);
     //checkImuAngles(input, output);
-    checkMotors(input, output);
+    //checkMotors(input, output);
+    checkOdometer(input, output);
     
     clientSocket.close();
   }
 
+  private static void checkOdometer(BufferedReader input, OutputStreamWriter output) throws IOException { 
+    int i = 0;
+    int x, y;
+    int xp = 0;
+    int yp = 0;
+    int direction = 0;
+    while (i >= 0) {
+      doCommand(input, output, "roll " + direction + " 50 1250");
+      i++;
+      String r = doCommand(input, output, "getOdometer");
+      System.out.println(r);
+      String[] parts = r.split("\t");
+      x = extractInt(parts[1]);
+      y = extractInt(parts[2]);
+      int dx = Math.abs(x - xp);
+      int dy = Math.abs(y - yp);
+      xp = x;
+      yp = y;
+      if (Math.abs(dx) + Math.abs(dy) < 5) {
+        doCommand(input, output, "setColor 0x00FFFF");
+        System.out.println("No moves detected");
+      } else {
+        direction = (direction + 90) % 360;
+        if (dx > dy) {
+          doCommand(input, output, "setColor 0x0000FF");
+          System.out.println("go along axis x");          
+        } else {
+          doCommand(input, output, "setColor 0xFF0000");
+          System.out.println("go along axis y");          
+        }
+      }
+    }  
+  }
+  
   private static void checkMotors(BufferedReader input, OutputStreamWriter output) throws IOException { 
     int i = 0;
     while (i >= 0) {
