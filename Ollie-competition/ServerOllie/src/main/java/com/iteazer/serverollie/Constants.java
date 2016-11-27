@@ -63,14 +63,14 @@ public class Constants {
     public static final String COMMAND_GET_MOTORS = "getMotorsBackEmf";
 
     public static final String COMMAND_GET_ODOMETER = "getOdometer";
-    
+
     /**
      *
      * all possible commands for Ollie:
      * <ul>
      * <li> connect to Ollie - "connect"; </li>
      * <li> move Ollie - "roll direction speed time", for example, "roll 359 255
-     * 50"; </li>
+     * 50" OR "roll direction speed", for example, "roll 180 128"; </li>
      * <li> set Ollie's color - "setColor 0xRRGGBB", for example, "setColor
      * 0xFF0000" (red color); </li>
      * <li> get Ollie's Velocity - "getVelocity"; </li>

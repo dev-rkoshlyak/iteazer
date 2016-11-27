@@ -22,7 +22,7 @@ public class ExampleClient {
     ans = doCommand(input, output, "connect");
     System.out.println("Connect: " + ans);
     
-    //rollLap(input, output);
+    rollLap(input, output);
     //checkVelocity(input, output);
     //checkAccelOne(input, output);
     //checkAccelerometer(input, output);
@@ -196,7 +196,7 @@ public class ExampleClient {
     doCommand(input, output, "roll 90 50 1000");
     doCommand(input, output, "roll 180 50 1000");
     doCommand(input, output, "roll 270 50 1000");
-    doCommand(input, output, "roll 0 0 1000");
+    doCommand(input, output, "roll 0 0");
 
   }
   

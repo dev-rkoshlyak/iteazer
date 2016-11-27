@@ -54,7 +54,8 @@ public class CommandValidator {
         }
 
         int duration = command.getWaitAfter();
-        if (duration < OLLIE_MIN_TIME || duration > OLLIE_MAX_TIME) {
+        if ((duration < OLLIE_MIN_TIME || duration > OLLIE_MAX_TIME)
+                && duration != 0) {
             return false;
         }
 

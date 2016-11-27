@@ -61,7 +61,7 @@ class CommandParser {
     }
 
     private Command parseMoveCommand(Command cmd, String[] command) {
-        if (command.length != 4) {
+        if (command.length != 4 && command.length != 3) {
             return null;
         }
 
@@ -69,7 +69,7 @@ class CommandParser {
         cmd.addParamter(COMMAND_PARAMETER_DIRECTION, direction);
         Integer speed = parseInt(command[2]);
         cmd.addParamter(COMMAND_PARAMETER_SPEED, speed);
-        Integer duration = parseInt(command[3]);
+        Integer duration = (command.length == 4) ? parseInt(command[3]) : 0;
         if (duration == null) {
             cmd = null;
         } else {
