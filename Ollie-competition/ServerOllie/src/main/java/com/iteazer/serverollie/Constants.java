@@ -55,6 +55,9 @@ public class Constants {
     public static final String COMMAND_GET_ACCEL_ONE = "getAccelOne";
 
     public static final String COMMAND_GET_ACCELEROMETER = "getAccelerometer";
+
+    public static final String COMMAND_GET_GYROSCOPE = "getGyroscope";
+
     /**
      *
      * all possible commands for Ollie:
@@ -62,13 +65,20 @@ public class Constants {
      * <li> connect to Ollie - "connect"; </li>
      * <li> move Ollie - "roll direction speed time", for example, "roll 359 255
      * 50"; </li>
+     * <li> set Ollie's color - "setColor 0xRRGGBB", for example, "setColor
+     * 0xFF0000" (red color); </li>
      * <li> get Ollie's Velocity - "getVelocity"; </li>
+     * <li> get Ollie's AccelOne - "getAccelOne"; </li>
+     * <li> get Ollie's Accelerometer - "getAccelerometer"; </li>
+     * <li> get Ollie's Gyroscope - "getGyroscope"; </li>
      * </ul>
      */
     public static final Set<String> OLLIE_COMMANDS
-            = new HashSet<>(Arrays.asList(COMMAND_CONNECT, COMMAND_MOVE,
-                    COMMAND_GET_VELOCITY, COMMAND_SET_COLOR,
-                    COMMAND_GET_ACCEL_ONE, COMMAND_GET_ACCELEROMETER));
+            = new HashSet<>(Arrays.asList(COMMAND_CONNECT,
+                    COMMAND_MOVE, COMMAND_SET_COLOR,
+                    COMMAND_GET_VELOCITY, COMMAND_GET_ACCEL_ONE,
+                    COMMAND_GET_ACCELEROMETER, COMMAND_GET_GYROSCOPE
+            ));
 
     public static final String SUCCESSFUL_AUTH_MSG = "Loged in!";
 }

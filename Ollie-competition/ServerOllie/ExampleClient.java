@@ -25,11 +25,51 @@ public class ExampleClient {
     //rollLap(input, output);
     //checkVelocity(input, output);
     //checkAccelOne(input, output);
-    checkAccelerometer(input, output);
+    //checkAccelerometer(input, output);
+    checkGyroscope(input, output);
     
     clientSocket.close();
   }
 
+  private static void checkGyroscope(BufferedReader input, OutputStreamWriter output) throws IOException { 
+    int i = 0;
+    int x,y,z;
+    int xp, yp, zp;
+    xp = 0; yp = 0; zp = 0;
+    while (i >= 0) {
+      i++;
+      String r = doCommand(input, output, "getGyroscope");
+      String[] parts = r.split("\t");
+      x = extractInt(parts[1]);
+      y = extractInt(parts[2]);
+      z = extractInt(parts[3]);
+      System.out.println("gyro axis X: " + x + "\ngyro axis Y: " + y + "\ngyro axis Z: " + z + "\n");
+
+      int dx = Math.abs(x - xp);
+      int dy = Math.abs(y - yp);
+      int dz = Math.abs(z - zp);
+      xp = x;
+      yp = y;
+      zp = z;
+      if (dx >= dy && dx >= dz) {
+        if (dx > 250) {
+          doCommand(input, output, "setColor 0x0000FF");
+        }
+      } else {
+        if (dy >= dz) {
+          if (dy > 250) {
+            doCommand(input, output, "setColor 0x00FF00");
+          }
+        } else {
+          if (dz > 250) {
+            doCommand(input, output, "setColor 0xFF0000");
+          }
+        }
+      }
+    }
+  }
+  
+  
   private static void checkAccelerometer(BufferedReader input, OutputStreamWriter output) throws IOException {
     int i = 0;
     while (i >= 0) {
