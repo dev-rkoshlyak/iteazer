@@ -37,7 +37,7 @@ public class Constants {
     /**
      * separator after status
      */
-    public static final String RESULT_SEPARATOR = "\t";
+    public static final String RESULT_SEPARATOR = " ";
 
     public static final String UNKNOWN_COMMAND = "unknownParameter";
 

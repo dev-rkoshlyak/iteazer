@@ -45,7 +45,7 @@ public class ExampleClient {
       i++;
       String r = doCommand(input, output, "getOdometer");
       System.out.println(r);
-      String[] parts = r.split("\t");
+      String[] parts = r.split(" ");
       x = extractInt(parts[1]);
       y = extractInt(parts[2]);
       int dx = Math.abs(x - xp);
@@ -74,7 +74,7 @@ public class ExampleClient {
       i++;
       String r = doCommand(input, output, "getMotorsBackEmf");
       System.out.println(r);
-      String[] parts = r.split("\t");
+      String[] parts = r.split(" ");
       int rMotor = extractInt(parts[1]);
       int lMotor = extractInt(parts[2]);
       if (Math.abs(rMotor) + Math.abs(lMotor) < 5) {
@@ -103,7 +103,7 @@ public class ExampleClient {
       i++;
       String r = doCommand(input, output, "getImuAngles");
       System.out.println(r);
-      String[] parts = r.split("\t");
+      String[] parts = r.split(" ");
       int pitchAngle = extractInt(parts[1]);
       int rollAngle = extractInt(parts[2]);
       int yawAngle = extractInt(parts[3]);
@@ -132,7 +132,7 @@ public class ExampleClient {
     while (i >= 0) {
       i++;
       String r = doCommand(input, output, "getGyroscope");
-      String[] parts = r.split("\t");
+      String[] parts = r.split(" ");
       x = extractInt(parts[1]);
       y = extractInt(parts[2]);
       z = extractInt(parts[3]);
@@ -168,7 +168,7 @@ public class ExampleClient {
     while (i >= 0) {
       i++;
       String r = doCommand(input, output, "getAccelerometer");
-      String[] parts = r.split("\t");
+      String[] parts = r.split(" ");
       int x = extractInt(parts[1]);
       int y = extractInt(parts[2]);
       int z = extractInt(parts[3]);
@@ -231,7 +231,7 @@ public class ExampleClient {
       System.out.println("cmd res: " + r + "\nset speed: " + speed);
       String velocity = doCommand(input, output, "getVelocity");
       System.out.println(velocity);
-      String[] parts = velocity.split("\t");
+      String[] parts = velocity.split(" ");
       int velocityX = extractInt(parts[1]);
       int velocityY = extractInt(parts[2]);
       System.out.println("velocityX: " + velocityX + " velocityY: " + velocityY);
@@ -255,10 +255,9 @@ public class ExampleClient {
   }
   
   private static int extractInt(String s) {
-    int ind = s.indexOf(":");
     int res;
     try {
-      res = Integer.parseInt(s.substring(ind+2));
+      res = Integer.parseInt(s);
     } catch (Exception ex) {
       res = 0;
     }
