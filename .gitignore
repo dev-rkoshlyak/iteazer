@@ -1,10 +1,15 @@
 /Unused/Java-client/nbproject/private/
 /Unused/Java-client/build/
+
 /Ollie-competition/OllieCompetition/nbproject/private/
 /Ollie-competition/OllieCompetition/build/
 /Ollie-competition/OllieCompetition/dist/
+
 /Ollie-competition/Server-Cylon-Generator/build/
 /Ollie-competition/Server-Cylon-Generator/nbproject/private/
+
+/Ollie-competition/ServerOllie/target/
+
 catchmouse/.*
 catchmouse/target/*
 
@@ -13,3 +18,4 @@ catchmouse/target/*
 .mtj.tmp/
 *.war
 *.ear
+

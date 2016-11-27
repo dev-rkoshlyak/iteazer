@@ -1,0 +1,5 @@
+TeamA parol1	d8e38c77d05d	http://127.0.0.1:1337/ollie/
+TeamB parol2	dc712fb5b631	http://127.0.0.1:1337/ollie/
+TeamC parol3	f15cee63622d	http://127.0.0.1:1337/ollie/
+TeamD parol4	c84982ebcc74	http://127.0.0.1:1337/ollie/
+TeamE parol5	ee42664940f4	http://127.0.0.1:1337/ollie/
