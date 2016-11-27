@@ -22,14 +22,14 @@ public class ExampleClient {
     ans = doCommand(input, output, "connect");
     System.out.println("Connect: " + ans);
     
-    rollLap(input, output);
+    //rollLap(input, output);
     //checkVelocity(input, output);
-    //checkAccelOne(input, output);
+    checkAccelOne(input, output);
     //checkAccelerometer(input, output);
     //checkGyroscope(input, output);
     //checkImuAngles(input, output);
     //checkMotors(input, output);
-    checkOdometer(input, output);
+    //checkOdometer(input, output);
     
     clientSocket.close();
   }
@@ -205,7 +205,8 @@ public class ExampleClient {
     while (i >= 0) {
       i++;
       String r = doCommand(input, output, "getAccelOne");
-      int accelOne = extractInt(r);
+      String[] parts = r.split(" ");
+      int accelOne = extractInt(parts[1]);
       System.out.println("accelOne: " + accelOne);
         if (Math.abs(accelOne - 100) <= 5) {
           doCommand(input, output, "setColor 0x0000FF");
@@ -259,6 +260,7 @@ public class ExampleClient {
     try {
       res = Integer.parseInt(s);
     } catch (Exception ex) {
+      System.out.println("s= \""+s+"\"");
       res = 0;
     }
     return res;
