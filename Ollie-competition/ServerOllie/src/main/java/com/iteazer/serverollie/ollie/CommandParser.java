@@ -49,6 +49,7 @@ class CommandParser {
             case COMMAND_GET_ACCEL_ONE:
             case COMMAND_GET_ACCELEROMETER:
             case COMMAND_GET_GYROSCOPE:
+            case COMMAND_GET_IMU_ANGLES:
                 break;
             default:
                 cmd = null;

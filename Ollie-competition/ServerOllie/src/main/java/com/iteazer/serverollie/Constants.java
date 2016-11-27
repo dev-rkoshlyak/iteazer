@@ -58,6 +58,8 @@ public class Constants {
 
     public static final String COMMAND_GET_GYROSCOPE = "getGyroscope";
 
+    public static final String COMMAND_GET_IMU_ANGLES = "getImuAngles";
+    
     /**
      *
      * all possible commands for Ollie:
@@ -71,13 +73,15 @@ public class Constants {
      * <li> get Ollie's AccelOne - "getAccelOne"; </li>
      * <li> get Ollie's Accelerometer - "getAccelerometer"; </li>
      * <li> get Ollie's Gyroscope - "getGyroscope"; </li>
+     * <li> get Ollie's ImuAngles - "getImuAngles"; </li>
      * </ul>
      */
     public static final Set<String> OLLIE_COMMANDS
             = new HashSet<>(Arrays.asList(COMMAND_CONNECT,
                     COMMAND_MOVE, COMMAND_SET_COLOR,
                     COMMAND_GET_VELOCITY, COMMAND_GET_ACCEL_ONE,
-                    COMMAND_GET_ACCELEROMETER, COMMAND_GET_GYROSCOPE
+                    COMMAND_GET_ACCELEROMETER, COMMAND_GET_GYROSCOPE,
+                    COMMAND_GET_IMU_ANGLES
             ));
 
     public static final String SUCCESSFUL_AUTH_MSG = "Loged in!";

@@ -26,11 +26,39 @@ public class ExampleClient {
     //checkVelocity(input, output);
     //checkAccelOne(input, output);
     //checkAccelerometer(input, output);
-    checkGyroscope(input, output);
+    //checkGyroscope(input, output);
+    checkImuAngles(input, output);
     
     clientSocket.close();
   }
 
+  private static void checkImuAngles(BufferedReader input, OutputStreamWriter output) throws IOException { 
+    int i = 0;
+    while (i >= 0) {
+      i++;
+      String r = doCommand(input, output, "getImuAngles");
+      System.out.println(r);
+      String[] parts = r.split("\t");
+      int pitchAngle = extractInt(parts[1]);
+      int rollAngle = extractInt(parts[2]);
+      int yawAngle = extractInt(parts[3]);
+      System.out.println("pitchAngle: " + pitchAngle + "\nrollAngle: " + rollAngle + "\nyawAngle: " + yawAngle + "\n");
+      pitchAngle = Math.abs(pitchAngle);
+      rollAngle = Math.abs(rollAngle);
+      yawAngle = Math.abs(yawAngle);
+      
+      if (pitchAngle >= rollAngle && pitchAngle >= yawAngle) {
+          doCommand(input, output, "setColor 0x0000FF");
+      } else {
+        if (rollAngle >= yawAngle) {
+          doCommand(input, output, "setColor 0x00FF00");
+        } else {
+          doCommand(input, output, "setColor 0xFF0000");
+        }
+      }
+    }
+  }
+  
   private static void checkGyroscope(BufferedReader input, OutputStreamWriter output) throws IOException { 
     int i = 0;
     int x,y,z;
