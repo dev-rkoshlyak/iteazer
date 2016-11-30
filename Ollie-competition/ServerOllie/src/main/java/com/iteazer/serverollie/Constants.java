@@ -54,6 +54,9 @@ public class Constants {
     public static final String COMMAND_SET_COLOR = "setColor";
     public static final String COMMAND_PARAMTER_COLOR = "color";
 
+    public static final String COMMAND_SET_STABILIZATION = "setStabilization";
+    public static final String COMMAND_PARAMETER_STABILIZATION = "stabilization";
+
     public static final String COMMAND_GET_ACCEL_ONE = "getAccelOne";
 
     public static final String COMMAND_GET_ACCELEROMETER = "getAccelerometer";
@@ -87,6 +90,7 @@ public class Constants {
     public static final Set<String> OLLIE_COMMANDS
             = new HashSet<>(Arrays.asList(COMMAND_CONNECT,
                     COMMAND_MOVE, COMMAND_SET_COLOR,
+                    COMMAND_SET_STABILIZATION,
                     COMMAND_GET_VELOCITY, COMMAND_GET_ACCEL_ONE,
                     COMMAND_GET_ACCELEROMETER, COMMAND_GET_GYROSCOPE,
                     COMMAND_GET_IMU_ANGLES, COMMAND_GET_MOTORS,

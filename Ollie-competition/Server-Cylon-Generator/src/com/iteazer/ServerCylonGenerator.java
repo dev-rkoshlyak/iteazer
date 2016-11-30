@@ -143,6 +143,10 @@ public class ServerCylonGenerator {
         return generateFFS("roll", "roll", "speed, direction, callback", droids);
     }
 
+    private static ArrayList<String> generateSetStabilization(ArrayList<Droid> droids) {
+        return generateFFS("setStabilization", "setStabilization", "stabilization, callback", droids);
+    }
+
     /**
      *
      * @param functName
@@ -289,6 +293,19 @@ public class ServerCylonGenerator {
                 + TAB[6] + "res.end(\"set color\");\n"
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n"
+                + "\n"
+                + TAB[4] + "if (urlParsed.pathname == \"/%1$s/setStabilization\" && urlParsed.query.MAC\n"
+                + TAB[6] + "&& urlParsed.query.stabilization) {\n"
+                + TAB[5] + "actionPerformed = 1;\n"
+                + TAB[5] + "mac = urlParsed.query.MAC;\n"
+                + TAB[5] + "st = Boolean(prseInt(urlParsed.query.stabilization));\n"
+                + TAB[5] + "console.log(\"%1$s: \" + mac + \" set stabilization: \" + st);\n"
+                + TAB[5] + "\n"
+                + TAB[5] + "my.setStabilization_%1$s(my, mac, st, function() {\n"
+                + TAB[6] + "console.log(\"set stabilization of %1$s, mac : \" + mac);\n"
+                + TAB[6] + "res.end(\"set stabilization\");\n"
+                + TAB[5] + "});	\n"
+                + TAB[4] + "}\n"
                 + generateGetIfForHttpServer(type, "Velocity", "\"xVelocity: \" + data.xVelocity.value[0] + \"\\n\" + \"yVelocity: \" + data.yVelocity.value[0] + \"\\n\"")
                 + generateGetIfForHttpServer(type, "AccelOne", "\"accelOne: \" + data.accelOne.value[0] + \"\\n\"")
                 + generateGetIfForHttpServer(type, "ImuAngles", "\"pitchAngle: \" + data.pitchAngle.value[0] + \"\\n\""
@@ -357,6 +374,8 @@ public class ServerCylonGenerator {
         result.addAll(generateRoll(droids));
         result.add(",");
         result.addAll(generateSetColor(droids));
+        result.add(",");
+        result.addAll(generateSetStabilization(droids));
         result.add(",");
         result.addAll(generateGetSmth(droids, "Velocity"));
         result.add(",");

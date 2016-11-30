@@ -44,6 +44,9 @@ class CommandParser {
             case COMMAND_SET_COLOR:
                 cmd = parseSetColorCommand(cmd, command);
                 break;
+            case COMMAND_SET_STABILIZATION:
+                cmd = parseSetStabilization(cmd, command);
+                break;
             case COMMAND_CONNECT:
             case COMMAND_GET_VELOCITY:
             case COMMAND_GET_ACCEL_ONE:
@@ -90,4 +93,21 @@ class CommandParser {
         cmd.setWaitAfter(OLLIE_COMMAND_TIMEOUT);
         return cmd;
     }
+
+    private Command parseSetStabilization(Command cmd, String[] command) {
+        if (command.length != 2) {
+            return null;
+        }
+
+        try {
+            boolean stabilization = Boolean.parseBoolean(command[1]);
+            cmd.addParamter(COMMAND_PARAMETER_STABILIZATION, stabilization ? 1 : 0);
+        } catch (Exception ex) {
+            cmd = null;
+        }
+
+        cmd.setWaitAfter(OLLIE_COMMAND_TIMEOUT);
+        return cmd;
+    }
+
 }
