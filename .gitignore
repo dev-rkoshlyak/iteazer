@@ -7,6 +7,9 @@
 /Ollie-competition/Server-Cylon-Generator/nbproject/private/
 catchmouse/.*
 catchmouse/target/*
+amazon/amazon
+amazon/web
+amazon/web.pub
 
 *.class
 *.jar
