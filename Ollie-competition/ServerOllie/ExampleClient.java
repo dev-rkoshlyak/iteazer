@@ -29,11 +29,84 @@ public class ExampleClient {
     //checkGyroscope(input, output);
     //checkImuAngles(input, output);
     //checkMotors(input, output);
-    checkOdometer(input, output);
+    //checkOdometer(input, output);
+    pendulum(input, output);
+    //speed2(input, output);
+    //pendulum(input, output);
+    //destabilize(input, output);
     
     clientSocket.close();
   }
 
+  private static void destabilize(BufferedReader input, OutputStreamWriter output) throws IOException {
+    String r = doCommand(input, output, "setStabilization false");
+    System.out.println(r);
+  }
+  
+  private static void speed2(BufferedReader input, OutputStreamWriter output) throws IOException {
+    doCommand(input, output, "Disabled");
+    doCommand(input, output, "setColor 0xFF0000");
+    int i = 0;
+    int j = -1_000_000_000;
+    int color = 0;
+    while (i >= 0) {
+      i++;
+      j++;
+      String velocity = doCommand(input, output, "getVelocity");
+      //System.out.println(velocity);
+      String[] parts = velocity.split(" ");
+      int velocityX = extractInt(parts[1]);
+      int velocityY = extractInt(parts[2]);
+      //System.out.println("velocityX: " + velocityX + " velocityY: " + velocityY);
+      double speedV = Math.sqrt(velocityX*velocityX + velocityY*velocityY);
+      System.out.println("curSpeed: " + speedV);
+      if (speedV > 5) {
+        doCommand(input, output, "setColor 0x0000FF");
+        j = 0;
+      }
+      if (j >= 10) {
+        doCommand(input, output, "setColor 0x00FF00");
+        j = -1_000_000_100;
+      }
+    }
+  }
+
+  // works for BB8
+  private static void pendulum(BufferedReader input, OutputStreamWriter output) throws IOException {
+    doCommand(input, output, "setStabilization false");
+    int i = 0;
+    int color = 0;
+    double min = 1500;
+    double minSpeed = 1_000_000_000;
+    while (i < 100) {
+      String velocity = doCommand(input, output, "getVelocity");
+      //System.out.println(velocity);
+      String[] parts = velocity.split(" ");
+      int velocityX = extractInt(parts[1]);
+      int velocityY = extractInt(parts[2]);
+      //System.out.println("velocityX: " + velocityX + " velocityY: " + velocityY);
+      int speedV = (int) ( Math.sqrt(velocityX*velocityX + velocityY*velocityY) * 100);
+      System.out.println("curSpeed: " + speedV);
+      
+      if (speedV <= minSpeed) {
+            minSpeed= Math.max(min, speedV);
+            if (color != 1) {
+              doCommand(input, output, "setColor 0xFF0000");
+              i++;
+              System.out.println("\n\n\n\n\n\n\n\nNOW\n\n\n\n\n\n\n\n");
+            }
+            color = 1;
+      } else {
+            if (color != 2) 
+              doCommand(input, output, "setColor 0x000000");
+            color = 2;
+      }
+    }
+    
+    doCommand(input, output, "setColor 0xFFFFFF");
+  }
+
+  
   private static void checkOdometer(BufferedReader input, OutputStreamWriter output) throws IOException { 
     int i = 0;
     int x, y;
@@ -41,11 +114,11 @@ public class ExampleClient {
     int yp = 0;
     int direction = 0;
     while (i >= 0) {
-      doCommand(input, output, "roll " + direction + " 50 1250");
+      doCommand(input, output, "roll " + direction + " 40 2150");
       i++;
       String r = doCommand(input, output, "getOdometer");
       System.out.println(r);
-      String[] parts = r.split("\t");
+      String[] parts = r.split(" ");
       x = extractInt(parts[1]);
       y = extractInt(parts[2]);
       int dx = Math.abs(x - xp);
@@ -74,7 +147,7 @@ public class ExampleClient {
       i++;
       String r = doCommand(input, output, "getMotorsBackEmf");
       System.out.println(r);
-      String[] parts = r.split("\t");
+      String[] parts = r.split(" ");
       int rMotor = extractInt(parts[1]);
       int lMotor = extractInt(parts[2]);
       if (Math.abs(rMotor) + Math.abs(lMotor) < 5) {
@@ -103,7 +176,7 @@ public class ExampleClient {
       i++;
       String r = doCommand(input, output, "getImuAngles");
       System.out.println(r);
-      String[] parts = r.split("\t");
+      String[] parts = r.split(" ");
       int pitchAngle = extractInt(parts[1]);
       int rollAngle = extractInt(parts[2]);
       int yawAngle = extractInt(parts[3]);
@@ -132,7 +205,7 @@ public class ExampleClient {
     while (i >= 0) {
       i++;
       String r = doCommand(input, output, "getGyroscope");
-      String[] parts = r.split("\t");
+      String[] parts = r.split(" ");
       x = extractInt(parts[1]);
       y = extractInt(parts[2]);
       z = extractInt(parts[3]);
@@ -162,13 +235,12 @@ public class ExampleClient {
     }
   }
   
-  
   private static void checkAccelerometer(BufferedReader input, OutputStreamWriter output) throws IOException {
     int i = 0;
     while (i >= 0) {
       i++;
       String r = doCommand(input, output, "getAccelerometer");
-      String[] parts = r.split("\t");
+      String[] parts = r.split(" ");
       int x = extractInt(parts[1]);
       int y = extractInt(parts[2]);
       int z = extractInt(parts[3]);
@@ -196,7 +268,7 @@ public class ExampleClient {
     doCommand(input, output, "roll 90 50 1000");
     doCommand(input, output, "roll 180 50 1000");
     doCommand(input, output, "roll 270 50 1000");
-    doCommand(input, output, "roll 0 0 1000");
+    doCommand(input, output, "roll 0 0");
 
   }
   
@@ -205,10 +277,11 @@ public class ExampleClient {
     while (i >= 0) {
       i++;
       String r = doCommand(input, output, "getAccelOne");
-      int accelOne = extractInt(r);
+      String[] parts = r.split(" ");
+      int accelOne = extractInt(parts[1]);
       System.out.println("accelOne: " + accelOne);
-        if (Math.abs(accelOne - 100) <= 5) {
-          doCommand(input, output, "setColor 0x0000FF");
+        if (Math.abs(accelOne - 100) <= 20) {
+          doCommand(input, output, "setColor 0x000000");
           System.out.println("On the floar");
         } else {
           doCommand(input, output, "setColor 0x00FF00");
@@ -220,26 +293,26 @@ public class ExampleClient {
   private static void checkVelocity(BufferedReader input, OutputStreamWriter output) throws IOException {
     // Я пока не совсем понимаю, что такое Velocity, вроде должна быть скорость, но значения какие-то странные
     int direction = 0;
-    int speed = 20;
+    int speed = 40;
     int i = 0;
     int j = 0;
     while (i < 5) {
-      speed += 5;
+      speed += 2;
       if (speed > 50) speed = 50;
-      String r = doCommand(input, output, "roll " + direction + " " + speed + " 750");
+      String r = doCommand(input, output, "roll " + direction + " " + speed + " 500");
       
-      System.out.println("cmd res: " + r + "\nset speed: " + speed);
+      System.out.println("set speed: " + speed);
       String velocity = doCommand(input, output, "getVelocity");
-      System.out.println(velocity);
-      String[] parts = velocity.split("\t");
+      //System.out.println(velocity);
+      String[] parts = velocity.split(" ");
       int velocityX = extractInt(parts[1]);
       int velocityY = extractInt(parts[2]);
-      System.out.println("velocityX: " + velocityX + " velocityY: " + velocityY);
+      //System.out.println("velocityX: " + velocityX + " velocityY: " + velocityY);
       double speedV = Math.sqrt(velocityX*velocityX + velocityY*velocityY);
       System.out.println("curSpeed: " + speedV);
       if (speedV > 1200) {
         j++;
-        if (j >= 3) {
+        if (j >= 2) {
           i++;
           speed = 0;
           j = 0;
@@ -255,11 +328,11 @@ public class ExampleClient {
   }
   
   private static int extractInt(String s) {
-    int ind = s.indexOf(":");
     int res;
     try {
-      res = Integer.parseInt(s.substring(ind+2));
+      res = Integer.parseInt(s);
     } catch (Exception ex) {
+      System.out.println("s= \""+s+"\"");
       res = 0;
     }
     return res;

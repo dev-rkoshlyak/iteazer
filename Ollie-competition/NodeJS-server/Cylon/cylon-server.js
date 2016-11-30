@@ -11,7 +11,8 @@ Cylon.robot({
         bluetooth_ollie_dc712fb5b631: { adaptor: "central", uuid: "dc712fb5b631", module: "cylon-ble"},
         bluetooth_ollie_f15cee63622d: { adaptor: "central", uuid: "f15cee63622d", module: "cylon-ble"},
         bluetooth_ollie_c84982ebcc74: { adaptor: "central", uuid: "c84982ebcc74", module: "cylon-ble"},
-        bluetooth_ollie_ee42664940f4: { adaptor: "central", uuid: "ee42664940f4", module: "cylon-ble"}
+        bluetooth_ollie_ee42664940f4: { adaptor: "central", uuid: "ee42664940f4", module: "cylon-ble"},
+        bluetooth_ollie_f16fdb2b3b4f: { adaptor: "central", uuid: "f16fdb2b3b4f", module: "cylon-ble"}
     }
 
 ,
@@ -76,22 +77,20 @@ Cylon.robot({
 
 ,
 
-
-
-    connect_bb8(my, mac, callback) {
-        existed = 1;
-        switch (mac) {
-            default:
-                existed = 0;
-        }
-        if (existed) {
-        console.log("Start connecting to droid");
-        } else {
-            console.log("We couldn't find bb8 with mac : " + mac);
-        }
+    connect_ollie_f16fdb2b3b4f: function(callback) {
+        this.device("ollie_f16fdb2b3b4f", {connection: "bluetooth_ollie_f16fdb2b3b4f", driver: "ollie", module: "cylon-sphero-ble"});
+        this.startDevice(this.devices.ollie_f16fdb2b3b4f, function() {
+            console.log("ollie_f16fdb2b3b4f connected");
+            ollies["f16fdb2b3b4f"] = true;
+            callback();
+        });
     }
+
 ,
 
+
+
+    // call connect cylon function
     connect_ollie(my, mac, callback) {
         existed = 1;
         switch (mac) {
@@ -110,12 +109,14 @@ Cylon.robot({
             case "ee42664940f4":
                 my.connect_ollie_ee42664940f4(callback);
                 break;
+            case "f16fdb2b3b4f":
+                my.connect_ollie_f16fdb2b3b4f(callback);
+                break;
             default:
                 existed = 0;
         }
-        if (existed) {
-        console.log("Start connecting to droid");
-        } else {
+
+        if (!existed) {
             console.log("We couldn't find ollie with mac : " + mac);
         }
     }
@@ -123,84 +124,66 @@ Cylon.robot({
 
 ,
 
-// roll bb8 & ollie
-    roll_ollie_d8e38c77d05d: function(speed, direction) {
-        this.devices.ollie_d8e38c77d05d.roll(speed, direction, function() {
-            console.log("ollie_d8e38c77d05d roll with speed: " + speed + " direction: " + direction);
-        });
+// roll ollie
+    roll_ollie_d8e38c77d05d: function(speed, direction, callback) {
+        this.devices.ollie_d8e38c77d05d.roll(speed, direction, callback);
     },
 
 
-    roll_ollie_dc712fb5b631: function(speed, direction) {
-        this.devices.ollie_dc712fb5b631.roll(speed, direction, function() {
-            console.log("ollie_dc712fb5b631 roll with speed: " + speed + " direction: " + direction);
-        });
+    roll_ollie_dc712fb5b631: function(speed, direction, callback) {
+        this.devices.ollie_dc712fb5b631.roll(speed, direction, callback);
     },
 
 
-    roll_ollie_f15cee63622d: function(speed, direction) {
-        this.devices.ollie_f15cee63622d.roll(speed, direction, function() {
-            console.log("ollie_f15cee63622d roll with speed: " + speed + " direction: " + direction);
-        });
+    roll_ollie_f15cee63622d: function(speed, direction, callback) {
+        this.devices.ollie_f15cee63622d.roll(speed, direction, callback);
     },
 
 
-    roll_ollie_c84982ebcc74: function(speed, direction) {
-        this.devices.ollie_c84982ebcc74.roll(speed, direction, function() {
-            console.log("ollie_c84982ebcc74 roll with speed: " + speed + " direction: " + direction);
-        });
+    roll_ollie_c84982ebcc74: function(speed, direction, callback) {
+        this.devices.ollie_c84982ebcc74.roll(speed, direction, callback);
     },
 
 
-    roll_ollie_ee42664940f4: function(speed, direction) {
-        this.devices.ollie_ee42664940f4.roll(speed, direction, function() {
-            console.log("ollie_ee42664940f4 roll with speed: " + speed + " direction: " + direction);
-        });
+    roll_ollie_ee42664940f4: function(speed, direction, callback) {
+        this.devices.ollie_ee42664940f4.roll(speed, direction, callback);
+    },
+
+
+    roll_ollie_f16fdb2b3b4f: function(speed, direction, callback) {
+        this.devices.ollie_f16fdb2b3b4f.roll(speed, direction, callback);
     },
 
 
 
 
-    roll_bb8(my, mac, speed, direction, callback) {
-        existed = 1;
-        switch (mac) {
-            default:
-                existed=0;
-        }
-
-        if (existed) {
-            callback();
-        } else {
-            console.log("We couldn't find bb8 with mac : " + mac);
-        }
-    }
-,
-
+    // call roll cylon function
     roll_ollie(my, mac, speed, direction, callback) {
         existed = 1;
         switch (mac) {
             case "d8e38c77d05d":
-                my.roll_ollie_d8e38c77d05d(speed, direction);
+                my.roll_ollie_d8e38c77d05d(speed, direction, callback);
                 break;
             case "dc712fb5b631":
-                my.roll_ollie_dc712fb5b631(speed, direction);
+                my.roll_ollie_dc712fb5b631(speed, direction, callback);
                 break;
             case "f15cee63622d":
-                my.roll_ollie_f15cee63622d(speed, direction);
+                my.roll_ollie_f15cee63622d(speed, direction, callback);
                 break;
             case "c84982ebcc74":
-                my.roll_ollie_c84982ebcc74(speed, direction);
+                my.roll_ollie_c84982ebcc74(speed, direction, callback);
                 break;
             case "ee42664940f4":
-                my.roll_ollie_ee42664940f4(speed, direction);
+                my.roll_ollie_ee42664940f4(speed, direction, callback);
+                break;
+            case "f16fdb2b3b4f":
+                my.roll_ollie_f16fdb2b3b4f(speed, direction, callback);
                 break;
             default:
-                existed=0;
+                existed = 0;
         }
 
-        if (existed) {
-            callback();
-        } else {
+        if (!existed) {
             console.log("We couldn't find ollie with mac : " + mac);
         }
     }
@@ -209,78 +192,141 @@ Cylon.robot({
 
 
 ,
-// set new color bb8
-    setColor_ollie_d8e38c77d05d: function(newColor) {
-        this.devices.ollie_d8e38c77d05d.color(newColor, function() {
-            console.log("ollie_d8e38c77d05d set new color: " + newColor);
-        });
-    },
-    setColor_ollie_dc712fb5b631: function(newColor) {
-        this.devices.ollie_dc712fb5b631.color(newColor, function() {
-            console.log("ollie_dc712fb5b631 set new color: " + newColor);
-        });
-    },
-    setColor_ollie_f15cee63622d: function(newColor) {
-        this.devices.ollie_f15cee63622d.color(newColor, function() {
-            console.log("ollie_f15cee63622d set new color: " + newColor);
-        });
-    },
-    setColor_ollie_c84982ebcc74: function(newColor) {
-        this.devices.ollie_c84982ebcc74.color(newColor, function() {
-            console.log("ollie_c84982ebcc74 set new color: " + newColor);
-        });
-    },
-    setColor_ollie_ee42664940f4: function(newColor) {
-        this.devices.ollie_ee42664940f4.color(newColor, function() {
-            console.log("ollie_ee42664940f4 set new color: " + newColor);
-        });
+
+// setColor ollie
+    setColor_ollie_d8e38c77d05d: function(newColor, callback) {
+        this.devices.ollie_d8e38c77d05d.color(newColor, callback);
     },
 
 
-    setColor_bb8(my, mac, newColor, callback) {
-        existed = 1;
-        switch (mac) {
-            default:
-                existed=0;
-        }
-
-        if (existed) {
-            callback();
-        } else {
-            console.log("We couldn't find bb8 with mac : " + mac);
-        }
-    }
-,
+    setColor_ollie_dc712fb5b631: function(newColor, callback) {
+        this.devices.ollie_dc712fb5b631.color(newColor, callback);
+    },
 
 
+    setColor_ollie_f15cee63622d: function(newColor, callback) {
+        this.devices.ollie_f15cee63622d.color(newColor, callback);
+    },
+
+
+    setColor_ollie_c84982ebcc74: function(newColor, callback) {
+        this.devices.ollie_c84982ebcc74.color(newColor, callback);
+    },
+
+
+    setColor_ollie_ee42664940f4: function(newColor, callback) {
+        this.devices.ollie_ee42664940f4.color(newColor, callback);
+    },
+
+
+    setColor_ollie_f16fdb2b3b4f: function(newColor, callback) {
+        this.devices.ollie_f16fdb2b3b4f.color(newColor, callback);
+    },
+
+
+
+
+    // call color cylon function
     setColor_ollie(my, mac, newColor, callback) {
         existed = 1;
         switch (mac) {
             case "d8e38c77d05d":
-                my.setColor_ollie_d8e38c77d05d(newColor);
+                my.setColor_ollie_d8e38c77d05d(newColor, callback);
                 break;
             case "dc712fb5b631":
-                my.setColor_ollie_dc712fb5b631(newColor);
+                my.setColor_ollie_dc712fb5b631(newColor, callback);
                 break;
             case "f15cee63622d":
-                my.setColor_ollie_f15cee63622d(newColor);
+                my.setColor_ollie_f15cee63622d(newColor, callback);
                 break;
             case "c84982ebcc74":
-                my.setColor_ollie_c84982ebcc74(newColor);
+                my.setColor_ollie_c84982ebcc74(newColor, callback);
                 break;
             case "ee42664940f4":
-                my.setColor_ollie_ee42664940f4(newColor);
+                my.setColor_ollie_ee42664940f4(newColor, callback);
+                break;
+            case "f16fdb2b3b4f":
+                my.setColor_ollie_f16fdb2b3b4f(newColor, callback);
                 break;
             default:
-                existed=0;
+                existed = 0;
         }
 
-        if (existed) {
-            callback();
-        } else {
+        if (!existed) {
             console.log("We couldn't find ollie with mac : " + mac);
         }
     }
+
+
+
+
+,
+
+// setStabilization ollie
+    setStabilization_ollie_d8e38c77d05d: function(stabilization, callback) {
+        this.devices.ollie_d8e38c77d05d.setStabilization(stabilization, callback);
+    },
+
+
+    setStabilization_ollie_dc712fb5b631: function(stabilization, callback) {
+        this.devices.ollie_dc712fb5b631.setStabilization(stabilization, callback);
+    },
+
+
+    setStabilization_ollie_f15cee63622d: function(stabilization, callback) {
+        this.devices.ollie_f15cee63622d.setStabilization(stabilization, callback);
+    },
+
+
+    setStabilization_ollie_c84982ebcc74: function(stabilization, callback) {
+        this.devices.ollie_c84982ebcc74.setStabilization(stabilization, callback);
+    },
+
+
+    setStabilization_ollie_ee42664940f4: function(stabilization, callback) {
+        this.devices.ollie_ee42664940f4.setStabilization(stabilization, callback);
+    },
+
+
+    setStabilization_ollie_f16fdb2b3b4f: function(stabilization, callback) {
+        this.devices.ollie_f16fdb2b3b4f.setStabilization(stabilization, callback);
+    },
+
+
+
+
+    // call setStabilization cylon function
+    setStabilization_ollie(my, mac, stabilization, callback) {
+        existed = 1;
+        switch (mac) {
+            case "d8e38c77d05d":
+                my.setStabilization_ollie_d8e38c77d05d(stabilization, callback);
+                break;
+            case "dc712fb5b631":
+                my.setStabilization_ollie_dc712fb5b631(stabilization, callback);
+                break;
+            case "f15cee63622d":
+                my.setStabilization_ollie_f15cee63622d(stabilization, callback);
+                break;
+            case "c84982ebcc74":
+                my.setStabilization_ollie_c84982ebcc74(stabilization, callback);
+                break;
+            case "ee42664940f4":
+                my.setStabilization_ollie_ee42664940f4(stabilization, callback);
+                break;
+            case "f16fdb2b3b4f":
+                my.setStabilization_ollie_f16fdb2b3b4f(stabilization, callback);
+                break;
+            default:
+                existed = 0;
+        }
+
+        if (!existed) {
+            console.log("We couldn't find ollie with mac : " + mac);
+        }
+    }
+
+
 
 
 ,
@@ -320,6 +366,13 @@ Cylon.robot({
 
 ,
 
+    getVelocity_ollie_f16fdb2b3b4f: function(sps, callback) {
+        this.devices.ollie_f16fdb2b3b4f.streamVelocity(sps, false);
+        this.devices.ollie_f16fdb2b3b4f.once("Velocity", callback);
+    }
+
+,
+
 
 
     getVelocity_bb8(my, mac, sps, callback) {
@@ -351,6 +404,9 @@ Cylon.robot({
                 break;
             case "ee42664940f4":
                 my.getVelocity_ollie_ee42664940f4(sps, callback);
+                break;
+            case "f16fdb2b3b4f":
+                my.getVelocity_ollie_f16fdb2b3b4f(sps, callback);
                 break;
             default:
                 existed = false;
@@ -398,6 +454,13 @@ Cylon.robot({
 
 ,
 
+    getAccelOne_ollie_f16fdb2b3b4f: function(sps, callback) {
+        this.devices.ollie_f16fdb2b3b4f.streamAccelOne(sps, false);
+        this.devices.ollie_f16fdb2b3b4f.once("AccelOne", callback);
+    }
+
+,
+
 
 
     getAccelOne_bb8(my, mac, sps, callback) {
@@ -429,6 +492,9 @@ Cylon.robot({
                 break;
             case "ee42664940f4":
                 my.getAccelOne_ollie_ee42664940f4(sps, callback);
+                break;
+            case "f16fdb2b3b4f":
+                my.getAccelOne_ollie_f16fdb2b3b4f(sps, callback);
                 break;
             default:
                 existed = false;
@@ -476,6 +542,13 @@ Cylon.robot({
 
 ,
 
+    getImuAngles_ollie_f16fdb2b3b4f: function(sps, callback) {
+        this.devices.ollie_f16fdb2b3b4f.streamImuAngles(sps, false);
+        this.devices.ollie_f16fdb2b3b4f.once("ImuAngles", callback);
+    }
+
+,
+
 
 
     getImuAngles_bb8(my, mac, sps, callback) {
@@ -507,6 +580,9 @@ Cylon.robot({
                 break;
             case "ee42664940f4":
                 my.getImuAngles_ollie_ee42664940f4(sps, callback);
+                break;
+            case "f16fdb2b3b4f":
+                my.getImuAngles_ollie_f16fdb2b3b4f(sps, callback);
                 break;
             default:
                 existed = false;
@@ -554,6 +630,13 @@ Cylon.robot({
 
 ,
 
+    getAccelerometer_ollie_f16fdb2b3b4f: function(sps, callback) {
+        this.devices.ollie_f16fdb2b3b4f.streamAccelerometer(sps, false);
+        this.devices.ollie_f16fdb2b3b4f.once("Accelerometer", callback);
+    }
+
+,
+
 
 
     getAccelerometer_bb8(my, mac, sps, callback) {
@@ -585,6 +668,9 @@ Cylon.robot({
                 break;
             case "ee42664940f4":
                 my.getAccelerometer_ollie_ee42664940f4(sps, callback);
+                break;
+            case "f16fdb2b3b4f":
+                my.getAccelerometer_ollie_f16fdb2b3b4f(sps, callback);
                 break;
             default:
                 existed = false;
@@ -632,6 +718,13 @@ Cylon.robot({
 
 ,
 
+    getGyroscope_ollie_f16fdb2b3b4f: function(sps, callback) {
+        this.devices.ollie_f16fdb2b3b4f.streamGyroscope(sps, false);
+        this.devices.ollie_f16fdb2b3b4f.once("Gyroscope", callback);
+    }
+
+,
+
 
 
     getGyroscope_bb8(my, mac, sps, callback) {
@@ -663,6 +756,9 @@ Cylon.robot({
                 break;
             case "ee42664940f4":
                 my.getGyroscope_ollie_ee42664940f4(sps, callback);
+                break;
+            case "f16fdb2b3b4f":
+                my.getGyroscope_ollie_f16fdb2b3b4f(sps, callback);
                 break;
             default:
                 existed = false;
@@ -710,6 +806,13 @@ Cylon.robot({
 
 ,
 
+    getMotorsBackEmf_ollie_f16fdb2b3b4f: function(sps, callback) {
+        this.devices.ollie_f16fdb2b3b4f.streamMotorsBackEmf(sps, false);
+        this.devices.ollie_f16fdb2b3b4f.once("MotorsBackEmf", callback);
+    }
+
+,
+
 
 
     getMotorsBackEmf_bb8(my, mac, sps, callback) {
@@ -741,6 +844,9 @@ Cylon.robot({
                 break;
             case "ee42664940f4":
                 my.getMotorsBackEmf_ollie_ee42664940f4(sps, callback);
+                break;
+            case "f16fdb2b3b4f":
+                my.getMotorsBackEmf_ollie_f16fdb2b3b4f(sps, callback);
                 break;
             default:
                 existed = false;
@@ -788,6 +894,13 @@ Cylon.robot({
 
 ,
 
+    getOdometer_ollie_f16fdb2b3b4f: function(sps, callback) {
+        this.devices.ollie_f16fdb2b3b4f.streamOdometer(sps, false);
+        this.devices.ollie_f16fdb2b3b4f.once("Odometer", callback);
+    }
+
+,
+
 
 
     getOdometer_bb8(my, mac, sps, callback) {
@@ -820,6 +933,9 @@ Cylon.robot({
             case "ee42664940f4":
                 my.getOdometer_ollie_ee42664940f4(sps, callback);
                 break;
+            case "f16fdb2b3b4f":
+                my.getOdometer_ollie_f16fdb2b3b4f(sps, callback);
+                break;
             default:
                 existed = false;
         }
@@ -843,132 +959,6 @@ Cylon.robot({
             var urlParsed = url.parse(req.url, true);
             console.log("Received url: " + urlParsed.pathname + " q: " + urlParsed.query);
             actionPerformed = 0;
-
-            if (urlParsed.pathname.startsWith("/bb8/")) {
-
-                if (urlParsed.pathname == "/bb8/isConnected" && urlParsed.query.MAC) {
-                    actionPerformed = 1;
-                    mac = urlParsed.query.MAC;
-                    console.log("isConnected to bb8, mac : " + mac);
-                    if (my.isConnected(my, mac)) {
-                        res.end("connected");
-                    } else {
-                        res.end("not");
-                    }
-                }
-                if (urlParsed.pathname == "/bb8/connect" && urlParsed.query.MAC) {
-                    actionPerformed = 1;
-                    mac = urlParsed.query.MAC;
-                    console.log("bb8 to connect: " + mac);
-                    my.connect_bb8(my, mac, function() {
-                        console.log("connected to bb8, mac : " + mac);
-                        res.end("connected");
-                    });	
-                }
-
-                if (urlParsed.pathname == "/bb8/roll" && urlParsed.query.MAC
-                        && urlParsed.query.speed && urlParsed.query.direction) {
-                    mac = urlParsed.query.MAC;
-                    newSpeed = parseInt(urlParsed.query.speed);
-                    newDirection = parseInt(urlParsed.query.direction);
-                    console.log("bb8: " + mac + " roll with speed: " + newSpeed + " & direction: " + newDirection);
-                    my.roll_bb8(my, mac, newSpeed, newDirection, function() {
-                        console.log("rolled bb8, mac : " + mac);
-                        res.end("rolled");
-                        actionPerformed = 1;
-                    });	
-                }
-
-                if (urlParsed.pathname == "/bb8/setColor" && urlParsed.query.MAC
-                        && urlParsed.query.color) {
-                    mac = urlParsed.query.MAC;
-                    newColor = parseInt(urlParsed.query.color);
-                    console.log("bb8: " + mac + " set new color: " + newColor);
-                    
-                    my.setColor_bb8(my, mac, newColor, function() {
-                        console.log("set color of bb8, mac : " + mac);
-                        res.end("set color");
-                        actionPerformed = 1;
-                    });	
-                }
-
-                if (urlParsed.pathname == "/bb8/getVelocity" && urlParsed.query.MAC) {
-                    actionPerformed = 1;
-                    mac = urlParsed.query.MAC;
-                    console.log("bb8: " + mac + " get velocity ");
-                    
-                    my.getVelocity_bb8(my, mac, 5, function(data) {
-                        console.log("velocity: " + JSON.stringify(data) + "\n");
-                        res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
-                    });	
-                }
-
-                if (urlParsed.pathname == "/bb8/getAccelOne" && urlParsed.query.MAC) {
-                    actionPerformed = 1;
-                    mac = urlParsed.query.MAC;
-                    console.log("bb8: " + mac + " get accelone ");
-                    
-                    my.getAccelOne_bb8(my, mac, 5, function(data) {
-                        console.log("accelone: " + JSON.stringify(data) + "\n");
-                        res.end("accelOne: " + data.accelOne.value[0] + "\n");
-                    });	
-                }
-
-                if (urlParsed.pathname == "/bb8/getImuAngles" && urlParsed.query.MAC) {
-                    actionPerformed = 1;
-                    mac = urlParsed.query.MAC;
-                    console.log("bb8: " + mac + " get imuangles ");
-                    
-                    my.getImuAngles_bb8(my, mac, 5, function(data) {
-                        console.log("imuangles: " + JSON.stringify(data) + "\n");
-                        res.end("pitchAngle: " + data.pitchAngle.value[0] + "\n"+ "rollAngle: " + data.rollAngle.value[0] + "\n"+ "yawAngle: " + data.yawAngle.value[0] + "\n");
-                    });	
-                }
-
-                if (urlParsed.pathname == "/bb8/getAccelerometer" && urlParsed.query.MAC) {
-                    actionPerformed = 1;
-                    mac = urlParsed.query.MAC;
-                    console.log("bb8: " + mac + " get accelerometer ");
-                    
-                    my.getAccelerometer_bb8(my, mac, 5, function(data) {
-                        console.log("accelerometer: " + JSON.stringify(data) + "\n");
-                        res.end("xAccel: " + data.xAccel.value[0] + "\n"+ "yAccel: " + data.yAccel.value[0] + "\n"+ "zAccel: " + data.zAccel.value[0] + "\n");
-                    });	
-                }
-
-                if (urlParsed.pathname == "/bb8/getGyroscope" && urlParsed.query.MAC) {
-                    actionPerformed = 1;
-                    mac = urlParsed.query.MAC;
-                    console.log("bb8: " + mac + " get gyroscope ");
-                    
-                    my.getGyroscope_bb8(my, mac, 5, function(data) {
-                        console.log("gyroscope: " + JSON.stringify(data) + "\n");
-                        res.end("xGyro: " + data.xGyro.value[0] + "\n"+ "yGyro: " + data.yGyro.value[0] + "\n"+ "zGyro: " + data.zGyro.value[0] + "\n");
-                    });	
-                }
-
-                if (urlParsed.pathname == "/bb8/getMotorsBackEmf" && urlParsed.query.MAC) {
-                    actionPerformed = 1;
-                    mac = urlParsed.query.MAC;
-                    console.log("bb8: " + mac + " get motorsbackemf ");
-                    
-                    my.getMotorsBackEmf_bb8(my, mac, 5, function(data) {
-                        console.log("motorsbackemf: " + JSON.stringify(data) + "\n");
-                        res.end("rMotorBackEmf: " + data.rMotorBackEmf.value[0] + "\n"+ "lMotorBackEmf: " + data.lMotorBackEmf.value[0] + "\n");
-                    });	
-                }
-
-                if (urlParsed.pathname == "/bb8/getOdometer" && urlParsed.query.MAC) {
-                    actionPerformed = 1;
-                    mac = urlParsed.query.MAC;
-                    console.log("bb8: " + mac + " get odometer ");
-                    
-                    my.getOdometer_bb8(my, mac, 5, function(data) {
-                        console.log("odometer: " + JSON.stringify(data) + "\n");
-                        res.end("xOdometer: " + data.xOdometer.value[0] + "\n"+ "yOdometer: " + data.yOdometer.value[0] + "\n");
-                    });	
-                }
-            }
 
             if (urlParsed.pathname.startsWith("/ollie/")) {
 
@@ -994,6 +984,7 @@ Cylon.robot({
 
                 if (urlParsed.pathname == "/ollie/roll" && urlParsed.query.MAC
                         && urlParsed.query.speed && urlParsed.query.direction) {
+                    actionPerformed = 1;
                     mac = urlParsed.query.MAC;
                     newSpeed = parseInt(urlParsed.query.speed);
                     newDirection = parseInt(urlParsed.query.direction);
@@ -1001,12 +992,12 @@ Cylon.robot({
                     my.roll_ollie(my, mac, newSpeed, newDirection, function() {
                         console.log("rolled ollie, mac : " + mac);
                         res.end("rolled");
-                        actionPerformed = 1;
                     });	
                 }
 
                 if (urlParsed.pathname == "/ollie/setColor" && urlParsed.query.MAC
                         && urlParsed.query.color) {
+                    actionPerformed = 1;
                     mac = urlParsed.query.MAC;
                     newColor = parseInt(urlParsed.query.color);
                     console.log("ollie: " + mac + " set new color: " + newColor);
@@ -1014,7 +1005,19 @@ Cylon.robot({
                     my.setColor_ollie(my, mac, newColor, function() {
                         console.log("set color of ollie, mac : " + mac);
                         res.end("set color");
-                        actionPerformed = 1;
+                    });	
+                }
+
+                if (urlParsed.pathname == "/ollie/setStabilization" && urlParsed.query.MAC
+                        && urlParsed.query.stabilization) {
+                    actionPerformed = 1;
+                    mac = urlParsed.query.MAC;
+                    st = Boolean(parseInt(urlParsed.query.stabilization));
+                    console.log("ollie: " + mac + " set stabilization: " + st);
+                    
+                    my.setStabilization_ollie(my, mac, st, function() {
+                        console.log("set stabilization of ollie, mac : " + mac);
+                        res.end("set stabilization");
                     });	
                 }
 

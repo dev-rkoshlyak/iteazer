@@ -122,37 +122,6 @@ public class ServerCylonGenerator {
         return connection.toString();
     }
 
-    private static ArrayList<String> generateConnection(String type, ArrayList<Droid> droids) {
-        ArrayList<String> connection = new ArrayList<>();
-        String s;
-
-        s = TAB[1] + String.format("connect_%1$s(my, mac, callback) {", type);
-        connection.add(s);
-
-        connection.add(TAB[2] + "existed = 1;");
-        connection.add(TAB[2] + "switch (mac) {");
-
-        for (Droid droid : droids) {
-            if (droid.type.equals(type)) {
-                connection.add(String.format(TAB[3] + "case \"%1$s\":", droid.mac));
-                connection.add(String.format(TAB[4] + "my.connect_%1$s(callback);", droid.name));
-                connection.add(TAB[4] + "break;");
-            }
-        }
-
-        connection.add(TAB[3] + "default:");
-        connection.add(TAB[4] + "existed = 0;");
-        connection.add(TAB[2] + "}");
-
-        connection.add(TAB[2] + "if (existed) {");
-        connection.add(TAB[2] + "console.log(\"Start connecting to droid\");");
-        connection.add(TAB[2] + "} else {");
-        connection.add(TAB[3] + String.format("console.log(\"We couldn't find %1$s with mac : \" + mac);", type));
-        connection.add(TAB[2] + "}");
-        connection.add(TAB[1] + "}");
-        return connection;
-    }
-
     private static ArrayList<String> generateConnections(ArrayList<Droid> droids) {
         ArrayList<String> functions = new ArrayList<>();
         functions.add("// connect functions to bb8 & ollie");
@@ -164,90 +133,90 @@ public class ServerCylonGenerator {
 
         functions.add(ENDL);
 
-        functions.addAll(generateConnection("bb8", droids));
-        functions.add("," + ENDL);
-
-        functions.addAll(generateConnection("ollie", droids));
+        functions.addAll(generateFunctionSelector("connect", "connect", "callback", "ollie", droids));
         functions.add(ENDL);
 
         return functions;
     }
 
-    private static ArrayList<String> generateRoll(String type, ArrayList<Droid> droids) {
-        ArrayList<String> function = new ArrayList<>();
-        function.add(TAB[1] + String.format("roll_%1$s(my, mac, speed, direction, callback) {", type));
-        function.add(TAB[2] + "existed = 1;");
-        function.add(TAB[2] + "switch (mac) {");
-
-        for (Droid droid : droids) {
-            if (droid.type.equals(type)) {
-                function.add(TAB[3] + String.format("case \"%1$s\":", droid.mac));
-                function.add(TAB[4] + String.format("my.roll_%1$s(speed, direction);", droid.name));
-                function.add(TAB[4] + "break;");
-            }
-        }
-
-        function.add(TAB[3] + "default:");
-        function.add(TAB[4] + "existed=0;");
-        function.add(TAB[2] + "}");
-        function.add("");
-
-        function.add(TAB[2] + "if (existed) {");
-        function.add(TAB[3] + "callback();");
-        function.add(TAB[2] + "} else {");
-        function.add(TAB[3] + String.format("console.log(\"We couldn't find %1$s with mac : \" + mac);", type));
-        function.add(TAB[2] + "}");
-        function.add(TAB[1] + "}");
-
-        return function;
+    private static ArrayList<String> generateRoll(ArrayList<Droid> droids) {
+        return generateFFS("roll", "roll", "speed, direction, callback", droids);
     }
 
-    private static ArrayList<String> generateRoll(ArrayList<Droid> droids) {
+    private static ArrayList<String> generateSetStabilization(ArrayList<Droid> droids) {
+        return generateFFS("setStabilization", "setStabilization", "stabilization, callback", droids);
+    }
+
+    /**
+     *
+     * @param functName
+     * @param parameters parameters, including callback
+     * @param droids
+     * @return
+     */
+    private static ArrayList<String> generateFFS(String functName, String cylonFnctName, String parameters, ArrayList<Droid> droids) {
         ArrayList<String> functions = new ArrayList<>();
-        functions.add(ENDL + "// roll bb8 & ollie");
+        functions.add(ENDL + "// " + functName + " ollie");
 
         for (Droid droid : droids) {
-            functions.add(TAB[1] + String.format("roll_%1$s: function(speed, direction) {", droid.name));
-            functions.add(TAB[2] + String.format("this.devices.%1$s.roll(speed, direction, function() {", droid.name));
-            functions.add(TAB[3] + String.format("console.log(\"%1$s roll with speed: \" + speed + \" direction: \" + direction);", droid.name));
-            functions.add(TAB[2] + "});");
-            functions.add(TAB[1] + "},");
+            functions.addAll(generateFunction(functName, cylonFnctName, parameters, droid.name));
             functions.add(ENDL);
         }
 
         functions.add(ENDL);
-        functions.addAll(generateRoll("bb8", droids));
-        functions.add("," + ENDL);
-
-        functions.addAll(generateRoll("ollie", droids));
+        functions.addAll(generateFunctionSelector(functName, cylonFnctName, parameters, "ollie", droids));
         functions.add(ENDL);
         functions.add(ENDL);
 
         return functions;
     }
 
-    private static ArrayList<String> generateSetColor(String type, ArrayList<Droid> droids) {
+    /**
+     *
+     * @param functName
+     * @param parameters parameters, including callback
+     * @param droidName
+     * @return
+     */
+    private static ArrayList<String> generateFunction(String functName, String cylonFnctName, String parameters, String droidName) {
         ArrayList<String> function = new ArrayList<>();
-        function.add(TAB[1] + String.format("setColor_%1$s(my, mac, newColor, callback) {", type));
+
+        function.add(TAB[1] + functName + "_" + droidName + ": function(" + parameters + ") {");
+        function.add(TAB[2] + "this.devices." + droidName + "." + cylonFnctName + "(" + parameters + ");");
+        function.add(TAB[1] + "},");
+
+        return function;
+    }
+
+    /**
+     *
+     * @param functName
+     * @param parameters parameters, including callback
+     * @param type
+     * @param droids
+     * @return
+     */
+    private static ArrayList<String> generateFunctionSelector(String functName, String cylonFnctName, String parameters, String type, ArrayList<Droid> droids) {
+        ArrayList<String> function = new ArrayList<>();
+        function.add(TAB[1] + String.format("// call %1$s cylon function", cylonFnctName));
+        function.add(TAB[1] + String.format("%1$s_%2$s(my, mac, %3$s) {", functName, type, parameters));
         function.add(TAB[2] + "existed = 1;");
         function.add(TAB[2] + "switch (mac) {");
 
         for (Droid droid : droids) {
             if (droid.type.equals(type)) {
                 function.add(TAB[3] + String.format("case \"%1$s\":", droid.mac));
-                function.add(TAB[4] + String.format("my.setColor_%1$s(newColor);", droid.name));
+                function.add(TAB[4] + String.format("my.%1$s_%2$s(%3$s);", functName, droid.name, parameters));
                 function.add(TAB[4] + "break;");
             }
         }
 
         function.add(TAB[3] + "default:");
-        function.add(TAB[4] + "existed=0;");
+        function.add(TAB[4] + "existed = 0;");
         function.add(TAB[2] + "}");
         function.add("");
 
-        function.add(TAB[2] + "if (existed) {");
-        function.add(TAB[3] + "callback();");
-        function.add(TAB[2] + "} else {");
+        function.add(TAB[2] + "if (!existed) {");
         function.add(TAB[3] + String.format("console.log(\"We couldn't find %1$s with mac : \" + mac);", type));
         function.add(TAB[2] + "}");
         function.add(TAB[1] + "}");
@@ -256,26 +225,7 @@ public class ServerCylonGenerator {
     }
 
     private static ArrayList<String> generateSetColor(ArrayList<Droid> droids) {
-        ArrayList<String> functions = new ArrayList<>();
-        functions.add("// set new color bb8");
-
-        for (Droid droid : droids) {
-            functions.add(TAB[1] + String.format("setColor_%1$s: function(newColor) {", droid.name));
-            functions.add(TAB[2] + String.format("this.devices.%1$s.color(newColor, function() {", droid.name));
-            functions.add(TAB[3] + String.format("console.log(\"%1$s set new color: \" + newColor);", droid.name));
-            functions.add(TAB[2] + "});");
-            functions.add(TAB[1] + "},");
-        }
-
-        functions.add(ENDL);
-        functions.addAll(generateSetColor("bb8", droids));
-        functions.add(",");
-        functions.add(ENDL);
-
-        functions.addAll(generateSetColor("ollie", droids));
-        functions.add(ENDL);
-
-        return functions;
+        return generateFFS("setColor", "color", "newColor, callback", droids);
     }
 
     private static String generateGetIfForHttpServer(String type, String smth, String printToWeb) {
@@ -290,7 +240,7 @@ public class ServerCylonGenerator {
                 + TAB[6] + "res.end(%3$s);\n"
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n",
-                 type, smth, printToWeb, smth.toLowerCase());
+                type, smth, printToWeb, smth.toLowerCase());
     }
 
     private static String generateForHttpServer(String type) {
@@ -320,6 +270,7 @@ public class ServerCylonGenerator {
                 + "\n"
                 + TAB[4] + "if (urlParsed.pathname == \"/%1$s/roll\" && urlParsed.query.MAC\n"
                 + TAB[6] + "&& urlParsed.query.speed && urlParsed.query.direction) {\n"
+                + TAB[5] + "actionPerformed = 1;\n"
                 + TAB[5] + "mac = urlParsed.query.MAC;\n"
                 + TAB[5] + "newSpeed = parseInt(urlParsed.query.speed);\n"
                 + TAB[5] + "newDirection = parseInt(urlParsed.query.direction);\n"
@@ -327,12 +278,12 @@ public class ServerCylonGenerator {
                 + TAB[5] + "my.roll_%1$s(my, mac, newSpeed, newDirection, function() {\n"
                 + TAB[6] + "console.log(\"rolled %1$s, mac : \" + mac);\n"
                 + TAB[6] + "res.end(\"rolled\");\n"
-                + TAB[6] + "actionPerformed = 1;\n"
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n"
                 + "\n"
                 + TAB[4] + "if (urlParsed.pathname == \"/%1$s/setColor\" && urlParsed.query.MAC\n"
                 + TAB[6] + "&& urlParsed.query.color) {\n"
+                + TAB[5] + "actionPerformed = 1;\n"
                 + TAB[5] + "mac = urlParsed.query.MAC;\n"
                 + TAB[5] + "newColor = parseInt(urlParsed.query.color);\n"
                 + TAB[5] + "console.log(\"%1$s: \" + mac + \" set new color: \" + newColor);\n"
@@ -340,7 +291,19 @@ public class ServerCylonGenerator {
                 + TAB[5] + "my.setColor_%1$s(my, mac, newColor, function() {\n"
                 + TAB[6] + "console.log(\"set color of %1$s, mac : \" + mac);\n"
                 + TAB[6] + "res.end(\"set color\");\n"
-                + TAB[6] + "actionPerformed = 1;\n"
+                + TAB[5] + "});	\n"
+                + TAB[4] + "}\n"
+                + "\n"
+                + TAB[4] + "if (urlParsed.pathname == \"/%1$s/setStabilization\" && urlParsed.query.MAC\n"
+                + TAB[6] + "&& urlParsed.query.stabilization) {\n"
+                + TAB[5] + "actionPerformed = 1;\n"
+                + TAB[5] + "mac = urlParsed.query.MAC;\n"
+                + TAB[5] + "st = Boolean(prseInt(urlParsed.query.stabilization));\n"
+                + TAB[5] + "console.log(\"%1$s: \" + mac + \" set stabilization: \" + st);\n"
+                + TAB[5] + "\n"
+                + TAB[5] + "my.setStabilization_%1$s(my, mac, st, function() {\n"
+                + TAB[6] + "console.log(\"set stabilization of %1$s, mac : \" + mac);\n"
+                + TAB[6] + "res.end(\"set stabilization\");\n"
                 + TAB[5] + "});	\n"
                 + TAB[4] + "}\n"
                 + generateGetIfForHttpServer(type, "Velocity", "\"xVelocity: \" + data.xVelocity.value[0] + \"\\n\" + \"yVelocity: \" + data.yVelocity.value[0] + \"\\n\"")
@@ -380,8 +343,6 @@ public class ServerCylonGenerator {
         function.add(TAB[3] + "actionPerformed = 0;");
         function.add("");
 
-        function.add(generateForHttpServer("bb8"));
-        function.add("");
         function.add(generateForHttpServer("ollie"));
         function.add("");
 
@@ -413,6 +374,8 @@ public class ServerCylonGenerator {
         result.addAll(generateRoll(droids));
         result.add(",");
         result.addAll(generateSetColor(droids));
+        result.add(",");
+        result.addAll(generateSetStabilization(droids));
         result.add(",");
         result.addAll(generateGetSmth(droids, "Velocity"));
         result.add(",");

@@ -21,6 +21,9 @@ public class CommandValidator {
             case COMMAND_SET_COLOR:
                 valid = checkSetColor(command);
                 break;
+            case COMMAND_SET_STABILIZATION:
+                valid = checkSetStabilization(command);
+                break;
             case COMMAND_CONNECT:
             case COMMAND_GET_VELOCITY:
             case COMMAND_GET_ACCEL_ONE:
@@ -54,7 +57,8 @@ public class CommandValidator {
         }
 
         int duration = command.getWaitAfter();
-        if (duration < OLLIE_MIN_TIME || duration > OLLIE_MAX_TIME) {
+        if ((duration < OLLIE_MIN_TIME || duration > OLLIE_MAX_TIME)
+                && duration != 0) {
             return false;
         }
 
@@ -97,4 +101,18 @@ public class CommandValidator {
 
         return command.getParametersCount() == 1;
     }
+
+    private boolean checkSetStabilization(Command command) {
+        if (command == null || !command.name.equals(COMMAND_SET_STABILIZATION)) {
+            return false;
+        }
+
+        Integer stabilization = command.getParameter(COMMAND_PARAMETER_STABILIZATION);
+        if (stabilization == null || (stabilization != 0 && stabilization != 1)) {
+            return false;
+        }
+
+        return command.getParametersCount() == 1;
+    }
+
 }
