@@ -17,7 +17,7 @@ public class ExampleClient {
     BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     OutputStreamWriter output = new OutputStreamWriter(clientSocket.getOutputStream());
 
-    String ans = doCommand(input, output, "TeamF parol6");
+    String ans = doCommand(input, output, "TeamB parol2");
     System.out.println("Login: " + ans);
     ans = doCommand(input, output, "connect");
     System.out.println("Connect: " + ans);
@@ -30,10 +30,10 @@ public class ExampleClient {
     //checkImuAngles(input, output);
     //checkMotors(input, output);
     //checkOdometer(input, output);
-    //pendulum(input, output);
+    pendulum(input, output);
     //speed2(input, output);
     //pendulum(input, output);
-    destabilize(input, output);
+    //destabilize(input, output);
     
     clientSocket.close();
   }
@@ -42,24 +42,6 @@ public class ExampleClient {
     String r = doCommand(input, output, "setStabilization false");
     System.out.println(r);
   }
-  
-  private static void pendulum2(BufferedReader input, OutputStreamWriter output) throws IOException {
-    int i = 0;
-    while (i >= 0) {
-      i++;
-      String r = doCommand(input, output, "getAccelOne");
-      String[] parts = r.split(" ");
-      int accelOne = extractInt(parts[1]);
-      System.out.println("accelOne: " + accelOne);
-        if (accelOne < 100) {
-          System.out.println("\n\n\n\n\n\n\n\n\n\nNOW\n\n\n\n\n\n\n\n\n\n");
-          doCommand(input, output, "setColor 0x00FF00");
-        } else {
-          doCommand(input, output, "setColor 0x000000");
-        }
-    }
-  }
-
   
   private static void speed2(BufferedReader input, OutputStreamWriter output) throws IOException {
     doCommand(input, output, "Disabled");
@@ -89,30 +71,28 @@ public class ExampleClient {
     }
   }
 
-
-  
+  // works for BB8
   private static void pendulum(BufferedReader input, OutputStreamWriter output) throws IOException {
-    doCommand(input, output, "Disabled");
+    doCommand(input, output, "setStabilization false");
     int i = 0;
     int color = 0;
-    double min = 30;
-    int prevV = 0;
-    int prevV2 = 0;
-    while (i < 20) {
+    double min = 1500;
+    double minSpeed = 1_000_000_000;
+    while (i < 100) {
       String velocity = doCommand(input, output, "getVelocity");
       //System.out.println(velocity);
       String[] parts = velocity.split(" ");
       int velocityX = extractInt(parts[1]);
       int velocityY = extractInt(parts[2]);
       //System.out.println("velocityX: " + velocityX + " velocityY: " + velocityY);
-      int speedV = (int) ( Math.sqrt(velocityX*velocityX + velocityY*velocityY) * 10);
+      int speedV = (int) ( Math.sqrt(velocityX*velocityX + velocityY*velocityY) * 100);
       System.out.println("curSpeed: " + speedV);
       
-      if (speedV <= 5) {
+      if (speedV <= minSpeed) {
+            minSpeed= Math.max(min, speedV);
             if (color != 1) {
               doCommand(input, output, "setColor 0xFF0000");
               i++;
-              //System.out.print("\7");
               System.out.println("\n\n\n\n\n\n\n\nNOW\n\n\n\n\n\n\n\n");
             }
             color = 1;
@@ -121,8 +101,6 @@ public class ExampleClient {
               doCommand(input, output, "setColor 0x000000");
             color = 2;
       }
-      prevV2 = prevV;
-      prevV = speedV;
     }
     
     doCommand(input, output, "setColor 0xFFFFFF");
@@ -256,7 +234,6 @@ public class ExampleClient {
       }
     }
   }
-  
   
   private static void checkAccelerometer(BufferedReader input, OutputStreamWriter output) throws IOException {
     int i = 0;
