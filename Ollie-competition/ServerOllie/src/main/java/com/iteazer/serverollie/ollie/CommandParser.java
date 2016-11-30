@@ -87,6 +87,7 @@ class CommandParser {
         Integer color = parseInt(command[1]);
         cmd.addParamter(COMMAND_PARAMTER_COLOR, color);
 
+        cmd.setWaitAfter(OLLIE_COMMAND_TIMEOUT);
         return cmd;
     }
 }

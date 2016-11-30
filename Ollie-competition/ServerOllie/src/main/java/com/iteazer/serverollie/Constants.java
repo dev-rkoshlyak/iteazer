@@ -19,6 +19,8 @@ public class Constants {
     public static final int OLLIE_MIN_HEADING = 0;
     public static final int OLLIE_MAX_HEADING = 359;
 
+    public static final int OLLIE_COMMAND_TIMEOUT = 20;
+
     public static final String PROJECT_CAPTION = "ServerOllie";
 
     public static final String ENCODING = "utf-8";
