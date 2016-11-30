@@ -12,6 +12,9 @@
 
 catchmouse/.*
 catchmouse/target/*
+amazon/amazon
+amazon/web
+amazon/web.pub
 
 *.class
 *.jar
