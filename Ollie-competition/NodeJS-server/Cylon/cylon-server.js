@@ -7,6 +7,7 @@ class Robot {
     this.uuid = uuid;
     this.connected = false;
     this.cylonDriver = null;
+    this.velocity = JSON.parse('{"xVelocity":{"value":[0]},"yVelocity":{"value":[0]}}');
   }
   setCylonDriver(cylonDriver) {
     this.cylonDriver = cylonDriver;
@@ -16,6 +17,9 @@ class Robot {
   }
   getDevice() {
     return this.cylonDriver.devices["ollie_" + this.uuid];
+  }
+  getVelocity() {
+    return this.velocity;
   }
   connect(callback) {
     this.cylonDriver.device("ollie_" + this.uuid, {
@@ -42,12 +46,22 @@ class Robot {
     this.getDevice().setStabilization(stabilization, callback);
   }
 
-  getVelocity(callback) {
+  
+  subscribe() {
+    console.log("subscribe");
     const device = this.getDevice();
+    var self = this;
+    
     device.streamVelocity(Robot.SPS, false);
-    device.once("Velocity", callback);
+    device.on("Velocity", (data) => {
+      self.onVelocity(data);
+    });
   }
-
+  
+  onVelocity(data) {
+    this.velocity = data;
+  }
+  
   getAccelOne(callback) {
     const device = this.getDevice();
     device.streamAccelOne(Robot.SPS, false);
@@ -74,10 +88,12 @@ class Robot {
     device.once("MotorsBackEmf", callback);
   }
 };
-Robot.SPS = 5;
+Robot.SPS = 30;
 
 const uuids = [
-  "44a7dd0ca730458f979d78d95a75038c",
+  //"44a7dd0ca730458f979d78d95a75038c", // SPRK
+  "d8e38c77d05d", "dc712fb5b631", "f15cee63622d", "c84982ebcc74", //"ee42664940f4", // Ollie
+  "f16fdb2b3b4f", // BB-8
 ];
 const robots = uuids.reduce((map, uuid) => {
   map[uuid] = new Robot(uuid);
@@ -116,6 +132,7 @@ Cylon.robot({
                   } else {
                     robot.connect(() => {
                         console.log("connected to ollie, mac : " + mac);
+                        robot.subscribe();
                         res.end("connected");
                     });	
                   }
@@ -151,10 +168,9 @@ Cylon.robot({
                   });	
                   break;
                 case "/ollie/getVelocity":
-                  robot.getVelocity((data) => {
-                    console.log("velocity: " + JSON.stringify(data) + "\n");
-                    res.end("xVelocity: " + data.xVelocity.value[0] + "\n" + "yVelocity: " + data.yVelocity.value[0] + "\n");
-                  });	
+                  const velocity = robot.getVelocity();
+                  console.log("velocity: " + JSON.stringify(velocity) + "\n");
+                  res.end("xVelocity: " + velocity.xVelocity.value[0] + "\n" + "yVelocity: " + velocity.yVelocity.value[0] + "\n");
                   break;
                 case "/ollie/getAccelOne":
                   robot.getAccelOne((data) => {
