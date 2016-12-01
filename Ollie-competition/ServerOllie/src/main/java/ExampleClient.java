@@ -7,9 +7,13 @@ import java.net.Socket;
 
 public class ExampleClient {
   private static String doCommand(BufferedReader input, OutputStreamWriter output, String command) throws IOException {
+    long wasTime = System.currentTimeMillis();
     output.write(command + "\n");
     output.flush();
-    return input.readLine();
+    String line = input.readLine();
+    long nowTime = System.currentTimeMillis();
+    System.out.println(command + " with time = " + (nowTime-wasTime));
+    return line;
   }
   
   public static void main (String[] args) throws IOException {
@@ -17,7 +21,7 @@ public class ExampleClient {
     BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     OutputStreamWriter output = new OutputStreamWriter(clientSocket.getOutputStream());
 
-    String ans = doCommand(input, output, "TeamB parol2");
+    String ans = doCommand(input, output, "roman roman");
     System.out.println("Login: " + ans);
     ans = doCommand(input, output, "connect");
     System.out.println("Connect: " + ans);
@@ -86,14 +90,13 @@ public class ExampleClient {
       int velocityY = extractInt(parts[2]);
       //System.out.println("velocityX: " + velocityX + " velocityY: " + velocityY);
       int speedV = (int) ( Math.sqrt(velocityX*velocityX + velocityY*velocityY) * 100);
-      System.out.println("curSpeed: " + speedV);
+      System.out.println("Cur speed = " + speedV);
       
       if (speedV <= minSpeed) {
             minSpeed= Math.max(min, speedV);
             if (color != 1) {
               doCommand(input, output, "setColor 0xFF0000");
               i++;
-              System.out.println("\n\n\n\n\n\n\n\nNOW\n\n\n\n\n\n\n\n");
             }
             color = 1;
       } else {
