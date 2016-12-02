@@ -31,6 +31,8 @@ class Robot {
       res += attributename+": "+self[sensor][attributename]["value"][0] + "\n";
     }
 
+    res += "Time: " + this.getSensorInterval(sensor) + "\n";
+    
     return res;
   }
   connect(callback) {
@@ -60,6 +62,8 @@ class Robot {
 
   subscribeSensor(sensor) {
     console.log("subscribe: " + sensor);
+    this[sensor+"Time"] = 0;
+    
     const device = this.getDevice();
     var self = this;
     
@@ -84,8 +88,18 @@ class Robot {
   
   onSensor(sensor, data) {
     this[sensor] = data;
+    this[sensor+"Time"] = this.getCurTime();
   }
     
+  getCurTime() {
+    var hrTime = process.hrtime();
+    var timeMS = hrTime[0] * 1000 + hrTime[1] / 1000000;
+    return parseInt(timeMS);
+  }
+  
+  getSensorInterval(sensor) {
+    return this.getCurTime() - this[sensor+"Time"];
+  }
 };
 Robot.SPS = 30;
 
