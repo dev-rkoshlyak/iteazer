@@ -7,7 +7,13 @@ class Robot {
     this.uuid = uuid;
     this.connected = false;
     this.cylonDriver = null;
-    this.velocity = JSON.parse('{"xVelocity":{"value":[0]},"yVelocity":{"value":[0]}}');
+    this.Velocity = JSON.parse('{"xVelocity":{"value":[0]},"yVelocity":{"value":[0]}}');
+    this.Accelerometer = JSON.parse('{"xAccel":{"value":[0]},"yAccel":{"value":[0]},"zAccel":{"value":[0]}}');
+    this.AccelOne = JSON.parse('{"accelOne":{"value":[100]}}');
+    this.Gyroscope = JSON.parse('{"xGyro":{"value":[0]},"yGyro":{"value":[0]},"zGyro":{"value":[0]}}');
+    this.ImuAngels = JSON.parse('{"pitchAngle":{"value":[0]},"rollAngle":{"value":[0]},"yawAngle":{"value":[0]}}');
+    this.Motorsbackemf = JSON.parse('{"rMotorBackEmf":{"value":[0]},"lMotorBackEmf":{"value":[0]}}');
+    this.Odometer = JSON.parse('{"xOdometer":{"value":[0]},"yOdometer":{"value":[0]}}');
   }
   setCylonDriver(cylonDriver) {
     this.cylonDriver = cylonDriver;
@@ -18,8 +24,14 @@ class Robot {
   getDevice() {
     return this.cylonDriver.devices["ollie_" + this.uuid];
   }
-  getVelocity() {
-    return this.velocity;
+  getSensor(sensor) {
+    var res = "";
+    var self = this;
+    for(var attributename in this[sensor]){
+      res += attributename+": "+self[sensor][attributename]["value"][0] + "\n";
+    }
+
+    return res;
   }
   connect(callback) {
     this.cylonDriver.device("ollie_" + this.uuid, {
@@ -46,47 +58,34 @@ class Robot {
     this.getDevice().setStabilization(stabilization, callback);
   }
 
-  
-  subscribe() {
-    console.log("subscribe");
+  subscribeSensor(sensor) {
+    console.log("subscribe: " + sensor);
     const device = this.getDevice();
     var self = this;
     
-    device.streamVelocity(Robot.SPS, false);
-    device.on("Velocity", (data) => {
-      self.onVelocity(data);
+    device["stream"+sensor](Robot.SPS, false);
+    device.on(sensor, (data) => {
+      self.onSensor(sensor, data);
     });
   }
   
-  onVelocity(data) {
-    this.velocity = data;
+  subscribe() {
+    console.log("subscribe");
+    
+    this.subscribeSensor("Velocity");
+    this.subscribeSensor("Accelerometer");
+    this.subscribeSensor("AccelOne");
+    this.subscribeSensor("ImuAngles");
+    this.subscribeSensor("Gyroscope");
+    this.subscribeSensor("MotorsBackEmf");
+    this.subscribeSensor("Odometer");
+    
   }
   
-  getAccelOne(callback) {
-    const device = this.getDevice();
-    device.streamAccelOne(Robot.SPS, false);
-    device.once("AccelOne", callback);
+  onSensor(sensor, data) {
+    this[sensor] = data;
   }
-  getImuAngles(callback) {
-    const device = this.getDevice();
-    device.streamImuAngles(Robot.SPS, false);
-    device.once("ImuAngles", callback);
-  }
-  getAccelerometer(callback) {
-    const device = this.getDevice();
-    device.treamAccelerometer(Robot.SPS, false);
-    device.once("Accelerometer", callback);
-  }
-  getGyroscope(callback) {
-    const device = this.getDevice();
-    device.streamGyroscope(Robot.SPS, false);
-    device.once("Gyroscope", callback);
-  }
-  getMotorsBackEmf(callback) {
-    const device = this.getDevice();
-    device.streamMotorsBackEmf(Robot.SPS, false);
-    device.once("MotorsBackEmf", callback);
-  }
+    
 };
 Robot.SPS = 30;
 
@@ -168,48 +167,21 @@ Cylon.robot({
                   });	
                   break;
                 case "/ollie/getVelocity":
-                  const velocity = robot.getVelocity();
-                  console.log("velocity: " + JSON.stringify(velocity) + "\n");
-                  res.end("xVelocity: " + velocity.xVelocity.value[0] + "\n" + "yVelocity: " + velocity.yVelocity.value[0] + "\n");
-                  break;
                 case "/ollie/getAccelOne":
-                  robot.getAccelOne((data) => {
-                    console.log("accelone: " + JSON.stringify(data) + "\n");
-                    res.end("accelOne: " + data.accelOne.value[0] + "\n");
-                  });	
-                  break;
                 case "/ollie/getImuAngles":
-                  reobot.getImuAngles((data) => {
-                    console.log("imuangles: " + JSON.stringify(data) + "\n");
-                    res.end("pitchAngle: " + data.pitchAngle.value[0] + "\n"+ "rollAngle: " + data.rollAngle.value[0] + "\n"+ "yawAngle: " + data.yawAngle.value[0] + "\n");
-                  });	
                 case "/ollie/getAccelerometer":
-                  robot.getAccelerometer((data) => {
-                    console.log("accelerometer: " + JSON.stringify(data) + "\n");
-                    res.end("xAccel: " + data.xAccel.value[0] + "\n"+ "yAccel: " + data.yAccel.value[0] + "\n"+ "zAccel: " + data.zAccel.value[0] + "\n");
-                  });	
-                  break;
                 case "/ollie/getGyroscope":
-                  robot.getGyroscope((data) => {
-                    console.log("gyroscope: " + JSON.stringify(data) + "\n");
-                    res.end("xGyro: " + data.xGyro.value[0] + "\n"+ "yGyro: " + data.yGyro.value[0] + "\n"+ "zGyro: " + data.zGyro.value[0] + "\n");
-                  });	
-                  break;
                 case "/ollie/getMotorsBackEmf":
-                  robot.getMotorsBackEmf((data) => {
-                    console.log("motorsbackemf: " + JSON.stringify(data) + "\n");
-                    res.end("rMotorBackEmf: " + data.rMotorBackEmf.value[0] + "\n"+ "lMotorBackEmf: " + data.lMotorBackEmf.value[0] + "\n");
-                  });	
-                  break;
                 case "/ollie/getOdometer":
-                  robot.getOdometer((data) => {
-                    console.log("odometer: " + JSON.stringify(data) + "\n");
-                    res.end("xOdometer: " + data.xOdometer.value[0] + "\n"+ "yOdometer: " + data.yOdometer.value[0] + "\n");
-                  });	
+                  var index = urlParsed.pathname.lastIndexOf("/get");
+                  var sensor = urlParsed.pathname.substr(index+4);
+                  console.log("get data from sensor: " + sensor);
+                  const data = robot.getSensor(sensor);
+                  res.end(data);
                   break;
                 default:
                   console.log("Unknown path: " + urlParsed.pathname);
-                  res.end("Unknown pathname: " + urlParser.pathname);
+                  res.end("Unknown pathname: " + urlParsed.pathname);
                   break;
               }
             } else {
