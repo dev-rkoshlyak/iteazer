@@ -18,7 +18,7 @@ class CommandParser {
                 try {
                     result = Integer.parseInt(number.substring(2), 16);
                 } catch (Exception exc) {
-
+                    result = null;
                 }
             }
         }
@@ -102,11 +102,11 @@ class CommandParser {
         try {
             boolean stabilization = Boolean.parseBoolean(command[1]);
             cmd.addParamter(COMMAND_PARAMETER_STABILIZATION, stabilization ? 1 : 0);
+            cmd.setWaitAfter(OLLIE_COMMAND_TIMEOUT);
         } catch (Exception ex) {
             cmd = null;
         }
 
-        cmd.setWaitAfter(OLLIE_COMMAND_TIMEOUT);
         return cmd;
     }
 

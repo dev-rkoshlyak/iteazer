@@ -46,12 +46,12 @@ public class CommandValidator {
             return false;
         }
 
-        Integer dir = command.getParameter(COMMAND_PARAMETER_DIRECTION);
+        Integer dir = command.getIntegerParameter(COMMAND_PARAMETER_DIRECTION);
         if (dir == null || dir < OLLIE_MIN_HEADING || dir > OLLIE_MAX_HEADING) {
             return false;
         }
 
-        Integer speed = command.getParameter(COMMAND_PARAMETER_SPEED);
+        Integer speed = command.getIntegerParameter(COMMAND_PARAMETER_SPEED);
         if (speed == null || speed < OLLIE_MIN_SPEED || speed > OLLIE_MAX_SPEED) {
             return false;
         }
@@ -94,7 +94,7 @@ public class CommandValidator {
             return false;
         }
 
-        Integer color = command.getParameter(COMMAND_PARAMTER_COLOR);
+        Integer color = command.getIntegerParameter(COMMAND_PARAMTER_COLOR);
         if (color == null || color < 0x00_00_00 || color > 0xFF_FF_FF) {
             return false;
         }
@@ -107,7 +107,7 @@ public class CommandValidator {
             return false;
         }
 
-        Integer stabilization = command.getParameter(COMMAND_PARAMETER_STABILIZATION);
+        Integer stabilization = command.getIntegerParameter(COMMAND_PARAMETER_STABILIZATION);
         if (stabilization == null || (stabilization != 0 && stabilization != 1)) {
             return false;
         }

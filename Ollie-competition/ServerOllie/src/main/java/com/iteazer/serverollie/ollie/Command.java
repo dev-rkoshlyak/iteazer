@@ -14,7 +14,7 @@ public class Command {
      * time in ms for waiting after command execution
      */
     private int waitAfter;
-    private final Map<String, Integer> parameters;
+    private final Map<String, Object> parameters;
 
     Command(String name) {
         this.name = name;
@@ -22,11 +22,56 @@ public class Command {
         this.parameters = new TreeMap<>();
     }
 
-    void addParamter(String key, Integer value) {
+    void addParamter(String key, Object value) {
         parameters.put(key, value);
     }
 
-    Integer getParameter(String key) {
+    /**
+     *
+     * @param key
+     * @return Integer parameter, or null if parameter not exists or not Integer
+     */
+    Integer getIntegerParameter(String key) {
+        Object o = parameters.get(key);
+        if (o == null) {
+            return null;
+        }
+
+        if (o.getClass().equals(Integer.class)) {
+            return (Integer) o;
+        }
+
+        if (o.getClass().equals(String.class)) {
+            try {
+                Integer i = Integer.valueOf((String) o);
+                return i;
+            } catch (Exception ex) {
+
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @param key
+     * @return String parameter, or null if parameter not exists or not String
+     */
+    String getStringParameter(String key) {
+        Object o = parameters.get(key);
+        if (o == null) {
+            return null;
+        }
+
+        if (o.getClass().equals(String.class)) {
+            return (String) o;
+        }
+
+        return null;
+    }
+
+    Object getParameter(String key) {
         return parameters.get(key);
     }
 
