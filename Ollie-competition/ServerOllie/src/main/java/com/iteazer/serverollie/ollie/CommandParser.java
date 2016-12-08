@@ -18,7 +18,7 @@ class CommandParser {
                 try {
                     result = Integer.parseInt(number.substring(2), 16);
                 } catch (Exception exc) {
-
+                    result = null;
                 }
             }
         }
@@ -46,6 +46,10 @@ class CommandParser {
                 break;
             case COMMAND_SET_STABILIZATION:
                 cmd = parseSetStabilization(cmd, command);
+                break;
+            case COMMAND_SUBSCRIBE_SENSOR:
+            case COMMAND_UNSUBSCRIBE_SENSOR:
+                cmd = parseSubscribesSecnsor(cmd, command);
                 break;
             case COMMAND_CONNECT:
             case COMMAND_GET_VELOCITY:
@@ -102,12 +106,29 @@ class CommandParser {
         try {
             boolean stabilization = Boolean.parseBoolean(command[1]);
             cmd.addParamter(COMMAND_PARAMETER_STABILIZATION, stabilization ? 1 : 0);
+            cmd.setWaitAfter(OLLIE_COMMAND_TIMEOUT);
         } catch (Exception ex) {
             cmd = null;
         }
 
-        cmd.setWaitAfter(OLLIE_COMMAND_TIMEOUT);
         return cmd;
     }
 
+    /**
+     * parse Subscribe & UNsubscribe sensor commands
+     *
+     * @param cmd
+     * @param command
+     * @return
+     */
+    private Command parseSubscribesSecnsor(Command cmd, String[] command) {
+        if (command.length != 2) {
+            return null;
+        }
+
+        String sensor = command[1];
+        cmd.addParamter(COMMAND_PARAMETER_SENSOR, sensor);
+
+        return cmd;
+    }
 }

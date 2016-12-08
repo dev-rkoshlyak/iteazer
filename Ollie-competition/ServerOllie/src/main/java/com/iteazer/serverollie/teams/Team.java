@@ -28,7 +28,7 @@ public class Team {
     }
 
     public Team(String s) {
-        String str[] = s.split(" |\t");
+        String str[] = s.split("\\s+");
         init(str[0], str[1], str[2], str[3]);
     }
 

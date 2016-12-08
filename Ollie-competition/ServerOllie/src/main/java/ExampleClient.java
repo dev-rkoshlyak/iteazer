@@ -21,12 +21,12 @@ public class ExampleClient {
     BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     OutputStreamWriter output = new OutputStreamWriter(clientSocket.getOutputStream());
 
-    String ans = doCommand(input, output, "roman roman");
+    String ans = doCommand(input, output, "TeamF parol6");
     System.out.println("Login: " + ans);
     ans = doCommand(input, output, "connect");
     System.out.println("Connect: " + ans);
     
-    //rollLap(input, output);
+    rollLap(input, output);
     //checkVelocity(input, output);
     //checkAccelOne(input, output);
     //checkAccelerometer(input, output);
@@ -38,8 +38,79 @@ public class ExampleClient {
     //speed2(input, output);
     //pendulum(input, output);
     //destabilize(input, output);
+    //getFrequency2(input, output);
     
     clientSocket.close();
+  }
+
+  private static void getFrequency(BufferedReader input, OutputStreamWriter output) throws IOException {
+    //doCommand(input, output, "setStabilization false");
+    int count = 0;
+    int n = 1_000;
+    int speedV = 0;
+    int prev = 0;
+
+    long wasTime = System.currentTimeMillis();
+
+    while (count < n) {
+      String velocity = doCommand(input, output, "getVelocity");
+
+      String[] parts = velocity.split(" ");
+      int velocityX = extractInt(parts[1]);
+      int velocityY = extractInt(parts[2]);
+
+      speedV = (int) ( Math.sqrt(velocityX*velocityX + velocityY*velocityY) * 1000);
+      if (speedV != prev) {
+        count++;
+        prev = speedV;
+      }
+    }
+
+    long nowTime = System.currentTimeMillis();
+    
+    double duration = nowTime - wasTime;
+    double frequency = (n / duration) * 1000;
+    
+    System.out.println("Frequency(getVelocity) = " + frequency);
+    System.out.println("Duration = " + duration);
+  }
+
+  private static void getFrequency2(BufferedReader input, OutputStreamWriter output) throws IOException {
+    doCommand(input, output, "setStabilization false");
+    int count = 0;
+    int n = 1_000;
+    int speedV = 0;
+    int prev = 0;
+
+    long wasTime = System.currentTimeMillis();
+
+    while (count < n) {
+      String velocity = doCommand(input, output, "getVelocity");
+
+      String[] parts = velocity.split(" ");
+      int velocityX = extractInt(parts[1]);
+      int velocityY = extractInt(parts[2]);
+
+      speedV = (int) ( Math.sqrt(velocityX*velocityX + velocityY*velocityY) * 1000);
+      if (speedV != prev) {
+        count++;
+        if (count % 100 == 0) {
+          doCommand(input, output, "setColor 0xFF0000");
+        }
+        if (count % 100 == 50) {
+          doCommand(input, output, "setColor 0x00FF00");
+        }
+        prev = speedV;
+      }
+    }
+
+    long nowTime = System.currentTimeMillis();
+    
+    double duration = nowTime - wasTime;
+    double frequency = (n / duration) * 1000;
+    
+    System.out.println("Frequency(getVelocity) = " + frequency);
+    System.out.println("Duration = " + duration);
   }
 
   private static void destabilize(BufferedReader input, OutputStreamWriter output) throws IOException {
