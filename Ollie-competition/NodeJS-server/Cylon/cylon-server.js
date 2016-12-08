@@ -27,8 +27,11 @@ class Robot {
   getSensor(sensor) {
     var res = "";
     var self = this;
-    for(var attributename in this[sensor]){
-      res += attributename+": "+self[sensor][attributename]["value"][0] + "\n";
+    if (self[sensor] != null) {
+      for(var attributename in self[sensor]){
+        if (self[sensor][attributename] != null)
+          res += attributename+": "+self[sensor][attributename]["value"][0] + "\n";
+      }
     }
 
     res += "Time: " + this.getSensorInterval(sensor) + "\n";
@@ -48,7 +51,7 @@ class Robot {
     });
   }
 
-  roll(spped, direction, callback) {
+  roll(speed, direction, callback) {
     this.getDevice().roll(speed, direction, callback);
   }
 
@@ -60,21 +63,35 @@ class Robot {
     this.getDevice().setStabilization(stabilization, callback);
   }
 
-  subscribeSensor(sensor) {
-    console.log("subscribe: " + sensor);
+  subscribesSensor(sensor, unsub) {
     this[sensor+"Time"] = 0;
     
     const device = this.getDevice();
     var self = this;
     
-    device["stream"+sensor](Robot.SPS, false);
-    device.on(sensor, (data) => {
-      self.onSensor(sensor, data);
-    });
+    
+    if (!unsub) {
+      device["stream"+sensor](Robot.SPS, unsub);
+      device.on(sensor, (data) => {
+        self.onSensor(sensor, data);
+      });
+    } else {
+      device["stop"+sensor]();
+    }
+  }
+  
+  subscribeSensor(sensor) {
+    console.log("subscribe: " + sensor);
+    this.subscribesSensor(sensor, false);
+  }
+  
+  unsubscribeSensor(sensor) {
+    console.log("unsubscribe: " + sensor);
+    this.subscribesSensor(sensor, true);
   }
   
   subscribe() {
-    console.log("subscribe");
+    console.log("subscribe all");
     
     this.subscribeSensor("Velocity");
     this.subscribeSensor("Accelerometer");
@@ -83,6 +100,19 @@ class Robot {
     this.subscribeSensor("Gyroscope");
     this.subscribeSensor("MotorsBackEmf");
     this.subscribeSensor("Odometer");
+    
+  }
+  
+  unsubscribe() {
+    console.log("unsubscribe all");
+    
+    this.unsubscribeSensor("Velocity");
+    this.unsubscribeSensor("Accelerometer");
+    this.unsubscribeSensor("AccelOne");
+    this.unsubscribeSensor("ImuAngles");
+    this.unsubscribeSensor("Gyroscope");
+    this.unsubscribeSensor("MotorsBackEmf");
+    this.unsubscribeSensor("Odometer");
     
   }
   
@@ -105,7 +135,7 @@ Robot.SPS = 30;
 
 const uuids = [
   //"44a7dd0ca730458f979d78d95a75038c", // SPRK
-  "d8e38c77d05d", "dc712fb5b631", "f15cee63622d", "c84982ebcc74", //"ee42664940f4", // Ollie
+  "d8e38c77d05d", //"dc712fb5b631", "f15cee63622d", "c84982ebcc74", //"ee42664940f4", // Ollie
   "f16fdb2b3b4f", // BB-8
 ];
 const robots = uuids.reduce((map, uuid) => {
@@ -145,7 +175,7 @@ Cylon.robot({
                   } else {
                     robot.connect(() => {
                         console.log("connected to ollie, mac : " + mac);
-                        robot.subscribe();
+                        //robot.unsubscribe();
                         res.end("connected");
                     });	
                   }
@@ -192,6 +222,16 @@ Cylon.robot({
                   console.log("get data from sensor: " + sensor);
                   const data = robot.getSensor(sensor);
                   res.end(data);
+                  break;
+                case "/ollie/subscribe":
+                  var sensor = urlParsed.query.sensor;
+                  robot.subscribeSensor(sensor);
+                  res.end("Subscribed " + sensor);
+                  break;
+                case "/ollie/unsubscribe":
+                  var sensor = urlParsed.query.sensor;
+                  robot.unsubscribeSensor(sensor);
+                  res.end("Unsubscribed " + sensor);
                   break;
                 default:
                   console.log("Unknown path: " + urlParsed.pathname);

@@ -69,6 +69,10 @@ public class Constants {
 
     public static final String COMMAND_GET_ODOMETER = "getOdometer";
 
+    public static final String COMMAND_SUBSCRIBE_SENSOR = "subscribe";
+    public static final String COMMAND_UNSUBSCRIBE_SENSOR = "unsubscribe";
+    public static final String COMMAND_PARAMETER_SENSOR = "sensor";
+
     /**
      *
      * all possible commands for Ollie:
@@ -94,7 +98,29 @@ public class Constants {
                     COMMAND_GET_VELOCITY, COMMAND_GET_ACCEL_ONE,
                     COMMAND_GET_ACCELEROMETER, COMMAND_GET_GYROSCOPE,
                     COMMAND_GET_IMU_ANGLES, COMMAND_GET_MOTORS,
-                    COMMAND_GET_ODOMETER
+                    COMMAND_GET_ODOMETER,
+                    COMMAND_SUBSCRIBE_SENSOR, COMMAND_UNSUBSCRIBE_SENSOR
+            ));
+
+    public static final String SENSOR_VELOCITY = "Velocity";
+
+    public static final String SENSOR_ACCEL_ONE = "AccelOne";
+
+    public static final String SENSOR_ACCELEROMETER = "Accelerometer";
+
+    public static final String SENSOR_GYROSCOPE = "Gyroscope";
+
+    public static final String SENSOR_IMU_ANGLES = "ImuAngles";
+
+    public static final String SENSOR_MOTORS = "MotorsBackEmf";
+
+    public static final String SENSOR_ODOMETER = "Odometer";
+
+    public static final Set<String> OLLIE_SENSORS
+            = new HashSet<>(Arrays.asList(SENSOR_VELOCITY,
+                    SENSOR_ACCELEROMETER, SENSOR_ACCEL_ONE,
+                    SENSOR_GYROSCOPE, SENSOR_IMU_ANGLES,
+                    SENSOR_MOTORS, SENSOR_ODOMETER
             ));
 
     public static final String SUCCESSFUL_AUTH_MSG = "Loged in!";

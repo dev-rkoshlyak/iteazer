@@ -24,6 +24,12 @@ public class CommandValidator {
             case COMMAND_SET_STABILIZATION:
                 valid = checkSetStabilization(command);
                 break;
+            case COMMAND_SUBSCRIBE_SENSOR:
+                valid = checkSubscribeSensor(command);
+                break;
+            case COMMAND_UNSUBSCRIBE_SENSOR:
+                valid = checkUnsubscribeSensor(command);
+                break;
             case COMMAND_CONNECT:
             case COMMAND_GET_VELOCITY:
             case COMMAND_GET_ACCEL_ONE:
@@ -109,6 +115,32 @@ public class CommandValidator {
 
         Integer stabilization = command.getIntegerParameter(COMMAND_PARAMETER_STABILIZATION);
         if (stabilization == null || (stabilization != 0 && stabilization != 1)) {
+            return false;
+        }
+
+        return command.getParametersCount() == 1;
+    }
+
+    private boolean checkSubscribeSensor(Command command) {
+        if (command == null || !command.name.equals(COMMAND_SUBSCRIBE_SENSOR)) {
+            return false;
+        }
+
+        String sensor = command.getStringParameter(COMMAND_PARAMETER_SENSOR);
+        if (sensor == null || !OLLIE_SENSORS.contains(sensor)) {
+            return false;
+        }
+
+        return command.getParametersCount() == 1;
+    }
+
+    private boolean checkUnsubscribeSensor(Command command) {
+        if (command == null || !command.name.equals(COMMAND_UNSUBSCRIBE_SENSOR)) {
+            return false;
+        }
+
+        String sensor = command.getStringParameter(COMMAND_PARAMETER_SENSOR);
+        if (sensor == null || !OLLIE_SENSORS.contains(sensor)) {
             return false;
         }
 

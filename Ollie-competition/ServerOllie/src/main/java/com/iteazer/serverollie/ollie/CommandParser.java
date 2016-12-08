@@ -47,6 +47,10 @@ class CommandParser {
             case COMMAND_SET_STABILIZATION:
                 cmd = parseSetStabilization(cmd, command);
                 break;
+            case COMMAND_SUBSCRIBE_SENSOR:
+            case COMMAND_UNSUBSCRIBE_SENSOR:
+                cmd = parseSubscribesSecnsor(cmd, command);
+                break;
             case COMMAND_CONNECT:
             case COMMAND_GET_VELOCITY:
             case COMMAND_GET_ACCEL_ONE:
@@ -110,4 +114,21 @@ class CommandParser {
         return cmd;
     }
 
+    /**
+     * parse Subscribe & UNsubscribe sensor commands
+     *
+     * @param cmd
+     * @param command
+     * @return
+     */
+    private Command parseSubscribesSecnsor(Command cmd, String[] command) {
+        if (command.length != 2) {
+            return null;
+        }
+
+        String sensor = command[1];
+        cmd.addParamter(COMMAND_PARAMETER_SENSOR, sensor);
+
+        return cmd;
+    }
 }
