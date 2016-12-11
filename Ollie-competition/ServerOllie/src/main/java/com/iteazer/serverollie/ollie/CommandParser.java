@@ -44,6 +44,9 @@ class CommandParser {
             case COMMAND_SET_COLOR:
                 cmd = parseSetColorCommand(cmd, command);
                 break;
+            case COMMAND_SET_RAW_MOTORS:
+                cmd = parseSetRawMotors(cmd, command);
+                break;
             case COMMAND_SET_STABILIZATION:
                 cmd = parseSetStabilization(cmd, command);
                 break;
@@ -95,6 +98,24 @@ class CommandParser {
         cmd.addParamter(COMMAND_PARAMTER_COLOR, color);
 
         cmd.setWaitAfter(OLLIE_COMMAND_TIMEOUT);
+        return cmd;
+    }
+
+    private Command parseSetRawMotors(Command cmd, String[] command) {
+        if (command.length != 3) {
+            return null;
+        }
+
+        try {
+            Integer left = Integer.parseInt(command[1]);
+            Integer right = Integer.parseInt(command[2]);
+            cmd.addParamter(COMMAND_PARAMETER_LEFT, left);
+            cmd.addParamter(COMMAND_PARAMETER_RIGHT, right);
+            cmd.setWaitAfter(OLLIE_COMMAND_TIMEOUT);
+        } catch (Exception ex) {
+            cmd = null;
+        }
+
         return cmd;
     }
 

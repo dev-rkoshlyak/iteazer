@@ -21,6 +21,9 @@ public class CommandValidator {
             case COMMAND_SET_COLOR:
                 valid = checkSetColor(command);
                 break;
+            case COMMAND_SET_RAW_MOTORS:
+                valid = checkSetRawMotors(command);
+                break;
             case COMMAND_SET_STABILIZATION:
                 valid = checkSetStabilization(command);
                 break;
@@ -106,6 +109,22 @@ public class CommandValidator {
         }
 
         return command.getParametersCount() == 1;
+    }
+
+    private boolean checkRawMotorPower(Integer power) {
+        if (power == null) {
+            return false;
+        }
+        return OLLIE_MIN_POWER <= power && power <= OLLIE_MAX_POWER;
+    }
+    private boolean checkSetRawMotors(Command command) {
+        if (command == null || !command.name.equals(COMMAND_SET_RAW_MOTORS)) {
+            return false;
+        }
+
+        Integer left = command.getIntegerParameter(COMMAND_PARAMETER_LEFT);
+        Integer right = command.getIntegerParameter(COMMAND_PARAMETER_RIGHT);
+        return checkRawMotorPower(left) && checkRawMotorPower(right) && command.getParametersCount() == 2;
     }
 
     private boolean checkSetStabilization(Command command) {
