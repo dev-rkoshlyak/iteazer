@@ -21,7 +21,7 @@ public class ExampleClient {
     BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     OutputStreamWriter output = new OutputStreamWriter(clientSocket.getOutputStream());
 
-    String ans = doCommand(input, output, "TeamF parol6");
+    String ans = doCommand(input, output, "roman roman");
     System.out.println("Login: " + ans);
     ans = doCommand(input, output, "connect");
     System.out.println("Connect: " + ans);

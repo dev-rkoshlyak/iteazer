@@ -11,7 +11,7 @@ class Robot {
     this.Accelerometer = JSON.parse('{"xAccel":{"value":[0]},"yAccel":{"value":[0]},"zAccel":{"value":[0]}}');
     this.AccelOne = JSON.parse('{"accelOne":{"value":[100]}}');
     this.Gyroscope = JSON.parse('{"xGyro":{"value":[0]},"yGyro":{"value":[0]},"zGyro":{"value":[0]}}');
-    this.ImuAngels = JSON.parse('{"pitchAngle":{"value":[0]},"rollAngle":{"value":[0]},"yawAngle":{"value":[0]}}');
+    this.ImuAngles = JSON.parse('{"pitchAngle":{"value":[0]},"rollAngle":{"value":[0]},"yawAngle":{"value":[0]}}');
     this.Motorsbackemf = JSON.parse('{"rMotorBackEmf":{"value":[0]},"lMotorBackEmf":{"value":[0]}}');
     this.Odometer = JSON.parse('{"xOdometer":{"value":[0]},"yOdometer":{"value":[0]}}');
   }
@@ -53,6 +53,18 @@ class Robot {
 
   roll(speed, direction, callback) {
     this.getDevice().roll(speed, direction, callback);
+  }
+
+  getCommand(power) {
+    return power >= 0 ? "forward" : "reverse";
+  }
+
+  setRawMotors(newLeft, newRight, callback) {
+    const leftCommand = this.getCommand(newLeft);
+    const rightCommand = this.getCommand(newRight);
+    const leftPower = Math.abs(newLeft);
+    const rightPower = Math.abs(newRight);
+    this.getDevice().setRawMotors(leftCommand, leftPower, rightCommand, rightPower, callback);
   }
 
   setColor(newColor, callback) {
@@ -134,9 +146,9 @@ class Robot {
 Robot.SPS = 30;
 
 const uuids = [
-  //"44a7dd0ca730458f979d78d95a75038c", // SPRK
-  "d8e38c77d05d", //"dc712fb5b631", "f15cee63622d", "c84982ebcc74", //"ee42664940f4", // Ollie
-  "f16fdb2b3b4f", // BB-8
+  "44a7dd0ca730458f979d78d95a75038c", // SPRK
+  //"d8e38c77d05d", //"dc712fb5b631", "f15cee63622d", "c84982ebcc74", //"ee42664940f4", // Ollie
+  //"f16fdb2b3b4f", // BB-8
 ];
 const robots = uuids.reduce((map, uuid) => {
   map[uuid] = new Robot(uuid);
@@ -193,6 +205,15 @@ Cylon.robot({
                   robot.roll(newSpeed, newDirection, () => {
                     console.log("rolled ollie, mac : " + mac);
                     res.end("rolled");
+                  });
+                  break;
+                case "/ollie/setRawMotors":
+                  const newLeft = parseInt(urlParsed.query.left);
+                  const newRight = parseInt(urlParsed.query.right);
+                  console.log('left right ' + newLeft + ' ' + newRight);
+                  robot.setRawMotors(newLeft, newRight, () => {
+                    console.log("set raw motors of ollie, mac : " + mac);
+                    res.end("setRawMotors");
                   });
                   break;
                 case "/ollie/setColor":
