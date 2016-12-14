@@ -18,6 +18,8 @@ public class Constants {
     public static final int OLLIE_MAX_SPEED = 255;
     public static final int OLLIE_MIN_HEADING = 0;
     public static final int OLLIE_MAX_HEADING = 359;
+    public static final int OLLIE_MIN_POWER = -4095;
+    public static final int OLLIE_MAX_POWER = 4095;
 
     public static final int OLLIE_COMMAND_TIMEOUT = 0;
 
@@ -53,6 +55,10 @@ public class Constants {
 
     public static final String COMMAND_SET_COLOR = "setColor";
     public static final String COMMAND_PARAMTER_COLOR = "color";
+
+    public static final String COMMAND_SET_RAW_MOTORS = "setRawMotors";
+    public static final String COMMAND_PARAMETER_LEFT = "left";
+    public static final String COMMAND_PARAMETER_RIGHT = "right";
 
     public static final String COMMAND_SET_STABILIZATION = "setStabilization";
     public static final String COMMAND_PARAMETER_STABILIZATION = "stabilization";
@@ -95,6 +101,7 @@ public class Constants {
             = new HashSet<>(Arrays.asList(COMMAND_CONNECT,
                     COMMAND_MOVE, COMMAND_SET_COLOR,
                     COMMAND_SET_STABILIZATION,
+                    COMMAND_SET_RAW_MOTORS,
                     COMMAND_GET_VELOCITY, COMMAND_GET_ACCEL_ONE,
                     COMMAND_GET_ACCELEROMETER, COMMAND_GET_GYROSCOPE,
                     COMMAND_GET_IMU_ANGLES, COMMAND_GET_MOTORS,
