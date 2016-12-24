@@ -41,6 +41,7 @@ public class CommandValidator {
             case COMMAND_GET_IMU_ANGLES:
             case COMMAND_GET_MOTORS:
             case COMMAND_GET_ODOMETER:
+            case COMMAND_GET_COLLISIONS:
                 valid = checkNoParametersCommand(command);
                 break;
             default:
@@ -89,6 +90,7 @@ public class CommandValidator {
             case COMMAND_GET_IMU_ANGLES:
             case COMMAND_GET_MOTORS:
             case COMMAND_GET_ODOMETER:
+            case COMMAND_GET_COLLISIONS:
                 valid = true;
                 break;
             default:
@@ -117,6 +119,7 @@ public class CommandValidator {
         }
         return OLLIE_MIN_POWER <= power && power <= OLLIE_MAX_POWER;
     }
+
     private boolean checkSetRawMotors(Command command) {
         if (command == null || !command.name.equals(COMMAND_SET_RAW_MOTORS)) {
             return false;
