@@ -149,9 +149,8 @@ class Robot {
 Robot.SPS = 30;
 
 const uuids = [
-  //"44a7dd0ca730458f979d78d95a75038c", // SPRK
-  //"d8e38c77d05d", "dc712fb5b631", "f15cee63622d", "c84982ebcc74", 
-  "ee42664940f4", // Ollie
+  "44a7dd0ca730458f979d78d95a75038c", // SPRK
+  //"dc712fb5b631", "f15cee63622d", "c84982ebcc74", "ee42664940f4", // Ollie
   //"f16fdb2b3b4f", // BB-8
 ];
 const robots = uuids.reduce((map, uuid) => {
