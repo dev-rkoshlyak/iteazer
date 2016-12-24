@@ -14,6 +14,7 @@ class Robot {
     this.ImuAngles = JSON.parse('{"pitchAngle":{"value":[0]},"rollAngle":{"value":[0]},"yawAngle":{"value":[0]}}');
     this.Motorsbackemf = JSON.parse('{"rMotorBackEmf":{"value":[0]},"lMotorBackEmf":{"value":[0]}}');
     this.Odometer = JSON.parse('{"xOdometer":{"value":[0]},"yOdometer":{"value":[0]}}');
+    this.Collisions = JSON.parse('{"desc":"0"}');
   }
   setCylonDriver(cylonDriver) {
     this.cylonDriver = cylonDriver;
@@ -30,7 +31,9 @@ class Robot {
     if (self[sensor] != null) {
       for(var attributename in self[sensor]){
         if (self[sensor][attributename] != null)
-          res += attributename+": "+self[sensor][attributename]["value"][0] + "\n";
+        	if (attributename == "desc") res += "desc: 1\n";
+          	else if (self[sensor][attributename]["value"] != null)
+          			res += attributename+": "+self[sensor][attributename]["value"][0] + "\n";
       }
     }
 
@@ -146,8 +149,9 @@ class Robot {
 Robot.SPS = 30;
 
 const uuids = [
-  "44a7dd0ca730458f979d78d95a75038c", // SPRK
-  //"d8e38c77d05d", //"dc712fb5b631", "f15cee63622d", "c84982ebcc74", //"ee42664940f4", // Ollie
+  //"44a7dd0ca730458f979d78d95a75038c", // SPRK
+  //"d8e38c77d05d", "dc712fb5b631", "f15cee63622d", "c84982ebcc74", 
+  "ee42664940f4", // Ollie
   //"f16fdb2b3b4f", // BB-8
 ];
 const robots = uuids.reduce((map, uuid) => {
@@ -238,6 +242,7 @@ Cylon.robot({
                 case "/ollie/getGyroscope":
                 case "/ollie/getMotorsBackEmf":
                 case "/ollie/getOdometer":
+                case "/ollie/getCollisions":
                   var index = urlParsed.pathname.lastIndexOf("/get");
                   var sensor = urlParsed.pathname.substr(index+4);
                   console.log("get data from sensor: " + sensor);
